@@ -24,7 +24,12 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(),
+        decoration: const BoxDecoration(
+            // image: DecorationImage(
+            //   fit: BoxFit.cover,
+            //   image: AssetImage("assets/backgorund.png"),
+            // ),
+            ),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Form(
@@ -33,6 +38,22 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage("assets/logo.jpeg"),
+                  ),
+                ),
+                height: 100,
+                width: 100,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               const Text(
                 "Inicio de Sesión",
                 style: TextStyle(fontSize: 32),
