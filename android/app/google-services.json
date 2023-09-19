@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "897229478817",
+    "project_id": "spendtracker-app-30bbb",
+    "storage_bucket": "spendtracker-app-30bbb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:897229478817:android:1572c6525a5c90d57809e0",
+        "android_client_info": {
+          "package_name": "com.example.spedtracker_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGl6n59Qg0IYXHhgeItNEF4gX0iTEcb4E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
