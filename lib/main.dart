@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/firebase_options.dart';
 import 'package:spedtracker_app/screens/splash/splash_screen.dart';
 
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Brightness isDarkMode =
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    if (isDarkMode == Brightness.dark) {}
     return MaterialApp(
       title: 'Speandtracker',
       debugShowCheckedModeBanner: false,
