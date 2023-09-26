@@ -40,7 +40,8 @@ class UserCard extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(
+              Container(
+                color: Colors.white,
                 width: 60,
                 height: 60,
                 child: Image.asset(

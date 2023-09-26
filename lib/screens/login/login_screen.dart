@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
-import 'package:spedtracker_app/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

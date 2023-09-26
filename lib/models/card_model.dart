@@ -1,4 +1,5 @@
 class CardModel {
+  String cardId;
   String cardNum;
   String type;
   String cardHolder;
@@ -6,6 +7,6 @@ class CardModel {
   String expYear;
   String service;
 
-  CardModel(this.cardNum, this.type, this.cardHolder, this.expMonth,
-      this.expYear, this.service);
+  CardModel(this.cardId, this.cardNum, this.type, this.cardHolder,
+      this.expMonth, this.expYear, this.service);
 }
