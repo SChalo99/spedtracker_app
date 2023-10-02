@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spedtracker_app/components/cards/user_card.dart';
+import 'package:spedtracker_app/components/cards/molecules/card_dragable.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 
 class CardScreen extends StatefulWidget {
@@ -19,9 +19,24 @@ class _CardScreenState extends State<CardScreen> {
 
   List<CardModel> list = [];
 
+  void edit(String id) {
+    print("Edit card: $id");
+  }
+
+  void delete(String id) {
+    setState(() {
+      list.removeWhere((item) => item.cardId == id);
+    });
+
+    print("Delete card: $id");
+  }
+
+  void goTo(String id) {
+    print("Go to card: $id");
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     list.addAll([card1, card2, card3]);
   }
@@ -57,43 +72,13 @@ class _CardScreenState extends State<CardScreen> {
           ),
           Expanded(
             child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: list.length,
-              itemBuilder: (context, index) {
-                CardModel e = list[index];
-                return Dismissible(
-                  key: Key(e.cardId),
-                  direction: DismissDirection.startToEnd,
-                  onDismissed: (direction) {
-                    setState(() {
-                      list.removeAt(index);
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("${e.cardNum} dismissed")));
-                  },
-                  background: Container(
-                      color: Colors.red,
-                      child: const Row(
-                        children: [
-                          Icon(
-                            Icons.delete,
-                            size: 60,
-                          ),
-                        ],
-                      )),
-                  child: ListTile(
-                    subtitle: UserCard(
-                        cardNum: e.cardNum,
-                        type: e.type,
-                        cardHolder: e.cardHolder,
-                        expMonth: e.expMonth,
-                        expYear: e.expYear,
-                        service: e.service),
-                    onTap: () {},
-                  ),
-                );
-              },
-            ),
+                shrinkWrap: true,
+                itemCount: list.length,
+                itemBuilder: (context, index) {
+                  CardModel e = list[index];
+                  return DragableCard(
+                      card: e, edit: edit, delete: delete, goToCallback: goTo);
+                }),
           ),
         ]),
       ),
