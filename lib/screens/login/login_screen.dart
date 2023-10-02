@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,12 +13,37 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final auth = FirebaseAuth.instance;
   bool obscure = true;
 
   void onTap() {
     setState(() {
       obscure = !obscure;
     });
+  }
+
+  void login(String email, String password) async {
+    try {
+      UserCredential user = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      String? token = await user.user?.getIdToken();
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CardScreen(userToken: token!),
+          ),
+        );
+      }
+    } on FirebaseAuthException {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Usuario o contraseña incorrectos"),
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -74,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                         .hasMatch(value!);
                     if (value.isEmpty || !emailValid) {
-                      return 'Please enter a valid email.';
+                      return 'Por favor, ingrese un correo válido.';
                     }
                     return null;
                   },
@@ -99,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a password.';
+                      return 'Por favor, ingrese su contraseña.';
                     }
                     return null;
                   },
@@ -110,12 +136,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               FilledButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CardScreen(),
-                    ),
-                  );
+                  if (_formKey.currentState!.validate()) {
+                    login(_userController.text, _passwordController.text);
+                  }
                 },
                 style: FilledButton.styleFrom(
                     foregroundColor: Colors.white,
