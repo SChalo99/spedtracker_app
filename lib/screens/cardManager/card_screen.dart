@@ -3,7 +3,8 @@ import 'package:spedtracker_app/components/cards/molecules/card_dragable.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 
 class CardScreen extends StatefulWidget {
-  const CardScreen({super.key});
+  final String userToken;
+  const CardScreen({super.key, required this.userToken});
 
   @override
   State<CardScreen> createState() => _CardScreenState();
