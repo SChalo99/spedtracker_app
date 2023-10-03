@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:spedtracker_app/screens/login/password_recovery.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -44,6 +45,15 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     }
+  }
+
+  void goToRecoveryPassword() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const PasswordRecoveryScreen(),
+      ),
+    );
   }
 
   @override
@@ -154,7 +164,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 40,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  goToRecoveryPassword();
+                },
                 child: const Text("¿Olvidó su contraseña?"),
               ),
               const SizedBox(

@@ -1,16 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class PasswordRecoveryScreen extends StatefulWidget {
+  const PasswordRecoveryScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<PasswordRecoveryScreen> createState() => _PasswordRecoveryScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
   final TextEditingController _userController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final FirebaseAuth auth = FirebaseAuth.instance;
   bool obscure = true;
 
   void onTap() {
@@ -19,8 +20,112 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  void recoverPassword(String email) async {
+    try {
+      auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Correo no encontrado"),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+            // image: DecorationImage(
+            //   fit: BoxFit.cover,
+            //   image: AssetImage("assets/backgorund.png"),
+            // ),
+            ),
+        width: MediaQuery.of(context).size.width,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage("assets/logo.jpeg"),
+                  ),
+                ),
+                height: 100,
+                width: 100,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                "Recuperar contraseña",
+                overflow: TextOverflow.clip,
+                style: TextStyle(fontSize: 32),
+              ),
+              const SizedBox(
+                height: 80,
+              ),
+              SizedBox(
+                width: 350,
+                child: TextFormField(
+                  controller: _userController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    label: Text("Correo"),
+                  ),
+                  validator: (value) {
+                    bool emailValid = RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(value!);
+                    if (value.isEmpty || !emailValid) {
+                      return 'Por favor, ingrese un correo válido.';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              FilledButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    recoverPassword(_userController.text);
+                  }
+                },
+                style: FilledButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
+                child: const Text(
+                  "Recuperar Contraseña",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 250,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
