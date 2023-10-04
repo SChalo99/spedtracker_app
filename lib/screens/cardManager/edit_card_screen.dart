@@ -3,20 +3,21 @@ import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:spedtracker_app/models/card_list.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:spedtracker_app/screens/cardManager/add_card_screen.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 
-class AddCardScreen extends StatefulWidget {
+class EditCardScreen extends StatefulWidget {
   final String userToken;
-  final bool isExtension;
-  const AddCardScreen(
-      {super.key, required this.userToken, this.isExtension = false});
+  final CardModel card;
+  const EditCardScreen(
+      {super.key, required this.userToken, required this.card});
 
   @override
-  State<AddCardScreen> createState() => _AddCardScreenState();
+  State<EditCardScreen> createState() => _EditCardScreenState();
 }
 
-class _AddCardScreenState extends State<AddCardScreen> {
-  List<CardModel> cards = [];
+class _EditCardScreenState extends State<EditCardScreen> {
+  late CardModel card;
   OutlineInputBorder border = const OutlineInputBorder();
   final _formKey = GlobalKey<FormState>();
   String cardNumber = '';
@@ -24,11 +25,11 @@ class _AddCardScreenState extends State<AddCardScreen> {
   String cardHolderName = '';
   String cvvCode = '';
   String cardService = '';
-  List<String> types = [];
-  CardModelList cardList = CardModelList.instance;
-  final TextEditingController _brandController = TextEditingController();
   String cardType = '';
   late CardType brand;
+  List<String> types = ['CREDITO', 'DEBITO', 'CREDITO EXTENSIÓN'];
+  CardModelList cardList = CardModelList.instance;
+  final TextEditingController _brandController = TextEditingController();
 
   void onCreditCardModel(CreditCardModel? creditCardModel) {
     setState(() {
@@ -47,28 +48,49 @@ class _AddCardScreenState extends State<AddCardScreen> {
     }
   }
 
-  void createCard() {
+  void editCard() {
     List<String> date = expiryDate.split("/");
-    CardModel newCard = CardModel((cardList.cardList.length + 1).toString(),
-        cardNumber, cardType, cardHolderName, date[0], date[1], cardService);
-    cardList.addCard(newCard);
+
+    card.cardHolder = cardHolderName;
+    card.expMonth = date[0];
+    card.expYear = date[1];
+    card.service = cardService;
+    card.cardNum = cardNumber;
+
+    cardList.editCard(card);
+
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-          builder: (context) => CardScreen(userToken: widget.userToken)),
+          builder: (context) => CardScreen(
+                userToken: widget.userToken,
+              )),
       (Route<dynamic> route) => false,
+    );
+  }
+
+  void addExtensionCard() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: ((context) => AddCardScreen(
+              userToken: widget.userToken,
+              isExtension: true,
+            )),
+      ),
     );
   }
 
   @override
   void initState() {
     super.initState();
-    if (widget.isExtension) {
-      types.add('CREDITO EXTENSIÓN');
-      cardType = types.first;
-    } else {
-      types.addAll(['CREDITO', 'DEBITO']);
-    }
+    card = widget.card;
+    cardNumber = card.cardNum;
+    expiryDate = '${card.expMonth}/${card.expYear}';
+    cardHolderName = card.cardHolder;
+    cardType = card.type;
+    cardService = card.service;
+    print(card.type);
   }
 
   @override
@@ -187,18 +209,14 @@ class _AddCardScreenState extends State<AddCardScreen> {
                           width: 150,
                           child: DropdownMenu<String>(
                             initialSelection: cardType,
+                            enabled: false,
                             width: 150,
                             menuStyle: const MenuStyle(
                               backgroundColor:
                                   MaterialStatePropertyAll(Colors.black),
                             ),
                             label: const Text("Tipo de Trajeta"),
-                            enabled: !widget.isExtension,
-                            onSelected: (value) {
-                              setState(() {
-                                cardType = value!;
-                              });
-                            },
+                            enableSearch: false,
                             dropdownMenuEntries: types.map((e) {
                               return DropdownMenuEntry<String>(
                                 style: const ButtonStyle(
@@ -207,8 +225,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                   foregroundColor:
                                       MaterialStatePropertyAll(Colors.white),
                                 ),
-                                value: e,
-                                label: e,
+                                value: cardType,
+                                label: cardType,
                               );
                             }).toList(),
                           ),
@@ -218,23 +236,54 @@ class _AddCardScreenState extends State<AddCardScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    FilledButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate() &&
-                            cardType != '') {
-                          createCard();
-                          print("Valido");
-                        }
-                      },
-                      style: FilledButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
-                      child: const Text(
-                        "Añadir Tarjeta",
-                        style: TextStyle(
-                          fontSize: 18,
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (card.type == "CREDITO")
+                          FilledButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                addExtensionCard();
+                                print("Valido");
+                              }
+                            },
+                            style: FilledButton.styleFrom(
+                                foregroundColor:
+                                    const Color.fromRGBO(28, 33, 22, 1),
+                                backgroundColor: Colors.white,
+                                side: const BorderSide()),
+                            child: const Text(
+                              "Agregar Extensión",
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        if (card.type == "CREDITO")
+                          const SizedBox(
+                            width: 10,
+                          ),
+                        FilledButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              editCard();
+                              print("Valido");
+                            }
+                          },
+                          style: FilledButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor:
+                                const Color.fromRGBO(28, 33, 22, 1),
+                          ),
+                          child: const Text(
+                            "Editar Tarjeta",
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),

@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spedtracker_app/components/cards/molecules/card_dragable.dart';
 import 'package:spedtracker_app/models/card_list.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:spedtracker_app/screens/cardManager/add_card_screen.dart';
+import 'package:spedtracker_app/screens/cardManager/edit_card_screen.dart';
+import 'package:spedtracker_app/screens/login/login_screen.dart';
 
 class CardScreen extends StatefulWidget {
   final String userToken;
@@ -13,19 +16,19 @@ class CardScreen extends StatefulWidget {
 }
 
 class _CardScreenState extends State<CardScreen> {
-  CardModel card1 = CardModel("1", "4111 1111 1111 1111", "CREDITO",
-      "GONZALO GARMA GARCIA", "10", "26", "VISA");
-  CardModel card2 = CardModel("2", "5111 1111 1111 1118", 'DEBITO',
-      'GONZALO GARMA GARCIA', "11", "28", "MASTERCARD");
-  CardModel card3 = CardModel("3", "3712 1212 1212 122", 'CREDITO EXTENSIÓN',
-      'GONZALO GARMA GARCIA', "10", "26", "AMERICANEXPRESS");
-  CardModel card4 = CardModel("3", "360012 1212 1210", 'CREDITO EXTENSIÓN',
-      "GONZALO GARMA GARCIA", "10", "26", "DINNERSCLUB");
-
   CardModelList cards = CardModelList.instance;
 
-  void edit(String id) {
-    print("Edit card: $id");
+  void edit(CardModel card) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditCardScreen(
+          userToken: widget.userToken,
+          card: card,
+        ),
+      ),
+    );
+    print("Edit card: ${card.cardId}");
   }
 
   void delete(String id) {
@@ -47,13 +50,17 @@ class _CardScreenState extends State<CardScreen> {
             builder: (context) => AddCardScreen(userToken: widget.userToken)));
   }
 
+  void logout() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.signOut().whenComplete(() => Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        (route) => false));
+  }
+
   @override
   void initState() {
     super.initState();
-    cards.addCard(card1);
-    cards.addCard(card2);
-    cards.addCard(card3);
-    cards.addCard(card4);
   }
 
   @override
@@ -66,6 +73,17 @@ class _CardScreenState extends State<CardScreen> {
               color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.black,
+        actions: [
+          TextButton(
+            onPressed: () {
+              logout();
+            },
+            child: const Text(
+              "Cerrar Cesión",
+              style: TextStyle(color: Colors.white),
+            ),
+          )
+        ],
       ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,

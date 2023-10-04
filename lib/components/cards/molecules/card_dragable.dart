@@ -34,9 +34,9 @@ class DragableCard extends StatelessWidget {
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(10)),
                     onPressed: (context) {
-                      edit(card.cardId);
+                      edit(card);
                     },
-                    backgroundColor: Color(0xFF21B7CA),
+                    backgroundColor: const Color(0xFF21B7CA),
                     foregroundColor: Colors.white,
                     icon: Icons.edit,
                     label: 'Editar',
@@ -48,7 +48,7 @@ class DragableCard extends StatelessWidget {
                     onPressed: (context) {
                       delete(card.cardId);
                     },
-                    backgroundColor: Color(0xFFFE4A49),
+                    backgroundColor: const Color(0xFFFE4A49),
                     foregroundColor: Colors.white,
                     icon: Icons.delete,
                     label: 'Eliminar',
