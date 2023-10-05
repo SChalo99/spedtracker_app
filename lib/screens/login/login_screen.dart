@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spedtracker_app/screens/login/password_recovery.dart';
+import 'package:spedtracker_app/screens/login/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -52,6 +53,15 @@ class _LoginScreenState extends State<LoginScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => const PasswordRecoveryScreen(),
+      ),
+    );
+  }
+
+  void goToSignUp() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SignUpScreen(),
       ),
     );
   }
@@ -173,7 +183,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 10,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  goToSignUp();
+                },
                 child: const Text("Regístrate"),
               )
             ],
