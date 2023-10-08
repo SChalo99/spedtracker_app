@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
+import 'package:spedtracker_app/components/alerts/alert_config.dart';
 import 'package:spedtracker_app/models/card_list.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
@@ -20,6 +21,7 @@ class _EditCardScreenState extends State<EditCardScreen> {
   late CardModel card;
   OutlineInputBorder border = const OutlineInputBorder();
   final _formKey = GlobalKey<FormState>();
+  final AlertConfig config = AlertConfig.instance;
   String cardNumber = '';
   String expiryDate = '';
   String cardHolderName = '';
@@ -58,15 +60,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
     card.cardNum = cardNumber;
 
     cardList.editCard(card);
-
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-          builder: (context) => CardScreen(
-                userToken: widget.userToken,
-              )),
-      (Route<dynamic> route) => false,
-    );
   }
 
   void addExtensionCard() {
@@ -265,10 +258,22 @@ class _EditCardScreenState extends State<EditCardScreen> {
                             width: 10,
                           ),
                         FilledButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              editCard();
-                              print("Valido");
+                              await config.systemAlert!.showAlertDialog(
+                                  context,
+                                  'Editar Tarjeta',
+                                  '¿Está seguro de realizar estos cambios?',
+                                  () => editCard());
+                              if (context.mounted) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CardScreen(
+                                              userToken: widget.userToken,
+                                            )));
+                              }
+                              debugPrint("Valido");
                             }
                           },
                           style: FilledButton.styleFrom(

@@ -1,12 +1,30 @@
-class CardModel {
-  String cardId;
-  String cardNum;
-  String type;
-  String cardHolder;
-  String expMonth;
-  String expYear;
-  String service;
+import 'package:spedtracker_app/services/card_service.dart';
 
-  CardModel(this.cardId, this.cardNum, this.type, this.cardHolder,
-      this.expMonth, this.expYear, this.service);
+abstract class CardModel {
+  String cardId = '';
+  String cardNum = '';
+  String currency = '';
+  String type = '';
+  String cardHolder = '';
+  String expMonth = '';
+  String expYear = '';
+  String service = '';
+
+  CardModel();
+
+  Future<void> addCard(String token, CardModel cardModel) async {
+    await CardService().createCard(token, cardModel);
+  }
+
+  Future<void> editCard(String token, CardModel cardModel) async {
+    await CardService().editCard(token, cardModel);
+  }
+
+  Future<void> removeCard(String token, CardModel cardModel) async {
+    await CardService().removeCard(token, cardModel);
+  }
+
+  Future<List<CardModel>> fetchCards(String token) async {
+    return await CardService().fetchAll(token);
+  }
 }

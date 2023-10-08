@@ -3,7 +3,10 @@ import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:spedtracker_app/models/card_list.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:spedtracker_app/models/credit_card_model.dart';
+import 'package:spedtracker_app/models/debit_card_model.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
+import 'package:spedtracker_app/services/card_service.dart';
 
 class AddCardScreen extends StatefulWidget {
   final String userToken;
@@ -47,17 +50,59 @@ class _AddCardScreenState extends State<AddCardScreen> {
     }
   }
 
-  void createCard() {
+  void createCard() async {
     List<String> date = expiryDate.split("/");
-    CardModel newCard = CardModel((cardList.cardList.length + 1).toString(),
-        cardNumber, cardType, cardHolderName, date[0], date[1], cardService);
-    cardList.addCard(newCard);
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-          builder: (context) => CardScreen(userToken: widget.userToken)),
-      (Route<dynamic> route) => false,
-    );
+    CardModel newCard;
+    if (cardType == 'DEBITO') {
+      newCard = DebitCard(
+          (cardList.cardList.length + 1).toString(),
+          cardNumber,
+          'Soles',
+          cardType,
+          cardHolderName,
+          date[0],
+          date[1],
+          cardService,
+          '0112971372819827');
+    } else if (cardType == 'CREDITO') {
+      newCard = CreditCard(
+        (cardList.cardList.length + 1).toString(),
+        cardNumber,
+        'Soles',
+        cardType,
+        cardHolderName,
+        date[0],
+        date[1],
+        cardService,
+        DateTime.parse("2023-02-10"),
+        DateTime.parse("2023-02-5"),
+        0.55,
+      );
+    } else {
+      newCard = CreditCard(
+        (cardList.cardList.length + 1).toString(),
+        cardNumber,
+        'Soles',
+        cardType,
+        cardHolderName,
+        date[0],
+        date[1],
+        cardService,
+        DateTime.parse("2023-02-10"),
+        DateTime.parse("2023-02-5"),
+        0.55,
+      );
+    }
+    //await CardService().createCard(widget.userToken, newCard);
+    cardList.cardList.add(newCard);
+    if (context.mounted) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CardScreen(userToken: widget.userToken)),
+        (Route<dynamic> route) => false,
+      );
+    }
   }
 
   @override

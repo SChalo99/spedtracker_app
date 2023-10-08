@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spedtracker_app/components/alerts/alert_config.dart';
 import 'package:spedtracker_app/components/cards/atoms/user_card.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:spedtracker_app/models/card_model.dart';
@@ -8,8 +9,9 @@ class DragableCard extends StatelessWidget {
   final Function edit;
   final Function delete;
   final Function goToCallback;
+  final AlertConfig config = AlertConfig.instance;
 
-  const DragableCard({
+  DragableCard({
     super.key,
     required this.cards,
     required this.edit,
@@ -46,7 +48,11 @@ class DragableCard extends StatelessWidget {
                         topRight: Radius.circular(10),
                         bottomRight: Radius.circular(10)),
                     onPressed: (context) {
-                      delete(card.cardId);
+                      config.systemAlert!.showAlertDialog(
+                          context,
+                          "Eliminar tarjeta",
+                          "¿Desea eliminar esta tarjeta?",
+                          () => delete(card.cardId));
                     },
                     backgroundColor: const Color(0xFFFE4A49),
                     foregroundColor: Colors.white,

@@ -1,6 +1,13 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:spedtracker_app/components/alerts/alert_config.dart';
+import 'package:spedtracker_app/components/alerts/factory/abstract_factory.dart';
+import 'package:spedtracker_app/components/alerts/factory/andoid_factory.dart';
+import 'package:spedtracker_app/components/alerts/factory/ios_factory.dart';
+import 'package:spedtracker_app/components/alerts/system_alert.dart';
 import 'package:spedtracker_app/firebase_options.dart';
 import 'package:spedtracker_app/screens/splash/splash_screen.dart';
 
@@ -9,7 +16,20 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  _systemAlerts();
   runApp(const MyApp());
+}
+
+void _systemAlerts() {
+  AlertConfig config = AlertConfig.instance;
+  AbstractFactory factory;
+  if (Platform.isAndroid) {
+    factory = AndroidFactory();
+  } else {
+    factory = IOSFactory();
+  }
+  SystemAlert alert = SystemAlert(factory);
+  config.systemAlert = alert;
 }
 
 class MyApp extends StatelessWidget {
