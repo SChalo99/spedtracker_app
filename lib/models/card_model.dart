@@ -1,14 +1,14 @@
 import 'package:spedtracker_app/services/card_service.dart';
 
 abstract class CardModel {
-  String cardId = '';
-  String cardNum = '';
-  String currency = '';
+  String idTarjeta = '';
+  String numeroTarjeta = '';
+  String moneda = '';
   String type = '';
   String cardHolder = '';
   String expMonth = '';
   String expYear = '';
-  String service = '';
+  String operadoraFinanciera = '';
 
   CardModel();
 

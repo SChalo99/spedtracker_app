@@ -63,7 +63,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
           date[0],
           date[1],
           cardService,
-          '0112971372819827');
+          '0112971372819827',
+          1000);
     } else if (cardType == 'CREDITO') {
       newCard = CreditCard(
         (cardList.cardList.length + 1).toString(),
@@ -77,6 +78,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
         DateTime.parse("2023-02-10"),
         DateTime.parse("2023-02-5"),
         0.55,
+        10000,
       );
     } else {
       newCard = CreditCard(
@@ -91,6 +93,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
         DateTime.parse("2023-02-10"),
         DateTime.parse("2023-02-5"),
         0.55,
+        10000,
       );
     }
     //await CardService().createCard(widget.userToken, newCard);

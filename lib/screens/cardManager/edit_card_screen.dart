@@ -56,8 +56,8 @@ class _EditCardScreenState extends State<EditCardScreen> {
     card.cardHolder = cardHolderName;
     card.expMonth = date[0];
     card.expYear = date[1];
-    card.service = cardService;
-    card.cardNum = cardNumber;
+    card.operadoraFinanciera = cardService;
+    card.numeroTarjeta = cardNumber;
 
     cardList.editCard(card);
   }
@@ -78,11 +78,11 @@ class _EditCardScreenState extends State<EditCardScreen> {
   void initState() {
     super.initState();
     card = widget.card;
-    cardNumber = card.cardNum;
+    cardNumber = card.numeroTarjeta;
     expiryDate = '${card.expMonth}/${card.expYear}';
     cardHolderName = card.cardHolder;
     cardType = card.type;
-    cardService = card.service;
+    cardService = card.operadoraFinanciera;
     print(card.type);
   }
 

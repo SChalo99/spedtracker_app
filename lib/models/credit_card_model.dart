@@ -1,9 +1,10 @@
 import 'package:spedtracker_app/models/card_model.dart';
 
 class CreditCard extends CardModel {
-  DateTime dueDate;
-  DateTime lastPayDay;
-  double interest;
+  DateTime fechaFacturacion;
+  DateTime ultimoDiaPago;
+  double tasaInteres;
+  double lineaCredito;
 
   CreditCard(
     String cardId,
@@ -13,18 +14,19 @@ class CreditCard extends CardModel {
     String cardHolder,
     String expMonth,
     String expYear,
-    String service,
-    this.dueDate,
-    this.lastPayDay,
-    this.interest,
+    String operadora,
+    this.fechaFacturacion,
+    this.ultimoDiaPago,
+    this.tasaInteres,
+    this.lineaCredito,
   ) {
-    super.cardId = cardId;
-    super.cardNum = cardNum;
-    super.currency = currency;
+    super.idTarjeta = cardId;
+    super.numeroTarjeta = cardNum;
+    super.moneda = currency;
     super.type = type;
     super.cardHolder = cardHolder;
     super.expMonth = expMonth;
     super.expYear = expYear;
-    super.service = service;
+    super.operadoraFinanciera = operadora;
   }
 }

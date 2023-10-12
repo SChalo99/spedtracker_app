@@ -13,6 +13,7 @@ class CardService {
         : Uri.parse("http://127.0.0.1:3000");
 
     var response = await http.get(endpoint, headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
       "Authorization": "Bearer $token",
     });
     CardModelList cards = CardModelList.instance;
@@ -22,30 +23,32 @@ class CardService {
         if (item['tipo'] == 'DEBITO') {
           cards.addCard(
             DebitCard(
-              item['id'],
-              item['numTarjeta'],
-              item['currency'],
+              item['idTarjetaDebito'],
+              item['numeroTarjeta'],
+              item['moneda'],
               item['tipo'],
               item['cardHolder'],
               item['expMonth'],
               item['expYear'],
-              item['service'],
-              item['accountNum'],
+              item['operadoraFinanciera'],
+              item['numeroCuenta'],
+              item['ingresoMinimo'],
             ),
           );
         } else if (item['tipo'] == 'CREDITO') {
           cards.addCard(CreditCard(
-            item['id'],
-            item['numTarjeta'],
-            item['currency'],
+            item['idTarjetaCredito'],
+            item['numeroTarjeta'],
+            item['moneda'],
             item['tipo'],
             item['cardHolder'],
             item['expMonth'],
             item['expYear'],
-            item['service'],
-            item['dueDate'],
-            item['lastPayDay'],
-            item['interest'],
+            item['operadoraFinanciera'],
+            item['fechaFacturacion'],
+            item['ultimoDiaPago'],
+            item['tasaInteres'],
+            item['lineaCredito'],
           ));
         }
       }
@@ -66,29 +69,29 @@ class CardService {
     Map body;
     if (card is DebitCard) {
       body = {
-        'cardId': card.cardId,
-        'cardNumber': card.cardNum,
-        'accountNum': card.accountNum,
-        'currency': card.currency,
-        'expMonth': card.expMonth,
-        'expYear': card.expYear,
-        'service': card.service,
-        'cardHolder': card.cardHolder,
-        'type': card.type,
+        'idTarjetaDebito': card.idTarjeta,
+        'numeroTarjeta': card.numeroTarjeta,
+        'numeroCuenta': card.accountNum,
+        'moneda': card.moneda,
+        'expMonth': card.expMonth, //falta fix to date
+        'expYear': card.expYear, //falta fix to date
+        'operadoraFinanciera': card.operadoraFinanciera,
+        //'cardHolder': card.cardHolder,
+        //'type': card.type,
       };
     } else if (card is CreditCard) {
       body = {
-        'cardId': card.cardId,
-        'cardNumber': card.cardNum,
-        'currency': card.currency,
-        'expMonth': card.expMonth,
-        'expYear': card.expYear,
-        'service': card.service,
-        'cardHolder': card.cardHolder,
-        'type': card.type,
-        'lastPayDay': card.lastPayDay,
-        'dueDate': card.dueDate,
-        'interest': card.interest
+        'idTarjetaCredito': card.idTarjeta,
+        'numeroTarjeta': card.numeroTarjeta,
+        'moneda': card.moneda,
+        'expMonth': card.expMonth, //falta fix to date
+        'expYear': card.expYear, //falta fix to date
+        'operadoraFinanciera': card.operadoraFinanciera,
+        //'cardHolder': card.cardHolder,
+        //'type': card.type,
+        'ultimoDiaPago': card.ultimoDiaPago,
+        'fechaFacturacion': card.fechaFacturacion,
+        'tasaInteres': card.tasaInteres
       };
     } else {
       body = {};
@@ -118,29 +121,29 @@ class CardService {
     Map body;
     if (card is DebitCard) {
       body = {
-        'cardId': card.cardId,
-        'cardNumber': card.cardNum,
-        'accountNum': card.accountNum,
-        'currency': card.currency,
-        'expMonth': card.expMonth,
-        'expYear': card.expYear,
-        'service': card.service,
-        'cardHolder': card.cardHolder,
-        'type': card.type,
+        'idTarjetaDebito': card.idTarjeta,
+        'numeroTarjeta': card.numeroTarjeta,
+        'numeroCuenta': card.accountNum,
+        'moneda': card.moneda,
+        'expMonth': card.expMonth, //falta fix to date
+        'expYear': card.expYear, //falta fix to date
+        'operadoraFinanciera': card.operadoraFinanciera,
+        //'cardHolder': card.cardHolder,
+        //'type': card.type,
       };
     } else if (card is CreditCard) {
       body = {
-        'cardId': card.cardId,
-        'cardNumber': card.cardNum,
-        'currency': card.currency,
-        'expMonth': card.expMonth,
-        'expYear': card.expYear,
-        'service': card.service,
-        'cardHolder': card.cardHolder,
-        'type': card.type,
-        'lastPayDay': card.lastPayDay,
-        'dueDate': card.dueDate,
-        'interest': card.interest
+        'idTarjetaCredito': card.idTarjeta,
+        'numeroTarjeta': card.numeroTarjeta,
+        'moneda': card.moneda,
+        'expMonth': card.expMonth, //falta fix to date
+        'expYear': card.expYear, //falta fix to date
+        'operadoraFinanciera': card.operadoraFinanciera,
+        //'cardHolder': card.cardHolder,
+        //'type': card.type,
+        'ultimoDiaPago': card.ultimoDiaPago,
+        'fechaFacturacion': card.fechaFacturacion,
+        'tasaInteres': card.tasaInteres
       };
     } else {
       body = {};
@@ -170,29 +173,11 @@ class CardService {
     Map body;
     if (card is DebitCard) {
       body = {
-        'cardId': card.cardId,
-        'cardNumber': card.cardNum,
-        'accountNum': card.accountNum,
-        'currency': card.currency,
-        'expMonth': card.expMonth,
-        'expYear': card.expYear,
-        'service': card.service,
-        'cardHolder': card.cardHolder,
-        'type': card.type,
+        'idTarjetaCredito': card.idTarjeta,
       };
     } else if (card is CreditCard) {
       body = {
-        'cardId': card.cardId,
-        'cardNumber': card.cardNum,
-        'currency': card.currency,
-        'expMonth': card.expMonth,
-        'expYear': card.expYear,
-        'service': card.service,
-        'cardHolder': card.cardHolder,
-        'type': card.type,
-        'lastPayDay': card.lastPayDay,
-        'dueDate': card.dueDate,
-        'interest': card.interest
+        'idTarjetaCredito': card.idTarjeta,
       };
     } else {
       body = {};
@@ -205,7 +190,7 @@ class CardService {
     });
     CardModelList cards = CardModelList.instance;
     if (response.statusCode == 200) {
-      cards.removeCard(card.cardId);
+      cards.removeCard(card.idTarjeta);
     } else {
       throw Exception('Failed to remove debit card');
     }

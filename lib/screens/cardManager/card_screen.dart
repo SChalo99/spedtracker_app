@@ -28,7 +28,7 @@ class _CardScreenState extends State<CardScreen> {
         ),
       ),
     );
-    print("Edit card: ${card.cardId}");
+    print("Edit card: ${card.idTarjeta}");
   }
 
   void delete(String id) {

@@ -53,14 +53,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
           email: email, password: password);
       String? token = await user.user?.getIdToken();
       UserModel newUser = UserModel(
-          user.user!.uid,
-          _nameController.text,
-          _lastNameController.text,
-          _dniController.text,
-          _ageController.text,
-          email,
-          gender,
-          phoneNumber);
+        _nameController.text,
+        _lastNameController.text,
+        _dniController.text,
+        _ageController.text,
+        email,
+        gender,
+        phoneNumber,
+        idPersona: user.user!.uid,
+      );
       await UserService().createUser(newUser);
 
       if (context.mounted) {
