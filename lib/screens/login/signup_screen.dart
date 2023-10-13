@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/models/user_model.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -94,316 +95,349 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-            // image: DecorationImage(
-            //   fit: BoxFit.cover,
-            //   image: AssetImage("assets/backgorund.png"),
-            // ),
+      body: Stack(alignment: Alignment.bottomCenter, children: [
+        Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              invertColors: SchedulerBinding
+                      .instance.platformDispatcher.platformBrightness ==
+                  Brightness.dark,
+              image: const AssetImage("assets/background/original.png"),
             ),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage("assets/logo.jpeg"),
-                    ),
+          ),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 50,
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                  size: 30,
+                ),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          clipBehavior: Clip.antiAlias,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 3 / 4,
+          decoration: BoxDecoration(
+              borderRadius:
+                  const BorderRadius.only(topRight: Radius.circular(100)),
+              color: SchedulerBinding
+                          .instance.platformDispatcher.platformBrightness ==
+                      Brightness.light
+                  ? const ColorScheme.light().background
+                  : const ColorScheme.dark().background),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
-                  height: 100,
-                  width: 100,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  "Resgistro",
-                  style: TextStyle(fontSize: 32),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 170,
-                      child: TextFormField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text("Nombre"),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Por favor, ingrese su nombre.';
-                          }
-                          return null;
-                        },
+                  Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage("assets/logo.jpeg"),
                       ),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    SizedBox(
-                      width: 170,
-                      child: TextFormField(
-                        controller: _lastNameController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text("Apellido"),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Por favor, ingrese su apellido.';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 240,
-                      child: DropdownMenu<String>(
-                        width: 240,
-                        menuStyle: const MenuStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.black),
-                        ),
-                        label: const Text(
-                          "Género",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        enableSearch: false,
-                        onSelected: (value) {
-                          setState(() {
-                            gender = value!;
-                          });
-                        },
-                        dropdownMenuEntries: genderOptions.map((e) {
-                          return DropdownMenuEntry<String>(
-                            style: const ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(Colors.black),
-                              foregroundColor:
-                                  MaterialStatePropertyAll(Colors.white),
-                            ),
-                            value: e,
-                            label: e,
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    SizedBox(
-                      width: 100,
-                      height: 60,
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: _ageController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text("Edad"),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Por favor, ingrese su apellido.';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 350,
-                  child: IntlPhoneField(
-                    controller: _phoneController,
-                    validator: (value) {
-                      final validPhoneNumber = RegExp(r'^[+0-9]*[0-9]*$');
-                      if (value!.number.isEmpty ||
-                          !validPhoneNumber.hasMatch(value.number)) {
-                        return 'Ingrese un número válido';
-                      }
-                      return null;
-                    },
-                    focusNode: focusNode,
-                    decoration: const InputDecoration(
-                      labelText: "Número telefónico",
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(),
-                      ),
-                    ),
-                    initialCountryCode: 'PE',
-                    languageCode: WidgetsBinding
-                        .instance.platformDispatcher.locale.languageCode,
-                    onChanged: (phone) {
-                      //print(phone.completeNumber);
-                      setState(() {
-                        phoneNumber = phone.completeNumber;
-                      });
-                    },
-                    onCountryChanged: (country) {},
+                    height: 100,
+                    width: 100,
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 350,
-                  child: TextFormField(
-                    maxLength: 8,
-                    controller: _dniController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: Text("DNI"),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Por favor, ingrese su DNI.';
-                      }
-                      return null;
-                    },
+                  const SizedBox(
+                    height: 20,
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 350,
-                  child: TextFormField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: Text("Correo"),
-                    ),
-                    validator: (value) {
-                      bool emailValid = RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value!);
-                      if (value.isEmpty || !emailValid) {
-                        return 'Por favor, ingrese un correo válido.';
-                      }
-                      return null;
-                    },
+                  const Text(
+                    "Resgistro",
+                    style: TextStyle(fontSize: 32),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 350,
-                  child: TextFormField(
-                    obscureText: obscure,
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                          onPressed: onTap,
-                          icon: Icon(!obscure
-                              ? Icons.visibility
-                              : Icons.visibility_off)),
-                      border: const OutlineInputBorder(),
-                      label: const Text("Contraseña"),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, ingrese su contraseña.';
-                      }
-                      return null;
-                    },
+                  const SizedBox(
+                    height: 20,
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 350,
-                  child: TextFormField(
-                    obscureText: obscure2,
-                    controller: _passwordConfirmationController,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                          onPressed: onTap2,
-                          icon: Icon(!obscure2
-                              ? Icons.visibility
-                              : Icons.visibility_off)),
-                      border: const OutlineInputBorder(),
-                      label: const Text("Repetir Contraseña"),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, ingrese su contraseña.';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                FilledButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      if (_passwordController.text ==
-                          _passwordConfirmationController.text) {
-                        signup(_emailController.text, _passwordController.text);
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Contraseñas no coinciden."),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 170,
+                        child: TextFormField(
+                          controller: _nameController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            label: Text("Nombre"),
                           ),
-                        );
-                      }
-                    }
-                  },
-                  style: FilledButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
-                  child: const Text(
-                    "Crear Cuenta",
-                    style: TextStyle(
-                      fontSize: 18,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Por favor, ingrese su nombre.';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      SizedBox(
+                        width: 170,
+                        child: TextFormField(
+                          controller: _lastNameController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            label: Text("Apellido"),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Por favor, ingrese su apellido.';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 240,
+                        child: DropdownMenu<String>(
+                          width: 240,
+                          menuStyle: const MenuStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.black),
+                          ),
+                          label: const Text(
+                            "Género",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          enableSearch: false,
+                          onSelected: (value) {
+                            setState(() {
+                              gender = value!;
+                            });
+                          },
+                          dropdownMenuEntries: genderOptions.map((e) {
+                            return DropdownMenuEntry<String>(
+                              style: const ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(Colors.black),
+                                foregroundColor:
+                                    MaterialStatePropertyAll(Colors.white),
+                              ),
+                              value: e,
+                              label: e,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      SizedBox(
+                        width: 100,
+                        height: 60,
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: _ageController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            label: Text("Edad"),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Por favor, ingrese su apellido.';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 350,
+                    child: IntlPhoneField(
+                      controller: _phoneController,
+                      validator: (value) {
+                        final validPhoneNumber = RegExp(r'^[+0-9]*[0-9]*$');
+                        if (value!.number.isEmpty ||
+                            !validPhoneNumber.hasMatch(value.number)) {
+                          return 'Ingrese un número válido';
+                        }
+                        return null;
+                      },
+                      focusNode: focusNode,
+                      decoration: const InputDecoration(
+                        labelText: "Número telefónico",
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(),
+                        ),
+                      ),
+                      initialCountryCode: 'PE',
+                      languageCode: WidgetsBinding
+                          .instance.platformDispatcher.locale.languageCode,
+                      onChanged: (phone) {
+                        //print(phone.completeNumber);
+                        setState(() {
+                          phoneNumber = phone.completeNumber;
+                        });
+                      },
+                      onCountryChanged: (country) {},
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-              ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 350,
+                    child: TextFormField(
+                      maxLength: 8,
+                      controller: _dniController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        label: Text("DNI"),
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Por favor, ingrese su DNI.';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 350,
+                    child: TextFormField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        label: Text("Correo"),
+                      ),
+                      validator: (value) {
+                        bool emailValid = RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value!);
+                        if (value.isEmpty || !emailValid) {
+                          return 'Por favor, ingrese un correo válido.';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 350,
+                    child: TextFormField(
+                      obscureText: obscure,
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                            onPressed: onTap,
+                            icon: Icon(!obscure
+                                ? Icons.visibility
+                                : Icons.visibility_off)),
+                        border: const OutlineInputBorder(),
+                        label: const Text("Contraseña"),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, ingrese su contraseña.';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 350,
+                    child: TextFormField(
+                      obscureText: obscure2,
+                      controller: _passwordConfirmationController,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                            onPressed: onTap2,
+                            icon: Icon(!obscure2
+                                ? Icons.visibility
+                                : Icons.visibility_off)),
+                        border: const OutlineInputBorder(),
+                        label: const Text("Repetir Contraseña"),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, ingrese su contraseña.';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  FilledButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        if (_passwordController.text ==
+                            _passwordConfirmationController.text) {
+                          signup(
+                              _emailController.text, _passwordController.text);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Contraseñas no coinciden."),
+                            ),
+                          );
+                        }
+                      }
+                    },
+                    style: FilledButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
+                    child: const Text(
+                      "Crear Cuenta",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
+      ]),
     );
   }
 }

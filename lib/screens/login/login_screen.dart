@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spedtracker_app/screens/login/password_recovery.dart';
@@ -69,128 +70,156 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-            // image: DecorationImage(
-            //   fit: BoxFit.cover,
-            //   image: AssetImage("assets/backgorund.png"),
-            // ),
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                invertColors: SchedulerBinding
+                        .instance.platformDispatcher.platformBrightness ==
+                    Brightness.dark,
+                image: const AssetImage("assets/background/original.png"),
+              ),
             ),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage("assets/logo.jpeg"),
-                  ),
-                ),
-                height: 100,
-                width: 100,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                "Inicio de Sesión",
-                style: TextStyle(fontSize: 32),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: 350,
-                child: TextFormField(
-                  controller: _userController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    label: Text("Correo"),
-                  ),
-                  validator: (value) {
-                    bool emailValid = RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value!);
-                    if (value.isEmpty || !emailValid) {
-                      return 'Por favor, ingrese un correo válido.';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: 350,
-                child: TextFormField(
-                  obscureText: obscure,
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                        onPressed: onTap,
-                        icon: Icon(!obscure
-                            ? Icons.visibility
-                            : Icons.visibility_off)),
-                    border: const OutlineInputBorder(),
-                    label: const Text("Contraseña"),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, ingrese su contraseña.';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              FilledButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    login(_userController.text, _passwordController.text);
-                  }
-                },
-                style: FilledButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
-                child: const Text(
-                  "Iniciar Sesión",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              GestureDetector(
-                onTap: () {
-                  goToRecoveryPassword();
-                },
-                child: const Text("¿Olvidó su contraseña?"),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                onTap: () {
-                  goToSignUp();
-                },
-                child: const Text("Regístrate"),
-              )
-            ],
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
           ),
-        ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 3 / 4,
+            decoration: BoxDecoration(
+                borderRadius:
+                    const BorderRadius.only(topRight: Radius.circular(100)),
+                color: SchedulerBinding
+                            .instance.platformDispatcher.platformBrightness ==
+                        Brightness.light
+                    ? const ColorScheme.light().background
+                    : const ColorScheme.dark().background),
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage("assets/logo.jpeg"),
+                        ),
+                      ),
+                      height: 100,
+                      width: 100,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text(
+                      "Inicio de Sesión",
+                      style: TextStyle(fontSize: 32),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: 350,
+                      child: TextFormField(
+                        controller: _userController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          label: Text("Correo"),
+                        ),
+                        validator: (value) {
+                          bool emailValid = RegExp(
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value!);
+                          if (value.isEmpty || !emailValid) {
+                            return 'Por favor, ingrese un correo válido.';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: 350,
+                      child: TextFormField(
+                        obscureText: obscure,
+                        controller: _passwordController,
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                              onPressed: onTap,
+                              icon: Icon(!obscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off)),
+                          border: const OutlineInputBorder(),
+                          label: const Text("Contraseña"),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, ingrese su contraseña.';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    FilledButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          login(_userController.text, _passwordController.text);
+                        }
+                      },
+                      style: FilledButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
+                      child: const Text(
+                        "Iniciar Sesión",
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        goToRecoveryPassword();
+                      },
+                      child: const Text("¿Olvidó su contraseña?"),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        goToSignUp();
+                      },
+                      child: const Text("Regístrate"),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
