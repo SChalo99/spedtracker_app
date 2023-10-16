@@ -38,7 +38,7 @@ class UserService {
         ? Uri.parse("http://10.0.2.2:3000")
         : Uri.parse("http://127.0.0.1:3000");
     Map body = {
-      'idPersona': user.idPersona,
+      'idUsuario': user.idUsuario,
       'nombre': user.nombre,
       'apellido': user.apellido,
       'DNI': user.dni,

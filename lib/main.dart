@@ -10,14 +10,20 @@ import 'package:spedtracker_app/components/alerts/factory/ios_factory.dart';
 import 'package:spedtracker_app/components/alerts/system_alert.dart';
 import 'package:spedtracker_app/firebase_options.dart';
 import 'package:spedtracker_app/screens/splash/splash_screen.dart';
+import 'package:spedtracker_app/services/fcm_service.dart';
+import 'package:spedtracker_app/services/notification_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await NotificationService().init();
+  await FCMService().init();
   _systemAlerts();
   runApp(const MyApp());
+  NotificationService().createNotification('Spendtracker',
+      'Gestiona todos tus movimientos bancarios en una sola aplicación');
 }
 
 void _systemAlerts() {

@@ -61,7 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         email,
         gender,
         phoneNumber,
-        idPersona: user.user!.uid,
+        idUsuario: user.user!.uid,
       );
       await UserService().createUser(newUser);
 

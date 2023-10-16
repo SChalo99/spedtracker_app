@@ -1,7 +1,7 @@
 import 'package:spedtracker_app/services/user_service.dart';
 
 class UserModel {
-  String? idPersona;
+  String? idUsuario;
   String nombre;
   String apellido;
   String dni;
@@ -19,7 +19,7 @@ class UserModel {
     this.email,
     this.genero,
     this.telefono, {
-    this.idPersona,
+    this.idUsuario,
     this.montoLimite,
   });
 
