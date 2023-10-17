@@ -8,21 +8,17 @@ class DebitCard extends CardModel {
     String cardId,
     String cardNum,
     String currency,
-    String type,
-    String cardHolder,
-    String expMonth,
-    String expYear,
+    DateTime expDate,
     String operadora,
     this.accountNum,
-    this.ingresoMinimo,
-  ) {
+    this.ingresoMinimo, {
+    String cardHolder = '',
+  }) {
     super.idTarjeta = cardId;
     super.numeroTarjeta = cardNum;
     super.moneda = currency;
-    super.type = type;
-    super.cardHolder = cardHolder;
-    super.expMonth = expMonth;
-    super.expYear = expYear;
+    super.expDate = expDate;
     super.operadoraFinanciera = operadora;
+    super.cardHolder = cardHolder;
   }
 }

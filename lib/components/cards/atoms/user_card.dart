@@ -4,10 +4,8 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 class UserCard extends StatelessWidget {
   final String cardId;
   final String cardNum;
-  final String type;
   final String cardHolder;
-  final String expMonth;
-  final String expYear;
+  final String expDate;
   final String service;
   final Function goTo;
 
@@ -15,10 +13,8 @@ class UserCard extends StatelessWidget {
       {super.key,
       required this.cardId,
       required this.cardNum,
-      required this.type,
       required this.cardHolder,
-      required this.expMonth,
-      required this.expYear,
+      required this.expDate,
       required this.service,
       required this.goTo});
 
@@ -31,7 +27,7 @@ class UserCard extends StatelessWidget {
       },
       subtitle: CreditCardWidget(
         cardNumber: cardNum,
-        expiryDate: "$expMonth/$expYear",
+        expiryDate: expDate,
         cardHolderName: cardHolder,
         isHolderNameVisible: true,
         cvvCode: "XXX",

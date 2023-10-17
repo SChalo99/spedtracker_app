@@ -4,10 +4,8 @@ abstract class CardModel {
   String idTarjeta = '';
   String numeroTarjeta = '';
   String moneda = '';
-  String type = '';
   String cardHolder = '';
-  String expMonth = '';
-  String expYear = '';
+  DateTime? expDate;
   String operadoraFinanciera = '';
 
   CardModel();

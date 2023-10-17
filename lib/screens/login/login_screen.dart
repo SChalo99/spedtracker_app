@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:spedtracker_app/models/user_model.dart';
-import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
+import 'package:spedtracker_app/components/background/background.dart';
+//import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:spedtracker_app/screens/home_screen.dart';
 import 'package:spedtracker_app/screens/login/password_recovery.dart';
 import 'package:spedtracker_app/screens/login/signup_screen.dart';
 import 'package:spedtracker_app/services/fcm_service.dart';
@@ -34,15 +35,13 @@ class _LoginScreenState extends State<LoginScreen> {
           email: email, password: password);
       String? token = await user.user?.getIdToken();
       String? fcmToken = await FCMService().getFCMToken();
-      //UserModel myAccount = await UserService().getUser(token!);
-      //myAccount.fcm = fcmToken;
       await UserService().updateFCMUser(token!, fcmToken!);
 
       if (context.mounted) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => CardScreen(userToken: token),
+            builder: (context) => HomeScreen(userToken: token),
           ),
         );
       }
@@ -83,19 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                invertColors: SchedulerBinding
-                        .instance.platformDispatcher.platformBrightness ==
-                    Brightness.dark,
-                image: const AssetImage("assets/background/original.png"),
-              ),
-            ),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-          ),
+          const Background(),
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 3 / 4,
@@ -194,6 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       },
                       style: FilledButton.styleFrom(
+                          fixedSize: const Size(250, 50),
                           foregroundColor: Colors.white,
                           backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
                       child: const Text(

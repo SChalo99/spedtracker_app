@@ -1,14 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:spedtracker_app/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class UserService {
   Future<UserModel> getUser(String token) async {
-    Uri endpoint = Platform.isAndroid
-        ? Uri.parse("http://192.168.1.56:3000/usuarios")
-        : Uri.parse("http://192.168.1.56:3000/usuarios");
+    Uri endpoint = Uri.parse(
+        "https://proyectosoftii-backend-production.up.railway.app/usuarios");
     var response = await http.get(
       endpoint,
       headers: {
@@ -35,9 +33,8 @@ class UserService {
   Future<void> updateFCMUser(String token, String fcm) async {
     JsonEncoder encoder = json.encoder;
 
-    Uri endpoint = Platform.isAndroid
-        ? Uri.parse("http://192.168.1.56:3000/usuarios")
-        : Uri.parse("http://192.168.1.56:3000/usuarios");
+    Uri endpoint = Uri.parse(
+        "https://proyectosoftii-backend-production.up.railway.app/usuarios");
 
     Map body = {'fcm': fcm};
     String bodyToJson = encoder.convert(body);
@@ -58,9 +55,9 @@ class UserService {
 
   Future<void> createUser(UserModel user) async {
     JsonEncoder encoder = json.encoder;
-    Uri endpoint = Platform.isAndroid
-        ? Uri.parse("http://192.168.1.56:3000/usuarios")
-        : Uri.parse("http://192.168.1.56:3000/usuarios");
+    Uri endpoint = Uri.parse(
+        "https://proyectosoftii-backend-production.up.railway.app/usuarios");
+
     Map body = {
       'idUsuario': user.idUsuario,
       'nombre': user.nombre,

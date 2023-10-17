@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:spedtracker_app/components/background/background.dart';
 
 class PasswordRecoveryScreen extends StatefulWidget {
   const PasswordRecoveryScreen({super.key});
@@ -41,18 +42,7 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                invertColors: SchedulerBinding
-                        .instance.platformDispatcher.platformBrightness ==
-                    Brightness.dark,
-                image: const AssetImage("assets/background/original.png"),
-              ),
-            ),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+          Background(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
@@ -146,6 +136,7 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
                           }
                         },
                         style: FilledButton.styleFrom(
+                            fixedSize: const Size(250, 50),
                             foregroundColor: Colors.white,
                             backgroundColor:
                                 const Color.fromRGBO(28, 33, 22, 1)),

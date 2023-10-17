@@ -63,10 +63,9 @@ class DragableCard extends StatelessWidget {
             child: UserCard(
               cardId: card.idTarjeta,
               cardNum: card.numeroTarjeta,
-              type: card.type,
               cardHolder: card.cardHolder,
-              expMonth: card.expMonth,
-              expYear: card.expYear,
+              expDate:
+                  "${card.expDate!.month}/${card.expDate!.year.toString().split("0")[1]}",
               service: card.operadoraFinanciera,
               goTo: goToCallback,
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:spedtracker_app/components/background/background.dart';
 import 'package:spedtracker_app/models/user_model.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -100,18 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(alignment: Alignment.bottomCenter, children: [
-        Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              invertColors: SchedulerBinding
-                      .instance.platformDispatcher.platformBrightness ==
-                  Brightness.dark,
-              image: const AssetImage("assets/background/original.png"),
-            ),
-          ),
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+        Background(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
@@ -169,7 +159,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 20,
                   ),
                   const Text(
-                    "Resgistro",
+                    "Registro",
                     style: TextStyle(fontSize: 32),
                   ),
                   const SizedBox(
@@ -425,6 +415,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       }
                     },
                     style: FilledButton.styleFrom(
+                        fixedSize: const Size(250, 50),
                         foregroundColor: Colors.white,
                         backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
                     child: const Text(

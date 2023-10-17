@@ -1,11 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:spedtracker_app/components/background/background.dart';
 import 'package:spedtracker_app/components/cards/molecules/card_dragable.dart';
 import 'package:spedtracker_app/models/card_list.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:spedtracker_app/screens/cardManager/add_card_screen.dart';
 import 'package:spedtracker_app/screens/cardManager/edit_card_screen.dart';
-import 'package:spedtracker_app/screens/login/login_screen.dart';
 
 class CardScreen extends StatefulWidget {
   final String userToken;
@@ -50,14 +49,6 @@ class _CardScreenState extends State<CardScreen> {
             builder: (context) => AddCardScreen(userToken: widget.userToken)));
   }
 
-  void logout() {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    auth.signOut().whenComplete(() => Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-        (route) => false));
-  }
-
   @override
   void initState() {
     super.initState();
@@ -66,57 +57,59 @@ class _CardScreenState extends State<CardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Gestión de Tarjetas",
-          style: TextStyle(
-              color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.black,
-        actions: [
-          TextButton(
-            onPressed: () {
-              logout();
-            },
-            child: const Text(
-              "Cerrar Cesión",
-              style: TextStyle(color: Colors.white),
-            ),
-          )
-        ],
-      ),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Column(mainAxisSize: MainAxisSize.max, children: [
-          const SizedBox(
-            height: 20,
+      body: Stack(alignment: Alignment.bottomCenter, children: [
+        Background(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 50,
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                  size: 30,
+                ),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
           ),
-          FilledButton(
-            onPressed: () {
-              addCard();
-            },
-            style: FilledButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
-            child: const Text(
-              "Agregar Tarjeta",
-              style: TextStyle(
-                fontSize: 18,
+        ),
+        Container(
+          color: Colors.white,
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          margin: const EdgeInsets.only(top: 100),
+          child: Column(mainAxisSize: MainAxisSize.max, children: [
+            const SizedBox(
+              height: 20,
+            ),
+            FilledButton(
+              onPressed: () {
+                addCard();
+              },
+              style: FilledButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
+              child: const Text(
+                "Agregar Tarjeta",
+                style: TextStyle(
+                  fontSize: 18,
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            child: DragableCard(
-                cards: cards.cardList,
-                edit: edit,
-                delete: delete,
-                goToCallback: goTo),
-          ),
-        ]),
-      ),
+            Expanded(
+              child: DragableCard(
+                  cards: cards.cardList,
+                  edit: edit,
+                  delete: delete,
+                  goToCallback: goTo),
+            ),
+          ]),
+        ),
+      ]),
     );
   }
 }

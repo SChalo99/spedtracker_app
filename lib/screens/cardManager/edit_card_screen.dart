@@ -4,6 +4,7 @@ import 'package:spedtracker_app/components/alerts/alert_config.dart';
 import 'package:spedtracker_app/models/card_list.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:spedtracker_app/models/credit_card_model.dart';
 import 'package:spedtracker_app/screens/cardManager/add_card_screen.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 
@@ -29,7 +30,7 @@ class _EditCardScreenState extends State<EditCardScreen> {
   String cardService = '';
   String cardType = '';
   late CardType brand;
-  List<String> types = ['CREDITO', 'DEBITO', 'CREDITO EXTENSIÓN'];
+  List<String> types = ['CREDITO', 'DEBITO'];
   CardModelList cardList = CardModelList.instance;
   final TextEditingController _brandController = TextEditingController();
 
@@ -52,10 +53,8 @@ class _EditCardScreenState extends State<EditCardScreen> {
 
   void editCard() {
     List<String> date = expiryDate.split("/");
-
-    card.cardHolder = cardHolderName;
-    card.expMonth = date[0];
-    card.expYear = date[1];
+    DateTime expDate = DateTime.parse("20${date[1]}-${date[0]}-01");
+    card.expDate = expDate;
     card.operadoraFinanciera = cardService;
     card.numeroTarjeta = cardNumber;
 
@@ -79,11 +78,11 @@ class _EditCardScreenState extends State<EditCardScreen> {
     super.initState();
     card = widget.card;
     cardNumber = card.numeroTarjeta;
-    expiryDate = '${card.expMonth}/${card.expYear}';
-    cardHolderName = card.cardHolder;
-    cardType = card.type;
+    expiryDate =
+        "${card.expDate!.month}/${card.expDate!.year.toString().split("0")[1]}";
+    cardHolderName = "";
+    cardType = card is CreditCard ? types[0] : types[1];
     cardService = card.operadoraFinanciera;
-    print(card.type);
   }
 
   @override
@@ -233,6 +232,7 @@ class _EditCardScreenState extends State<EditCardScreen> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        /* --------Para extensión NO BORRAR------------------>
                         if (card.type == "CREDITO")
                           FilledButton(
                             onPressed: () {
@@ -257,6 +257,7 @@ class _EditCardScreenState extends State<EditCardScreen> {
                           const SizedBox(
                             width: 10,
                           ),
+                        <------------Para extensión NO BORRAR---------------- */
                         FilledButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {

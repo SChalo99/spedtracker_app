@@ -2,15 +2,17 @@ import 'package:spedtracker_app/services/user_service.dart';
 
 class UserModel {
   String? idUsuario;
-  String nombre;
-  String apellido;
-  String dni;
-  String edad;
-  String genero;
-  String email;
-  String telefono;
+  late String nombre;
+  late String apellido;
+  late String dni;
+  late String edad;
+  late String genero;
+  late String email;
+  late String telefono;
   double? montoLimite;
   String? fcm;
+
+  UserModel.empty();
 
   UserModel(
     this.nombre,
