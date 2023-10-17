@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:spedtracker_app/models/user_model.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spedtracker_app/screens/login/password_recovery.dart';
 import 'package:spedtracker_app/screens/login/signup_screen.dart';
+import 'package:spedtracker_app/services/fcm_service.dart';
+import 'package:spedtracker_app/services/user_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -30,11 +33,16 @@ class _LoginScreenState extends State<LoginScreen> {
       UserCredential user = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       String? token = await user.user?.getIdToken();
+      String? fcmToken = await FCMService().getFCMToken();
+      //UserModel myAccount = await UserService().getUser(token!);
+      //myAccount.fcm = fcmToken;
+      await UserService().updateFCMUser(token!, fcmToken!);
+
       if (context.mounted) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => CardScreen(userToken: token!),
+            builder: (context) => CardScreen(userToken: token),
           ),
         );
       }
@@ -46,6 +54,8 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       }
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 

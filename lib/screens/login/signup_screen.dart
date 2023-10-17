@@ -4,6 +4,7 @@ import 'package:spedtracker_app/models/user_model.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:spedtracker_app/services/fcm_service.dart';
 import 'package:spedtracker_app/services/user_service.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -53,6 +54,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       UserCredential user = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       String? token = await user.user?.getIdToken();
+      String? fcmToken = await FCMService().getFCMToken();
+
       UserModel newUser = UserModel(
         _nameController.text,
         _lastNameController.text,
@@ -62,6 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         gender,
         phoneNumber,
         idUsuario: user.user!.uid,
+        fcm: fcmToken!,
       );
       await UserService().createUser(newUser);
 
@@ -302,8 +306,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       onChanged: (phone) {
                         //print(phone.completeNumber);
                         setState(() {
-                          phoneNumber = phone.completeNumber;
+                          phoneNumber = phone.completeNumber.split('+').last;
                         });
+                        debugPrint(phoneNumber);
                       },
                       onCountryChanged: (country) {},
                     ),

@@ -10,6 +10,7 @@ class UserModel {
   String email;
   String telefono;
   double? montoLimite;
+  String? fcm;
 
   UserModel(
     this.nombre,
@@ -21,6 +22,7 @@ class UserModel {
     this.telefono, {
     this.idUsuario,
     this.montoLimite,
+    this.fcm,
   });
 
   Future<UserModel> visualizar(String token) async {
