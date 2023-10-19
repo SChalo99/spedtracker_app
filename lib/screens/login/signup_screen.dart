@@ -16,7 +16,7 @@ class SignUpScreen extends StatefulWidget {
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-/*2
+
 class _SignUpScreenState extends State<SignUpScreen> {
   /*3
   final TextEditingController _emailController = TextEditingController();
