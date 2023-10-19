@@ -109,7 +109,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(alignment: Alignment.bottomCenter, children: [
-        /*6
+      
         Background(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -129,7 +129,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ],
           ),
         ),
-        6*/
+        
         Container(
           clipBehavior: Clip.antiAlias,
           width: MediaQuery.of(context).size.width,
