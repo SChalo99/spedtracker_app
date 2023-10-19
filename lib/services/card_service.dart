@@ -7,7 +7,7 @@ import 'package:spedtracker_app/models/debit_card_model.dart';
 import 'package:spedtracker_app/models/user_singleton.dart';
 
 class CardService {
-  1
+  
   Future<List<CardModel>> fetchAllDebit(String token) async {
     Uri endpoint = Uri.parse(
         "https://proyectosoftii-backend-production.up.railway.app/tarjetas_debito");
