@@ -3,8 +3,9 @@ import 'package:spedtracker_app/components/alerts/alert_config.dart';
 import 'package:spedtracker_app/components/cards/atoms/user_card.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:spedtracker_app/models/card_model.dart';
-
+/*1
 class DragableCard extends StatelessWidget {
+  
   final List<CardModel> cards;
   final Function edit;
   final Function delete;
@@ -18,9 +19,10 @@ class DragableCard extends StatelessWidget {
     required this.delete,
     required this.goToCallback,
   });
-
+  
   @override
   Widget build(BuildContext context) {
+    /*2
     return ListView.builder(
         shrinkWrap: true,
         itemCount: cards.length,
@@ -71,5 +73,8 @@ class DragableCard extends StatelessWidget {
             ),
           );
         });
+        2*/
   }
+  
 }
+ 1*/

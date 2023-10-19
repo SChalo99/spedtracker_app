@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:spedtracker_app/components/alerts/products/abstract_alert.dart';
-
+/*1
 class AndroidAlert implements AbstractAlert {
   @override
   Future showAlertDialog(
       BuildContext context, String title, String body, Function accept) {
+        /*2
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -28,5 +29,7 @@ class AndroidAlert implements AbstractAlert {
         ],
       ),
     );
+    2*/
   }
 }
+1*/

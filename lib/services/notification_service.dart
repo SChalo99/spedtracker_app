@@ -1,3 +1,4 @@
+/*
 import 'dart:io';
 import 'dart:math';
 import 'package:timezone/timezone.dart' as tz;
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
+  /*1
   final _localNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   Future<void> init() async {
@@ -13,7 +15,7 @@ class NotificationService {
         AndroidInitializationSettings('@mipmap/ic_launcher');
     const iosSettings = DarwinInitializationSettings();
 
-    //Request Permission Android
+    /*2
     if (Platform.isAndroid) {
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
           FlutterLocalNotificationsPlugin();
@@ -21,8 +23,8 @@ class NotificationService {
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()!
           .requestNotificationsPermission();
-    }
-
+    }2*/
+    /*3
     const initializationSettings =
         InitializationSettings(android: androidSettings, iOS: iosSettings);
 
@@ -31,8 +33,9 @@ class NotificationService {
     }).catchError((error) {
       debugPrint(error);
     });
-  }
-
+    3*/
+  }*/
+  /*4
   void createNotification(String title, String body,
       {String sound = '',
       String channel = 'Canal',
@@ -51,8 +54,10 @@ class NotificationService {
 
     await _localNotificationsPlugin.show(id, title, body, notificationDetails);
   }
+  4*/
 
-  // Add or Schedule a Notification
+/*5
+  // Schedule a Notification
   void addScheduleNotification(
     String title,
     String body,
@@ -90,4 +95,6 @@ class NotificationService {
           UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
+  5*/
 }
+*/

@@ -1,3 +1,4 @@
+/*1-----eliminar script-Archivo
 import 'package:spedtracker_app/models/card_model.dart';
 
 class CardModelList {
@@ -22,3 +23,4 @@ class CardModelList {
     cardList.removeWhere((item) => item.idTarjeta == id);
   }
 }
+1-----Eliminar script-Archivo*/

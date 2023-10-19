@@ -1,6 +1,6 @@
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:spedtracker_app/services/card_service.dart';
-
+/*1
 class CreditCard extends CardModel {
   DateTime fechaFacturacion;
   DateTime ultimoDiaPago;
@@ -26,9 +26,11 @@ class CreditCard extends CardModel {
     super.operadoraFinanciera = operadora;
     super.cardHolder = cardHolder;
   }
-
+  /*2
   @override
   Future<List<CardModel>> fetchCards(String token) async {
     return await CardService().fetchAllCredit(token);
   }
+  2*/
 }
+1*/

@@ -7,6 +7,7 @@ import 'package:spedtracker_app/models/debit_card_model.dart';
 import 'package:spedtracker_app/models/user_singleton.dart';
 
 class CardService {
+  /*1
   Future<List<CardModel>> fetchAllDebit(String token) async {
     Uri endpoint = Uri.parse(
         "https://proyectosoftii-backend-production.up.railway.app/tarjetas_debito");
@@ -39,7 +40,8 @@ class CardService {
       throw Exception('Failed to fecth card');
     }
   }
-
+  1*/
+/*2
   Future<List<CardModel>> fetchAllCredit(String token) async {
     Uri endpoint = Uri.parse(
         "https://proyectosoftii-backend-production.up.railway.app/tarjetas_credito");
@@ -71,7 +73,8 @@ class CardService {
       throw Exception('Failed to fecth card');
     }
   }
-
+  2*/
+/*3
   Future<void> createCard(
     String token,
     CardModel card,
@@ -123,7 +126,8 @@ class CardService {
       throw Exception('Failed to create card');
     }
   }
-
+  3*/
+  /*4
   Future<void> editCard(
     String token,
     CardModel card,
@@ -176,7 +180,8 @@ class CardService {
       throw Exception('Failed to edit card');
     }
   }
-
+  4*/
+/*5
   Future<void> removeCard(
     String token,
     CardModel card,
@@ -214,4 +219,5 @@ class CardService {
       throw Exception('Failed to remove card');
     }
   }
+  5*/
 }

@@ -10,15 +10,17 @@ import 'package:spedtracker_app/screens/login/password_recovery.dart';
 import 'package:spedtracker_app/screens/login/signup_screen.dart';
 import 'package:spedtracker_app/services/fcm_service.dart';
 import 'package:spedtracker_app/services/user_service.dart';
-
+/*1
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
-
+1*/
+/*2
 class _LoginScreenState extends State<LoginScreen> {
+  /*3
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -26,13 +28,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final currentUser = UserSingleton.instance;
   final UserModel _model = UserModel.empty();
   bool obscure = true;
-
+  
   void onTap() {
     setState(() {
       obscure = !obscure;
     });
   }
-
+  3*/
+  /*8
   void login(String email, String password) async {
     try {
       UserCredential user = await auth.signInWithEmailAndPassword(
@@ -63,7 +66,8 @@ class _LoginScreenState extends State<LoginScreen> {
       debugPrint(e.toString());
     }
   }
-
+  8*/
+  /*6
   void goToRecoveryPassword() {
     Navigator.push(
       context,
@@ -81,17 +85,21 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
+  6*/
+  /*4
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
+          /*5
           const Background(),
+          5*/
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 3 / 4,
+            /*7
             decoration: BoxDecoration(
                 borderRadius:
                     const BorderRadius.only(topRight: Radius.circular(100)),
@@ -100,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Brightness.light
                     ? const ColorScheme.light().background
                     : const Color.fromRGBO(116, 107, 85, 1)),
+            7*/
             child: SingleChildScrollView(
               child: Form(
                 key: _formKey,
@@ -227,4 +236,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+  4*/
 }
+2*/

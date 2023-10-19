@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-
+/*
 class Background extends StatelessWidget {
   final Widget? child;
 
@@ -24,3 +24,4 @@ class Background extends StatelessWidget {
     );
   }
 }
+*/

@@ -11,7 +11,7 @@ import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:spedtracker_app/services/card_service.dart';
 import 'package:spedtracker_app/services/notification_service.dart';
 import 'package:uuid/uuid.dart';
-
+/*1
 class AddCardScreen extends StatefulWidget {
   final String userToken;
   final bool isExtension;
@@ -21,8 +21,10 @@ class AddCardScreen extends StatefulWidget {
   @override
   State<AddCardScreen> createState() => _AddCardScreenState();
 }
-
+1*/
+/*2
 class _AddCardScreenState extends State<AddCardScreen> {
+  /*3
   List<CardModel> cards = [];
   OutlineInputBorder border = const OutlineInputBorder();
   final _formKey = GlobalKey<FormState>();
@@ -46,7 +48,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
   String currency = '';
   String cardType = '';
   late CardType brand;
-
+  3*/
+  /*9
   void onCreditCardModel(CreditCardModel? creditCardModel) {
     setState(() {
       cardNumber = creditCardModel!.cardNumber;
@@ -63,7 +66,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
       ).value;
     }
   }
+  9*/
 
+  /*10
   void createCard() async {
     List<String> date = expiryDate.split("/");
     String idTarjeta = uuid.v4();
@@ -121,7 +126,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
     debugPrint("Notifications created");
   }
+  10*/
 
+  /*4
   @override
   void initState() {
     super.initState();
@@ -133,10 +140,12 @@ class _AddCardScreenState extends State<AddCardScreen> {
       types.addAll(['CREDITO', 'DEBITO']);
     }
   }
+  4*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /*DELETE ALL APPBAR--8
       // appBar: AppBar(
       //   leading: IconButton(
       //     icon: const Icon(
@@ -152,7 +161,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
       //   ),
       //   backgroundColor: Colors.black,
       // ),
+      DELETE ALL APPBAR--8*/
       body: Stack(alignment: Alignment.bottomCenter, children: [
+        /*7
         Background(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -172,6 +183,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
             ],
           ),
         ),
+        7*/
+
+        /*6
         Container(
           decoration: BoxDecoration(
               color: SchedulerBinding
@@ -665,7 +679,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
             ],
           ),
         ),
+        6*/
       ]),
     );
   }
 }
+2*/

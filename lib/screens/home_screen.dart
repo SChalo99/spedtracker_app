@@ -5,7 +5,7 @@ import 'package:spedtracker_app/components/background/background.dart';
 import 'package:spedtracker_app/models/user_singleton.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:spedtracker_app/screens/login/login_screen.dart';
-
+/*1
 class HomeScreen extends StatefulWidget {
   final String userToken;
   const HomeScreen({super.key, required this.userToken});
@@ -13,10 +13,11 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
+1*/
+/*2
 class _HomeScreenState extends State<HomeScreen> {
   UserSingleton user = UserSingleton.instance;
-
+  /*6
   void logout() {
     FirebaseAuth auth = FirebaseAuth.instance;
     auth.signOut().whenComplete(() => Navigator.pushAndRemoveUntil(
@@ -24,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
         MaterialPageRoute(builder: (context) => const LoginScreen()),
         (route) => false));
   }
+  6*/
 
   @override
   void initState() {
@@ -34,12 +36,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(alignment: Alignment.bottomCenter, children: [
+        /*3
         const Background(),
+        3*/
         Container(
           height: MediaQuery.of(context).size.height,
           margin: const EdgeInsets.only(top: 100),
           child: Column(
             children: [
+              /*4
               Container(
                 decoration: BoxDecoration(
                   color: SchedulerBinding
@@ -59,12 +64,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   overflow: TextOverflow.clip,
                 ),
               ),
+              4*/
             ],
           ),
         ),
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 3 / 4,
+          /*5
           decoration: BoxDecoration(
               borderRadius:
                   const BorderRadius.only(topRight: Radius.circular(100)),
@@ -73,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Brightness.light
                   ? const ColorScheme.light().background
                   : const Color.fromRGBO(116, 107, 85, 1)),
+            5*/
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -139,3 +147,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+2*/

@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:spedtracker_app/components/background/background.dart';
-import 'package:spedtracker_app/screens/login/login_screen.dart';
-
+//1//import 'package:flutter/material.dart';
+//2//import 'package:flutter/scheduler.dart';
+//3//import 'package:spedtracker_app/components/background/background.dart';
+//4//import 'package:spedtracker_app/screens/login/login_screen.dart';
+/*1
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -14,6 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    /*4
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
@@ -22,13 +23,14 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       );
     });
+    4*/
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(alignment: Alignment.bottomCenter, children: [
-        const Background(),
+        //3//const Background(),
         SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
@@ -37,6 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 200,
               width: 200,
               padding: const EdgeInsets.all(20),
+              /*2
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(20)),
                   color: SchedulerBinding
@@ -44,6 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           Brightness.light
                       ? const ColorScheme.light().background
                       : const Color.fromRGBO(116, 107, 85, 1)),
+              2*/
               child: Image.asset(
                 "assets/logo.jpeg",
               ),
@@ -54,3 +58,4 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
+1*/

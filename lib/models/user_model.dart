@@ -1,5 +1,5 @@
 import 'package:spedtracker_app/services/user_service.dart';
-
+/*1
 class UserModel {
   String? idUsuario;
   late String nombre;
@@ -26,9 +26,11 @@ class UserModel {
     this.montoLimite,
     this.fcm,
   });
-
+  /*2
   Future<UserModel> visualizar(String token) async {
     UserModel user = await UserService().getUser(token);
     return user;
   }
+  2*/
 }
+1*/

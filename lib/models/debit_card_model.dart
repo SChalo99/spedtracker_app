@@ -1,6 +1,7 @@
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:spedtracker_app/services/card_service.dart';
 
+/*1
 class DebitCard extends CardModel {
   String accountNum;
   double ingresoMinimo;
@@ -22,9 +23,11 @@ class DebitCard extends CardModel {
     super.operadoraFinanciera = operadora;
     super.cardHolder = cardHolder;
   }
-
+  /*2
   @override
   Future<List<CardModel>> fetchCards(String token) async {
     return await CardService().fetchAllDebit(token);
   }
+  2*/
 }
+1*/

@@ -8,11 +8,12 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:spedtracker_app/models/credit_card_model.dart';
 import 'package:spedtracker_app/models/debit_card_model.dart';
 import 'package:spedtracker_app/models/user_singleton.dart';
-//import 'package:spedtracker_app/screens/cardManager/add_card_screen.dart';
+//import 'package:spedtracker_app/screens/cardManager/add_card_screen.dart'; NO BORRAR ESTE COMENTARIO
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:spedtracker_app/services/card_service.dart';
 import 'package:spedtracker_app/services/notification_service.dart';
 
+/*1
 class EditCardScreen extends StatefulWidget {
   final String userToken;
   final CardModel card;
@@ -22,8 +23,10 @@ class EditCardScreen extends StatefulWidget {
   @override
   State<EditCardScreen> createState() => _EditCardScreenState();
 }
-
+1*/
+/*2
 class _EditCardScreenState extends State<EditCardScreen> {
+  /*3
   CardModel? card;
   OutlineInputBorder border = const OutlineInputBorder();
   final _formKey = GlobalKey<FormState>();
@@ -63,7 +66,8 @@ class _EditCardScreenState extends State<EditCardScreen> {
       ).value;
     }
   }
-
+  3*/
+  /*5
   Future<void> editCard(CardModel card) async {
     List<String> date = expiryDate.split("/");
     DateTime expDate = DateTime.parse("20${date[1]}-${date[0]}-01");
@@ -159,7 +163,8 @@ class _EditCardScreenState extends State<EditCardScreen> {
     card = widget.card;
     loadData(card!);
   }
-
+5*/
+/*4
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -685,4 +690,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
       ]),
     );
   }
+  4*/
 }
+2*/

@@ -7,6 +7,7 @@ import 'package:spedtracker_app/screens/cardManager/add_card_screen.dart';
 import 'package:spedtracker_app/screens/cardManager/edit_card_screen.dart';
 import 'package:spedtracker_app/services/card_service.dart';
 
+/*1
 class CardScreen extends StatefulWidget {
   final String userToken;
   const CardScreen({super.key, required this.userToken});
@@ -14,14 +15,16 @@ class CardScreen extends StatefulWidget {
   @override
   State<CardScreen> createState() => _CardScreenState();
 }
-
+1*/
+/*2
 class _CardScreenState extends State<CardScreen> {
+  /*3
   List<CardModel> cardList = [];
   List<CardModel> debitCardList = [];
   List<CardModel> creditCardList = [];
   CardService service = CardService();
   bool loading = true;
-
+  
   Future<List<CardModel>> fetchCreditCard() async {
     return await service.fetchAllCredit(widget.userToken);
   }
@@ -44,7 +47,8 @@ class _CardScreenState extends State<CardScreen> {
       loading = false;
     });
   }
-
+  3*/
+  /*4
   void edit(CardModel card) {
     Navigator.push(
       context,
@@ -79,7 +83,8 @@ class _CardScreenState extends State<CardScreen> {
         MaterialPageRoute(
             builder: (context) => AddCardScreen(userToken: widget.userToken)));
   }
-
+  4*/
+  /*3
   @override
   void initState() {
     super.initState();
@@ -87,11 +92,13 @@ class _CardScreenState extends State<CardScreen> {
       await getData();
     });
   }
+  3*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(alignment: Alignment.bottomCenter, children: [
+        /*5
         Background(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -112,13 +119,16 @@ class _CardScreenState extends State<CardScreen> {
             ],
           ),
         ),
+        5*/
         Container(
+          /*5
           decoration: BoxDecoration(
               color: SchedulerBinding
                           .instance.platformDispatcher.platformBrightness ==
                       Brightness.light
                   ? const ColorScheme.light().background
                   : const Color.fromRGBO(116, 107, 85, 1)),
+          5*/
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(top: 100),
@@ -158,3 +168,4 @@ class _CardScreenState extends State<CardScreen> {
     );
   }
 }
+2*/

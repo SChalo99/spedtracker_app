@@ -8,15 +8,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:spedtracker_app/services/fcm_service.dart';
 import 'package:spedtracker_app/services/user_service.dart';
-
+/*1
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
-
+1*/
+/*2
 class _SignUpScreenState extends State<SignUpScreen> {
+  /*3
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _dniController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -51,7 +53,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       obscure2 = !obscure2;
     });
   }
+  */3
 
+  /*7
   void signup(String email, String password) async {
     try {
       UserCredential user = await auth.createUserWithEmailAndPassword(
@@ -94,7 +98,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     }
   }
-
+  7*/
+  
   @override
   void initState() {
     super.initState();
@@ -104,6 +109,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(alignment: Alignment.bottomCenter, children: [
+        /*6
         Background(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -123,10 +129,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ],
           ),
         ),
+        6*/
         Container(
           clipBehavior: Clip.antiAlias,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 3 / 4,
+          /*5
           decoration: BoxDecoration(
               borderRadius:
                   const BorderRadius.only(topRight: Radius.circular(100)),
@@ -135,12 +143,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Brightness.light
                   ? const ColorScheme.light().background
                   : const Color.fromRGBO(116, 107, 85, 1)),
+                  5*/
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
+                /*4
                 children: [
                   const SizedBox(
                     height: 20,
@@ -428,6 +438,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(
                     height: 40,
                   ),
+                  4*/
                 ],
               ),
             ),
@@ -437,3 +448,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
+2*/
