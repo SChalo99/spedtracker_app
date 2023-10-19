@@ -20,7 +20,7 @@ class LoginScreen extends StatefulWidget {
 
 
 class _LoginScreenState extends State<LoginScreen> {
-  /*3
+  
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
       obscure = !obscure;
     });
   }
-  3*/
+  
   /*8
   void login(String email, String password) async {
     try {
