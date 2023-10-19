@@ -55,7 +55,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
   
 
-  /*7
+  
   void signup(String email, String password) async {
     try {
       UserCredential user = await auth.createUserWithEmailAndPassword(
@@ -98,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     }
   }
-  7*/
+  
   
   @override
   void initState() {
