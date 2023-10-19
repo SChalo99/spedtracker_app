@@ -74,7 +74,7 @@ class CardService {
     }
   }
 
-/*3
+
   Future<void> createCard(
     String token,
     CardModel card,
@@ -126,7 +126,7 @@ class CardService {
       throw Exception('Failed to create card');
     }
   }
-  3*/
+
   /*4
   Future<void> editCard(
     String token,
