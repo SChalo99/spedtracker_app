@@ -150,7 +150,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
-                /*4
+                
                 children: [
                   const SizedBox(
                     height: 20,
@@ -438,7 +438,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(
                     height: 40,
                   ),
-                  4*/
+                  
                 ],
               ),
             ),
@@ -448,4 +448,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
-2*/
+
