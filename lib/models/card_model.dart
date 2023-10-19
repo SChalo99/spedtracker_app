@@ -9,7 +9,7 @@ abstract class CardModel {
   String operadoraFinanciera = '';
 
   CardModel();
-  /*2
+ 
   Future<void> addCard(String token, CardModel cardModel) async {
     await CardService().createCard(token, cardModel);
   }
@@ -23,6 +23,6 @@ abstract class CardModel {
   }
 
   Future<List<CardModel>> fetchCards(String token);
-  2*/
+
 }
 
