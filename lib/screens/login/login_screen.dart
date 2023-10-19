@@ -10,14 +10,14 @@ import 'package:spedtracker_app/screens/login/password_recovery.dart';
 import 'package:spedtracker_app/screens/login/signup_screen.dart';
 import 'package:spedtracker_app/services/fcm_service.dart';
 import 'package:spedtracker_app/services/user_service.dart';
-/*1
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
-1*/
+
 /*2
 class _LoginScreenState extends State<LoginScreen> {
   /*3
