@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
   
-  /*8
+  
   void login(String email, String password) async {
     try {
       UserCredential user = await auth.signInWithEmailAndPassword(
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
       debugPrint(e.toString());
     }
   }
-  8*/
+  
   
   void goToRecoveryPassword() {
     Navigator.push(
