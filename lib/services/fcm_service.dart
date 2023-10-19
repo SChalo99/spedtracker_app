@@ -1,10 +1,10 @@
-/*
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:spedtracker_app/services/notification_service.dart';
 
 class FCMService {
-  /*1
+  
 
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   Future<void> init() async {
@@ -27,9 +27,9 @@ class FCMService {
       }
     });
 
-    //3//FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+    FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   }
-  1*/
+  
   /*2
   Future<String?> getFCMToken() async {
     String? token = await _fcm.getToken();
@@ -43,5 +43,3 @@ Future<void> backgroundHandler(RemoteMessage message) async {
   debugPrint('Handling a background message ${message.messageId}');
 }
 3*/
-
-*/
