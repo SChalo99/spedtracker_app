@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
 import 'package:spedtracker_app/models/user_model.dart';
+import 'package:spedtracker_app/models/user_singleton.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -23,6 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final currentUser = UserSingleton.instance;
   final TextEditingController _passwordConfirmationController =
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -69,6 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         fcm: fcmToken!,
       );
       await UserService().createUser(newUser);
+      currentUser.currentUser = newUser;
 
       if (context.mounted) {
         Navigator.pushAndRemoveUntil(
