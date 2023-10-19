@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 3 / 4,
-            /*7
+            
             decoration: BoxDecoration(
                 borderRadius:
                     const BorderRadius.only(topRight: Radius.circular(100)),
@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Brightness.light
                     ? const ColorScheme.light().background
                     : const Color.fromRGBO(116, 107, 85, 1)),
-            7*/
+            
             child: SingleChildScrollView(
               child: Form(
                 key: _formKey,
