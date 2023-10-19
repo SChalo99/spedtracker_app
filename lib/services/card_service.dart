@@ -181,7 +181,7 @@ class CardService {
     }
   }
 
-/*5
+
   Future<void> removeCard(
     String token,
     CardModel card,
@@ -219,6 +219,6 @@ class CardService {
       throw Exception('Failed to remove card');
     }
   }
-  5
-}*/
+  
+}
 
