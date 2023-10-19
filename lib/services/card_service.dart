@@ -41,7 +41,7 @@ class CardService {
     }
   }
   
-/*2
+
   Future<List<CardModel>> fetchAllCredit(String token) async {
     Uri endpoint = Uri.parse(
         "https://proyectosoftii-backend-production.up.railway.app/tarjetas_credito");
@@ -73,7 +73,7 @@ class CardService {
       throw Exception('Failed to fecth card');
     }
   }
-  2*/
+
 /*3
   Future<void> createCard(
     String token,
