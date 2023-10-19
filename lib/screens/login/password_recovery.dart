@@ -10,7 +10,7 @@ class PasswordRecoveryScreen extends StatefulWidget {
   State<PasswordRecoveryScreen> createState() => _PasswordRecoveryScreenState();
 }
 
-/*2
+
 class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
   final TextEditingController _userController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -160,4 +160,4 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
     );
   }
 }
-2*/
+
