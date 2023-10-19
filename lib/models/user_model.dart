@@ -26,11 +26,11 @@ class UserModel {
     this.montoLimite,
     this.fcm,
   });
-  /*2
+
   Future<UserModel> visualizar(String token) async {
     UserModel user = await UserService().getUser(token);
     return user;
   }
-  2*/
+  
 }
 
