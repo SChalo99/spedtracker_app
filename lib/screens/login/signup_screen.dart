@@ -134,7 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           clipBehavior: Clip.antiAlias,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 3 / 4,
-          /*5
+          
           decoration: BoxDecoration(
               borderRadius:
                   const BorderRadius.only(topRight: Radius.circular(100)),
@@ -143,7 +143,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Brightness.light
                   ? const ColorScheme.light().background
                   : const Color.fromRGBO(116, 107, 85, 1)),
-                  5*/
+                  
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
