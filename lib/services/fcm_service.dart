@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:spedtracker_app/services/notification_service.dart';
 
 class FCMService {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
@@ -10,11 +11,20 @@ class FCMService {
       badge: true,
       sound: true,
     );
-    FirebaseMessaging.onBackgroundMessage(backgroundHandler);
-  }
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      debugPrint('Got a message whilst in the foreground!');
+      debugPrint('Message data: ${message.data}');
 
-  Future<void> backgroundHandler(RemoteMessage message) async {
-    debugPrint('Handling a background message ${message.messageId}');
+      if (message.notification != null) {
+        NotificationService().createNotification(
+            message.notification!.title!, message.notification!.body!);
+
+        debugPrint(
+            'Message also contained a notification: ${message.notification}');
+      }
+    });
+
+    FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   }
 
   Future<String?> getFCMToken() async {
@@ -22,4 +32,8 @@ class FCMService {
     debugPrint(token!);
     return token;
   }
+}
+
+Future<void> backgroundHandler(RemoteMessage message) async {
+  debugPrint('Handling a background message ${message.messageId}');
 }
