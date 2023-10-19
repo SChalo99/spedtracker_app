@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
   8*/
-  /*6
+  
   void goToRecoveryPassword() {
     Navigator.push(
       context,
@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-  6*/
+
   
   @override
   Widget build(BuildContext context) {
