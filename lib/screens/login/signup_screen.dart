@@ -18,7 +18,7 @@ class SignUpScreen extends StatefulWidget {
 
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  /*3
+  
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _dniController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -53,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       obscure2 = !obscure2;
     });
   }
-  */3
+  
 
   /*7
   void signup(String email, String password) async {
