@@ -30,13 +30,13 @@ class FCMService {
     FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   }
   
-  /*2
+  
   Future<String?> getFCMToken() async {
     String? token = await _fcm.getToken();
     debugPrint(token!);
     return token;
   }
-  2*/
+
 }
 /*3
 Future<void> backgroundHandler(RemoteMessage message) async {
