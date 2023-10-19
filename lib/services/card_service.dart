@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'package:spedtracker_app/models/card_list.dart';
+import 'package:flutter/material.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:spedtracker_app/models/credit_card_model.dart';
 import 'package:spedtracker_app/models/debit_card_model.dart';
+import 'package:spedtracker_app/models/user_singleton.dart';
 
 class CardService {
   Future<List<CardModel>> fetchAllDebit(String token) async {
@@ -14,23 +15,26 @@ class CardService {
       'Content-Type': 'application/json; charset=UTF-8',
       "Authorization": "Bearer $token",
     });
-    CardModelList cards = CardModelList.instance;
+    List<CardModel> cards = [];
+
     if (response.statusCode == 200) {
       var responseBody = json.decode(response.body);
+      UserSingleton user = UserSingleton.instance;
       for (var item in responseBody) {
-        cards.addCard(
+        cards.add(
           DebitCard(
-            item['idTarjetaDebito'],
-            item['numeroTarjeta'],
-            item['moneda'],
-            item['fechaVencimiento'],
-            item['operadoraFinanciera'],
-            item['numeroCuenta'],
-            item['ingresoMinimo'],
-          ),
+              item['idTarjetaDebito'],
+              item['numeroTarjeta'],
+              item['moneda'],
+              DateTime.parse(item['fechaVencimiento']),
+              item['operadoraFinanciera'],
+              item['numeroCuenta'],
+              item['ingresoMinimo'].toDouble(),
+              cardHolder:
+                  "${user.currentUser.nombre} ${user.currentUser.apellido}"),
         );
       }
-      return cards.cardList;
+      return cards;
     } else {
       throw Exception('Failed to fecth card');
     }
@@ -44,23 +48,25 @@ class CardService {
       'Content-Type': 'application/json; charset=UTF-8',
       "Authorization": "Bearer $token",
     });
-    CardModelList cards = CardModelList.instance;
+    List<CardModel> cards = [];
     if (response.statusCode == 200) {
       var responseBody = json.decode(response.body);
+      UserSingleton user = UserSingleton.instance;
       for (var item in responseBody) {
-        cards.addCard(CreditCard(
+        cards.add(CreditCard(
           item['idTarjetaCredito'],
           item['numeroTarjeta'],
           item['moneda'],
-          item['fechaVencimiento'],
+          DateTime.parse(item['fechaVencimiento']),
           item['operadoraFinanciera'],
-          item['fechaFacturacion'],
-          item['ultimoDiaPago'],
-          item['tasaInteres'],
-          item['lineaCredito'],
+          DateTime.parse(item['fechaFacturacion']),
+          DateTime.parse(item['ultimoDiaPago']),
+          item['tasaInteres'].toDouble(),
+          item['lineaCredito'].toDouble(),
+          cardHolder: "${user.currentUser.nombre} ${user.currentUser.apellido}",
         ));
       }
-      return cards.cardList;
+      return cards;
     } else {
       throw Exception('Failed to fecth card');
     }
@@ -81,7 +87,7 @@ class CardService {
         'numeroTarjeta': card.numeroTarjeta,
         'numeroCuenta': card.accountNum,
         'moneda': card.moneda,
-        'fechaVencimiento': card.expDate,
+        'fechaVencimiento': card.expDate.toString(),
         'operadoraFinanciera': card.operadoraFinanciera,
         'ingresoMinimo': card.ingresoMinimo,
       };
@@ -92,27 +98,27 @@ class CardService {
         'idTarjetaCredito': card.idTarjeta,
         'numeroTarjeta': card.numeroTarjeta,
         'moneda': card.moneda,
-        'fechaVencimiento': card.expDate,
+        'fechaVencimiento': card.expDate.toString(),
         'operadoraFinanciera': card.operadoraFinanciera,
-        'ultimoDiaPago': card.ultimoDiaPago,
-        'fechaFacturacion': card.fechaFacturacion,
+        'ultimoDiaPago': card.ultimoDiaPago.toString(),
+        'fechaFacturacion': card.fechaFacturacion.toString(),
         'tasaInteres': card.tasaInteres,
         'lineaCredito': card.lineaCredito,
       };
     } else {
       endpoint = Uri.parse(
-          "https://proyectosoftii-backend-production.up.railway.app/tarjetas_debito");
+          "https://proyectosoftii-backend-production.up.railway.app/tarjetas_credito");
       body = {};
     }
 
     String bodyToJson = encoder.convert(body);
 
     var response = await http.post(endpoint, body: bodyToJson, headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
       "Authorization": "Bearer $token",
     });
-    CardModelList cards = CardModelList.instance;
     if (response.statusCode == 200) {
-      cards.addCard(card);
+      debugPrint("Created");
     } else {
       throw Exception('Failed to create card');
     }
@@ -133,7 +139,7 @@ class CardService {
         'numeroTarjeta': card.numeroTarjeta,
         'numeroCuenta': card.accountNum,
         'moneda': card.moneda,
-        'fechaVencimiento': card.expDate,
+        'fechaVencimiento': card.expDate.toString(),
         'operadoraFinanciera': card.operadoraFinanciera,
         'ingresoMinimo': card.ingresoMinimo,
       };
@@ -144,10 +150,10 @@ class CardService {
         'idTarjetaCredito': card.idTarjeta,
         'numeroTarjeta': card.numeroTarjeta,
         'moneda': card.moneda,
-        'fechaVencimiento': card.expDate,
+        'fechaVencimiento': card.expDate.toString(),
         'operadoraFinanciera': card.operadoraFinanciera,
-        'ultimoDiaPago': card.ultimoDiaPago,
-        'fechaFacturacion': card.fechaFacturacion,
+        'ultimoDiaPago': card.ultimoDiaPago.toString(),
+        'fechaFacturacion': card.fechaFacturacion.toString(),
         'tasaInteres': card.tasaInteres,
         'lineaCredito': card.lineaCredito,
       };
@@ -159,12 +165,13 @@ class CardService {
 
     String bodyToJson = encoder.convert(body);
 
-    var response = await http.post(endpoint, body: bodyToJson, headers: {
+    var response = await http.put(endpoint, body: bodyToJson, headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
       "Authorization": "Bearer $token",
     });
-    CardModelList cards = CardModelList.instance;
+
     if (response.statusCode == 200) {
-      cards.editCard(card);
+      debugPrint("Edited");
     } else {
       throw Exception('Failed to edit card');
     }
@@ -181,7 +188,7 @@ class CardService {
       endpoint = Uri.parse(
           "https://proyectosoftii-backend-production.up.railway.app/tarjetas_debito/${card.idTarjeta}");
       body = {
-        'idTarjetaCredito': card.idTarjeta,
+        'idTarjetaDebito': card.idTarjeta,
       };
     } else if (card is CreditCard) {
       endpoint = Uri.parse(
@@ -197,12 +204,12 @@ class CardService {
 
     String bodyToJson = encoder.convert(body);
 
-    var response = await http.post(endpoint, body: bodyToJson, headers: {
+    var response = await http.delete(endpoint, body: bodyToJson, headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
       "Authorization": "Bearer $token",
     });
-    CardModelList cards = CardModelList.instance;
     if (response.statusCode == 200) {
-      cards.removeCard(card.idTarjeta);
+      debugPrint("Deleted");
     } else {
       throw Exception('Failed to remove card');
     }

@@ -131,7 +131,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           .instance.platformDispatcher.platformBrightness ==
                       Brightness.light
                   ? const ColorScheme.light().background
-                  : const ColorScheme.dark().background),
+                  : const Color.fromRGBO(116, 107, 85, 1)),
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
@@ -221,10 +221,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             backgroundColor:
                                 MaterialStatePropertyAll(Colors.black),
                           ),
-                          label: const Text(
-                            "Género",
-                            style: TextStyle(color: Colors.black),
-                          ),
+                          label: const Text("Género"),
                           enableSearch: false,
                           onSelected: (value) {
                             setState(() {

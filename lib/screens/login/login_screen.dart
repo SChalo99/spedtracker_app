@@ -3,6 +3,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
 //import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:spedtracker_app/models/user_model.dart';
+import 'package:spedtracker_app/models/user_singleton.dart';
 import 'package:spedtracker_app/screens/home_screen.dart';
 import 'package:spedtracker_app/screens/login/password_recovery.dart';
 import 'package:spedtracker_app/screens/login/signup_screen.dart';
@@ -21,6 +23,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final auth = FirebaseAuth.instance;
+  final currentUser = UserSingleton.instance;
+  final UserModel _model = UserModel.empty();
   bool obscure = true;
 
   void onTap() {
@@ -35,7 +39,9 @@ class _LoginScreenState extends State<LoginScreen> {
           email: email, password: password);
       String? token = await user.user?.getIdToken();
       String? fcmToken = await FCMService().getFCMToken();
-      await UserService().updateFCMUser(token!, fcmToken!);
+
+      currentUser.currentUser = await _model.visualizar(token!);
+      await UserService().updateFCMUser(token, fcmToken!);
 
       if (context.mounted) {
         Navigator.pushReplacement(
@@ -93,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             .instance.platformDispatcher.platformBrightness ==
                         Brightness.light
                     ? const ColorScheme.light().background
-                    : const ColorScheme.dark().background),
+                    : const Color.fromRGBO(116, 107, 85, 1)),
             child: SingleChildScrollView(
               child: Form(
                 key: _formKey,

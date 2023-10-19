@@ -72,7 +72,7 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
                               .instance.platformDispatcher.platformBrightness ==
                           Brightness.light
                       ? const ColorScheme.light().background
-                      : const ColorScheme.dark().background),
+                      : const Color.fromRGBO(116, 107, 85, 1)),
               child: SingleChildScrollView(
                 child: Form(
                   key: _formKey,

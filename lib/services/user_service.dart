@@ -20,7 +20,7 @@ class UserService {
           responseBody['nombre'],
           responseBody['apellido'],
           responseBody['DNI'],
-          responseBody['edad'],
+          responseBody['edad'].toString(),
           responseBody['email'],
           responseBody['genero'],
           responseBody['telefono']);

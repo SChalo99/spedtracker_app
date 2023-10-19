@@ -52,7 +52,7 @@ class DragableCard extends StatelessWidget {
                           context,
                           "Eliminar tarjeta",
                           "¿Desea eliminar esta tarjeta?",
-                          () => delete(card.idTarjeta));
+                          () => delete(card));
                     },
                     backgroundColor: const Color(0xFFFE4A49),
                     foregroundColor: Colors.white,
@@ -65,7 +65,7 @@ class DragableCard extends StatelessWidget {
               cardNum: card.numeroTarjeta,
               cardHolder: card.cardHolder,
               expDate:
-                  "${card.expDate!.month}/${card.expDate!.year.toString().split("0")[1]}",
+                  "${card.expDate!.toString().split("-")[1]}/${card.expDate!.year.toString().split("0")[1]}",
               service: card.operadoraFinanciera,
               goTo: goToCallback,
             ),

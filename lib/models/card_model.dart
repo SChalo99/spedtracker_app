@@ -22,7 +22,5 @@ abstract class CardModel {
     await CardService().removeCard(token, cardModel);
   }
 
-  Future<List<CardModel>> fetchCards(String token) async {
-    return await CardService().fetchAll(token);
-  }
+  Future<List<CardModel>> fetchCards(String token);
 }

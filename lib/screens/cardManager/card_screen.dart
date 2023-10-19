@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
 import 'package:spedtracker_app/components/cards/molecules/card_dragable.dart';
-import 'package:spedtracker_app/models/card_list.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:spedtracker_app/screens/cardManager/add_card_screen.dart';
 import 'package:spedtracker_app/screens/cardManager/edit_card_screen.dart';
+import 'package:spedtracker_app/services/card_service.dart';
 
 class CardScreen extends StatefulWidget {
   final String userToken;
@@ -15,7 +16,34 @@ class CardScreen extends StatefulWidget {
 }
 
 class _CardScreenState extends State<CardScreen> {
-  CardModelList cards = CardModelList.instance;
+  List<CardModel> cardList = [];
+  List<CardModel> debitCardList = [];
+  List<CardModel> creditCardList = [];
+  CardService service = CardService();
+  bool loading = true;
+
+  Future<List<CardModel>> fetchCreditCard() async {
+    return await service.fetchAllCredit(widget.userToken);
+  }
+
+  Future<List<CardModel>> fetchDebitCard() async {
+    return await service.fetchAllDebit(widget.userToken);
+  }
+
+  Future<void> getData() async {
+    setState(() {
+      loading = true;
+    });
+    List<CardModel> debits = await fetchDebitCard();
+    List<CardModel> credits = await fetchCreditCard();
+    setState(() {
+      debitCardList.addAll(debits);
+      creditCardList.addAll(credits);
+      cardList.addAll(debitCardList);
+      cardList.addAll(creditCardList);
+      loading = false;
+    });
+  }
 
   void edit(CardModel card) {
     Navigator.push(
@@ -30,12 +58,15 @@ class _CardScreenState extends State<CardScreen> {
     print("Edit card: ${card.idTarjeta}");
   }
 
-  void delete(String id) {
+  void delete(CardModel card) async {
+    await service.removeCard(widget.userToken, card);
     setState(() {
-      cards.removeCard(id);
+      cardList.clear();
+      creditCardList.clear();
+      debitCardList.clear();
     });
-
-    print("Delete card: $id");
+    await getData();
+    print("Delete card: ${card.idTarjeta}");
   }
 
   void goTo(String id) {
@@ -52,6 +83,9 @@ class _CardScreenState extends State<CardScreen> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () async {
+      await getData();
+    });
   }
 
   @override
@@ -72,13 +106,19 @@ class _CardScreenState extends State<CardScreen> {
                   Icons.arrow_back_ios_new,
                   size: 30,
                 ),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () =>
+                    Navigator.of(context).popUntil((route) => route.isFirst),
               ),
             ],
           ),
         ),
         Container(
-          color: Colors.white,
+          decoration: BoxDecoration(
+              color: SchedulerBinding
+                          .instance.platformDispatcher.platformBrightness ==
+                      Brightness.light
+                  ? const ColorScheme.light().background
+                  : const Color.fromRGBO(116, 107, 85, 1)),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(top: 100),
@@ -91,6 +131,7 @@ class _CardScreenState extends State<CardScreen> {
                 addCard();
               },
               style: FilledButton.styleFrom(
+                  fixedSize: const Size(250, 50),
                   foregroundColor: Colors.white,
                   backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
               child: const Text(
@@ -102,13 +143,17 @@ class _CardScreenState extends State<CardScreen> {
             ),
             Expanded(
               child: DragableCard(
-                  cards: cards.cardList,
+                  cards: cardList,
                   edit: edit,
                   delete: delete,
                   goToCallback: goTo),
             ),
           ]),
         ),
+        if (loading)
+          const Center(
+            child: CircularProgressIndicator(),
+          ),
       ]),
     );
   }

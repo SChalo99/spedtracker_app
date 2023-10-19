@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
-import 'package:spedtracker_app/models/user_model.dart';
+import 'package:spedtracker_app/models/user_singleton.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:spedtracker_app/screens/login/login_screen.dart';
 
@@ -15,13 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final UserModel _model = UserModel.empty();
-  UserModel? user = UserModel('Gonzalo', 'Garma', '12345678', '24',
-      '20163126@aloe.ulima.edu.pe', 'Masculino', '51987654321');
-
-  Future<UserModel> getUser(String token) async {
-    return await _model.visualizar(token);
-  }
+  UserSingleton user = UserSingleton.instance;
 
   void logout() {
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -34,9 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
-      //user = await getUser(widget.userToken);
-    });
   }
 
   @override
@@ -50,12 +41,16 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                decoration: BoxDecoration(
+                  color: SchedulerBinding
+                              .instance.platformDispatcher.platformBrightness ==
+                          Brightness.light
+                      ? const ColorScheme.light().background
+                      : const Color.fromRGBO(116, 107, 85, 1),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
                 child: Text(
-                  "Bienvenid@ ${user!.nombre}!",
+                  "Bienvenid@ ${user.currentUser.nombre}!",
                   style: const TextStyle(
                     fontSize: 34,
                     fontWeight: FontWeight.bold,
@@ -77,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           .instance.platformDispatcher.platformBrightness ==
                       Brightness.light
                   ? const ColorScheme.light().background
-                  : const ColorScheme.dark().background),
+                  : const Color.fromRGBO(116, 107, 85, 1)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
