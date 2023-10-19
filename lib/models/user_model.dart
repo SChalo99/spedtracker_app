@@ -1,5 +1,5 @@
 import 'package:spedtracker_app/services/user_service.dart';
-/*1
+
 class UserModel {
   String? idUsuario;
   late String nombre;
@@ -33,4 +33,4 @@ class UserModel {
   }
   2*/
 }
-1*/
+
