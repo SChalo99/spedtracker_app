@@ -1,5 +1,5 @@
 import 'package:spedtracker_app/services/card_service.dart';
-/*1
+
 abstract class CardModel {
   String idTarjeta = '';
   String numeroTarjeta = '';
@@ -25,4 +25,4 @@ abstract class CardModel {
   Future<List<CardModel>> fetchCards(String token);
   2*/
 }
-1*/
+
