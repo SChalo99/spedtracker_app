@@ -38,8 +38,8 @@ class FCMService {
   }
 
 }
-/*3
+
 Future<void> backgroundHandler(RemoteMessage message) async {
   debugPrint('Handling a background message ${message.messageId}');
 }
-3*/
+
