@@ -24,9 +24,9 @@ class EditCardScreen extends StatefulWidget {
   State<EditCardScreen> createState() => _EditCardScreenState();
 }
 
-/*2
+
 class _EditCardScreenState extends State<EditCardScreen> {
-  /*3
+  
   CardModel? card;
   OutlineInputBorder border = const OutlineInputBorder();
   final _formKey = GlobalKey<FormState>();
@@ -66,7 +66,7 @@ class _EditCardScreenState extends State<EditCardScreen> {
       ).value;
     }
   }
-  3*/
+  
   /*5
   Future<void> editCard(CardModel card) async {
     List<String> date = expiryDate.split("/");
