@@ -67,7 +67,7 @@ class _EditCardScreenState extends State<EditCardScreen> {
     }
   }
   
-  /*5
+  
   Future<void> editCard(CardModel card) async {
     List<String> date = expiryDate.split("/");
     DateTime expDate = DateTime.parse("20${date[1]}-${date[0]}-01");
@@ -163,7 +163,7 @@ class _EditCardScreenState extends State<EditCardScreen> {
     card = widget.card;
     loadData(card!);
   }
-5*/
+
 /*4
   @override
   Widget build(BuildContext context) {
