@@ -8,14 +8,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:spedtracker_app/services/fcm_service.dart';
 import 'package:spedtracker_app/services/user_service.dart';
-/*1
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
-1*/
+
 /*2
 class _SignUpScreenState extends State<SignUpScreen> {
   /*3
