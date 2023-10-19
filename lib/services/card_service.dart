@@ -127,7 +127,7 @@ class CardService {
     }
   }
 
-  /*4
+
   Future<void> editCard(
     String token,
     CardModel card,
@@ -180,7 +180,7 @@ class CardService {
       throw Exception('Failed to edit card');
     }
   }
-  4*/
+
 /*5
   Future<void> removeCard(
     String token,
