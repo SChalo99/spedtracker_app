@@ -7,7 +7,7 @@ import 'package:spedtracker_app/models/debit_card_model.dart';
 import 'package:spedtracker_app/models/user_singleton.dart';
 
 class CardService {
-  /*1
+  1
   Future<List<CardModel>> fetchAllDebit(String token) async {
     Uri endpoint = Uri.parse(
         "https://proyectosoftii-backend-production.up.railway.app/tarjetas_debito");
@@ -40,7 +40,7 @@ class CardService {
       throw Exception('Failed to fecth card');
     }
   }
-  1*/
+  
 /*2
   Future<List<CardModel>> fetchAllCredit(String token) async {
     Uri endpoint = Uri.parse(
@@ -219,5 +219,6 @@ class CardService {
       throw Exception('Failed to remove card');
     }
   }
-  5*/
-}
+  5
+}*/
+
