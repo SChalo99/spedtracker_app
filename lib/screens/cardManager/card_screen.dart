@@ -84,7 +84,7 @@ class _CardScreenState extends State<CardScreen> {
             builder: (context) => AddCardScreen(userToken: widget.userToken)));
   }
   
-  /*3
+  
   @override
   void initState() {
     super.initState();
@@ -92,13 +92,13 @@ class _CardScreenState extends State<CardScreen> {
       await getData();
     });
   }
-  3*/
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(alignment: Alignment.bottomCenter, children: [
-        /*5
+        
         Background(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -119,16 +119,16 @@ class _CardScreenState extends State<CardScreen> {
             ],
           ),
         ),
-        5*/
+        
         Container(
-          /*5
+          
           decoration: BoxDecoration(
               color: SchedulerBinding
                           .instance.platformDispatcher.platformBrightness ==
                       Brightness.light
                   ? const ColorScheme.light().background
                   : const Color.fromRGBO(116, 107, 85, 1)),
-          5*/
+          
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(top: 100),
