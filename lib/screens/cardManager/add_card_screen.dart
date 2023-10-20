@@ -11,7 +11,7 @@ import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:spedtracker_app/services/card_service.dart';
 import 'package:spedtracker_app/services/notification_service.dart';
 import 'package:uuid/uuid.dart';
-/*1
+
 class AddCardScreen extends StatefulWidget {
   final String userToken;
   final bool isExtension;
@@ -21,7 +21,7 @@ class AddCardScreen extends StatefulWidget {
   @override
   State<AddCardScreen> createState() => _AddCardScreenState();
 }
-1*/
+
 /*2
 class _AddCardScreenState extends State<AddCardScreen> {
   /*3
