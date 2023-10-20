@@ -145,23 +145,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*DELETE ALL APPBAR--8
-      // appBar: AppBar(
-      //   leading: IconButton(
-      //     icon: const Icon(
-      //       Icons.arrow_back_ios_new,
-      //       color: Colors.white,
-      //     ),
-      //     onPressed: () => Navigator.of(context).pop(),
-      //   ),
-      //   title: const Text(
-      //     "Gestión de Tarjetas",
-      //     style: TextStyle(
-      //         color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-      //   ),
-      //   backgroundColor: Colors.black,
-      // ),
-      DELETE ALL APPBAR--8*/
+      
       
       body: Stack(alignment: Alignment.bottomCenter, children: [
         
