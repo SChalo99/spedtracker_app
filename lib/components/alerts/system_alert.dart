@@ -9,11 +9,11 @@ class SystemAlert {
   SystemAlert(AbstractFactory factory) {
     alert = factory.createAlert();
   }
-/*2
+
   Future showAlertDialog(
       BuildContext context, String title, String body, Function accept) {
     return alert!.showAlertDialog(context, title, body, accept);
   }
-  2*/
+  
 }
 
