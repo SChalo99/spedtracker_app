@@ -186,7 +186,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
         ),
         
 
-        /*6
+        
         Container(
           decoration: BoxDecoration(
               color: SchedulerBinding
@@ -680,7 +680,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
             ],
           ),
         ),
-        6*/
+        
       ]),
     );
   }
