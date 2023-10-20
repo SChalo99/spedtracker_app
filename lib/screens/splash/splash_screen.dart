@@ -1,7 +1,7 @@
-//1//import 'package:flutter/material.dart';
-//2//import 'package:flutter/scheduler.dart';
-//3//import 'package:spedtracker_app/components/background/background.dart';
-//4//import 'package:spedtracker_app/screens/login/login_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:spedtracker_app/components/background/background.dart';
+import 'package:spedtracker_app/screens/login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    /*4
+    
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       );
     });
-    4*/
+    
   }
 
   @override
