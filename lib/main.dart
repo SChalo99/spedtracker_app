@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
         /* dark theme settings */
       ),
       themeMode: ThemeMode.system,
-      // home: const SplashScreen(), 1
+      home: const SplashScreen(),
     );
   }
 }
