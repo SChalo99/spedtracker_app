@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 200,
               width: 200,
               padding: const EdgeInsets.all(20),
-              /*2
+              
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(20)),
                   color: SchedulerBinding
@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           Brightness.light
                       ? const ColorScheme.light().background
                       : const Color.fromRGBO(116, 107, 85, 1)),
-              2*/
+          
               child: Image.asset(
                 "assets/logo.jpeg",
               ),
