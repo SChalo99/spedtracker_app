@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
-/*1
+
 class UserCard extends StatelessWidget {
   final String cardId;
   final String cardNum;
@@ -41,4 +41,4 @@ class UserCard extends StatelessWidget {
     2*/
   }
 }
-1*/
+
