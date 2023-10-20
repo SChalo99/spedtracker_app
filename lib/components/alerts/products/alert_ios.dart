@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spedtracker_app/components/alerts/products/abstract_alert.dart';
-/*1
+
 class IOSAlert implements AbstractAlert {
   @override
   Future showAlertDialog(
       BuildContext context, String title, String body, Function accept) {
-        /*2
+
     return showDialog(
       context: context,
       builder: (BuildContext context) => CupertinoAlertDialog(
@@ -30,7 +30,7 @@ class IOSAlert implements AbstractAlert {
         ],
       ),
     );
-    2*/
+
   }
 }
-1*/
+
