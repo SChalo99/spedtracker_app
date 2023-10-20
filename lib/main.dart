@@ -18,16 +18,16 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  /*2
+
   await NotificationService().init();
   await FCMService().init();
   _systemAlerts();
   runApp(const MyApp());
   NotificationService().createNotification('Spendtracker',
       'Gestiona todos tus movimientos bancarios en una sola aplicación');
-      2*/
+
 }
-/*2
+
 void _systemAlerts() {
   AlertConfig config = AlertConfig.instance;
   AbstractFactory factory;
@@ -39,7 +39,7 @@ void _systemAlerts() {
   SystemAlert alert = SystemAlert(factory);
   config.systemAlert = alert;
 }
-2*/
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
