@@ -24,7 +24,7 @@ class AddCardScreen extends StatefulWidget {
 
 
 class _AddCardScreenState extends State<AddCardScreen> {
-  /*3
+  
   List<CardModel> cards = [];
   OutlineInputBorder border = const OutlineInputBorder();
   final _formKey = GlobalKey<FormState>();
@@ -48,7 +48,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
   String currency = '';
   String cardType = '';
   late CardType brand;
-  3*/
+  
   /*9
   void onCreditCardModel(CreditCardModel? creditCardModel) {
     setState(() {
