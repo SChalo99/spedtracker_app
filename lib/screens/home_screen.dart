@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 3 / 4,
-          /*5
+          
           decoration: BoxDecoration(
               borderRadius:
                   const BorderRadius.only(topRight: Radius.circular(100)),
@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Brightness.light
                   ? const ColorScheme.light().background
                   : const Color.fromRGBO(116, 107, 85, 1)),
-            5*/
+            
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
