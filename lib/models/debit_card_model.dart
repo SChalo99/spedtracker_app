@@ -1,7 +1,7 @@
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:spedtracker_app/services/card_service.dart';
 
-/*1
+
 class DebitCard extends CardModel {
   String accountNum;
   double ingresoMinimo;
