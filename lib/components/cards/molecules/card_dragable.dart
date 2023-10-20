@@ -22,7 +22,7 @@ class DragableCard extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    /*2
+    
     return ListView.builder(
         shrinkWrap: true,
         itemCount: cards.length,
@@ -73,7 +73,7 @@ class DragableCard extends StatelessWidget {
             ),
           );
         });
-        2*/
+        
   }
   
 }
