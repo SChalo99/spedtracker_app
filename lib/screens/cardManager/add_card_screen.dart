@@ -164,7 +164,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
       DELETE ALL APPBAR--8*/
       
       body: Stack(alignment: Alignment.bottomCenter, children: [
-        /*7
+        
         Background(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -184,7 +184,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
             ],
           ),
         ),
-        7*/
+        
 
         /*6
         Container(
