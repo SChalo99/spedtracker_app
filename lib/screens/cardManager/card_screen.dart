@@ -16,7 +16,7 @@ class CardScreen extends StatefulWidget {
   State<CardScreen> createState() => _CardScreenState();
 }
 
-/*2
+
 class _CardScreenState extends State<CardScreen> {
   /*3
   List<CardModel> cardList = [];
@@ -168,4 +168,4 @@ class _CardScreenState extends State<CardScreen> {
     );
   }
 }
-2*/
+
