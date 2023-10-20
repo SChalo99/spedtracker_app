@@ -68,7 +68,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
   }
   
 
-  /*10
+  
   void createCard() async {
     List<String> date = expiryDate.split("/");
     String idTarjeta = uuid.v4();
@@ -126,7 +126,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
     debugPrint("Notifications created");
   }
-  10*/
+  
 
   
   @override
