@@ -49,7 +49,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
   String cardType = '';
   late CardType brand;
   
-  /*9
+  
   void onCreditCardModel(CreditCardModel? creditCardModel) {
     setState(() {
       cardNumber = creditCardModel!.cardNumber;
@@ -66,7 +66,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
       ).value;
     }
   }
-  9*/
+  
 
   /*10
   void createCard() async {
@@ -162,6 +162,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
       //   backgroundColor: Colors.black,
       // ),
       DELETE ALL APPBAR--8*/
+      
       body: Stack(alignment: Alignment.bottomCenter, children: [
         /*7
         Background(
