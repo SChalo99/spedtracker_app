@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spedtracker_app/components/alerts/factory/abstract_factory.dart';
 import 'package:spedtracker_app/components/alerts/products/abstract_alert.dart';
 
-/*1
+
 class SystemAlert {
   AbstractAlert? alert;
 
@@ -16,4 +16,4 @@ class SystemAlert {
   }
   2*/
 }
-1*/
+
