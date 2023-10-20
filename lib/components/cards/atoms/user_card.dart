@@ -20,7 +20,7 @@ class UserCard extends StatelessWidget {
       required this.goTo});
   @override
   Widget build(BuildContext context) {
-    /*2
+    
     return ListTile(
       onTap: () {
         goTo(cardId);
@@ -38,7 +38,7 @@ class UserCard extends StatelessWidget {
             (CreditCardBrand) {}, //true when you want to show cvv(back) view
       ),
     );
-    2*/
+    
   }
 }
 
