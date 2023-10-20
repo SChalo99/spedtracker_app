@@ -1,6 +1,6 @@
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:spedtracker_app/services/card_service.dart';
-/*1
+
 class CreditCard extends CardModel {
   DateTime fechaFacturacion;
   DateTime ultimoDiaPago;
