@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-/*2
+
 class _HomeScreenState extends State<HomeScreen> {
   UserSingleton user = UserSingleton.instance;
   /*6
@@ -147,4 +147,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-2*/
+
