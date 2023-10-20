@@ -36,9 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(alignment: Alignment.bottomCenter, children: [
-        /*3
+        
         const Background(),
-        3*/
+        
         Container(
           height: MediaQuery.of(context).size.height,
           margin: const EdgeInsets.only(top: 100),
