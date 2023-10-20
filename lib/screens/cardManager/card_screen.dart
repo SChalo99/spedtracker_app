@@ -48,7 +48,7 @@ class _CardScreenState extends State<CardScreen> {
     });
   }
   
-  /*4
+  
   void edit(CardModel card) {
     Navigator.push(
       context,
@@ -83,7 +83,7 @@ class _CardScreenState extends State<CardScreen> {
         MaterialPageRoute(
             builder: (context) => AddCardScreen(userToken: widget.userToken)));
   }
-  4*/
+  
   /*3
   @override
   void initState() {
