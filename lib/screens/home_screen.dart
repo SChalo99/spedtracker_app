@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   UserSingleton user = UserSingleton.instance;
-  /*6
+  
   void logout() {
     FirebaseAuth auth = FirebaseAuth.instance;
     auth.signOut().whenComplete(() => Navigator.pushAndRemoveUntil(
@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
         MaterialPageRoute(builder: (context) => const LoginScreen()),
         (route) => false));
   }
-  6*/
+  
 
   @override
   void initState() {
