@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+//1//import 'package:flutter/material.dart';
 //2//import 'package:flutter/scheduler.dart';
 //3//import 'package:spedtracker_app/components/background/background.dart';
 //4//import 'package:spedtracker_app/screens/login/login_screen.dart';
-/*1
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -58,4 +58,4 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-1*/
+
