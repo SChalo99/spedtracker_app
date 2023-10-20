@@ -5,7 +5,7 @@ import 'package:spedtracker_app/components/background/background.dart';
 import 'package:spedtracker_app/models/user_singleton.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:spedtracker_app/screens/login/login_screen.dart';
-/*1
+
 class HomeScreen extends StatefulWidget {
   final String userToken;
   const HomeScreen({super.key, required this.userToken});
@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-1*/
+
 /*2
 class _HomeScreenState extends State<HomeScreen> {
   UserSingleton user = UserSingleton.instance;
