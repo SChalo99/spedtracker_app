@@ -18,7 +18,7 @@ class CardScreen extends StatefulWidget {
 
 
 class _CardScreenState extends State<CardScreen> {
-  /*3
+  
   List<CardModel> cardList = [];
   List<CardModel> debitCardList = [];
   List<CardModel> creditCardList = [];
@@ -47,7 +47,7 @@ class _CardScreenState extends State<CardScreen> {
       loading = false;
     });
   }
-  3*/
+  
   /*4
   void edit(CardModel card) {
     Navigator.push(
