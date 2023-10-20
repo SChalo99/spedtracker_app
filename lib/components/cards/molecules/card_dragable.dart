@@ -3,7 +3,7 @@ import 'package:spedtracker_app/components/alerts/alert_config.dart';
 import 'package:spedtracker_app/components/cards/atoms/user_card.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:spedtracker_app/models/card_model.dart';
-/*1
+
 class DragableCard extends StatelessWidget {
   
   final List<CardModel> cards;
@@ -77,4 +77,4 @@ class DragableCard extends StatelessWidget {
   }
   
 }
- 1*/
+
