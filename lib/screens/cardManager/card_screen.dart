@@ -7,7 +7,7 @@ import 'package:spedtracker_app/screens/cardManager/add_card_screen.dart';
 import 'package:spedtracker_app/screens/cardManager/edit_card_screen.dart';
 import 'package:spedtracker_app/services/card_service.dart';
 
-/*1
+
 class CardScreen extends StatefulWidget {
   final String userToken;
   const CardScreen({super.key, required this.userToken});
@@ -15,7 +15,7 @@ class CardScreen extends StatefulWidget {
   @override
   State<CardScreen> createState() => _CardScreenState();
 }
-1*/
+
 /*2
 class _CardScreenState extends State<CardScreen> {
   /*3
