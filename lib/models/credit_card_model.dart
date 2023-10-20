@@ -26,11 +26,11 @@ class CreditCard extends CardModel {
     super.operadoraFinanciera = operadora;
     super.cardHolder = cardHolder;
   }
-  /*2
+
   @override
   Future<List<CardModel>> fetchCards(String token) async {
     return await CardService().fetchAllCredit(token);
   }
-  2*/
+  
 }
-1*/
+
