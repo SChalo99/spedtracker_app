@@ -128,7 +128,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
   }
   10*/
 
-  /*4
+  
   @override
   void initState() {
     super.initState();
@@ -140,7 +140,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
       types.addAll(['CREDITO', 'DEBITO']);
     }
   }
-  4*/
+  
 
   @override
   Widget build(BuildContext context) {
