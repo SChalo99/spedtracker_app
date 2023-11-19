@@ -4,7 +4,6 @@ import 'package:spedtracker_app/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class UserService {
-
   Future<UserModel> getUser(String token) async {
     Uri endpoint = Uri.parse(
         "https://proyectosoftii-backend-production.up.railway.app/usuarios");
@@ -27,10 +26,9 @@ class UserService {
           responseBody['telefono']);
       return userResponse;
     } else {
-      throw Exception('Failed to create user');
+      throw Exception('Failed to get user');
     }
   }
-
 
   Future<void> updateFCMUser(String token, String fcm) async {
     JsonEncoder encoder = json.encoder;
@@ -87,5 +85,4 @@ class UserService {
       throw Exception('Failed to create user');
     }
   }
-
 }

@@ -18,9 +18,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-
 class _LoginScreenState extends State<LoginScreen> {
-  
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -28,14 +26,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final currentUser = UserSingleton.instance;
   final UserModel _model = UserModel.empty();
   bool obscure = true;
-  
+
   void onTap() {
     setState(() {
       obscure = !obscure;
     });
   }
-  
-  
+
   void login(String email, String password) async {
     try {
       UserCredential user = await auth.signInWithEmailAndPassword(
@@ -66,8 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
       debugPrint(e.toString());
     }
   }
-  
-  
+
   void goToRecoveryPassword() {
     Navigator.push(
       context,
@@ -86,20 +82,16 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-
           const Background(),
-          
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 3 / 4,
-            
             decoration: BoxDecoration(
                 borderRadius:
                     const BorderRadius.only(topRight: Radius.circular(100)),
@@ -108,7 +100,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         Brightness.light
                     ? const ColorScheme.light().background
                     : const Color.fromRGBO(116, 107, 85, 1)),
-            
             child: SingleChildScrollView(
               child: Form(
                 key: _formKey,
@@ -236,5 +227,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-  
 }
