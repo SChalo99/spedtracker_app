@@ -15,7 +15,7 @@ class _MovementScreenState extends State<MovementScreen> {
 
   Future<void> getData() async {
     setState(() {
-      loading = true;
+      loading = false;
     });
   }
 
@@ -61,56 +61,83 @@ class _MovementScreenState extends State<MovementScreen> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(top: 100),
-          child: Column(mainAxisSize: MainAxisSize.max, children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 200,
-              margin: const EdgeInsets.all(10),
-              color: Colors.grey.shade400,
-              child: const Center(
-                child: Text(
-                  'S/. XXXXXX',
-                  style: TextStyle(fontSize: 32, color: Colors.white),
+          child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            GestureDetector(
-              child: const Text(
-                '+ Agregar Ingreso',
-                style: TextStyle(
-                    decoration: TextDecoration.underline, color: Colors.grey),
-              ),
-              onTap: () {},
-            ),
-            GestureDetector(
-              child: const Text(
-                '+ Agregar Gasto',
-                style: TextStyle(
-                    decoration: TextDecoration.underline, color: Colors.grey),
-              ),
-              onTap: () {},
-            ),
-            GestureDetector(
-              child: const Text(
-                '+ Modificar Movimiento',
-                style: TextStyle(
-                    decoration: TextDecoration.underline, color: Colors.grey),
-              ),
-              onTap: () {},
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Expanded(
-              child: Container(),
-            ),
-          ]),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 150,
+                  margin: const EdgeInsets.only(right: 20, left: 20),
+                  color: Colors.grey.shade400,
+                  child: const Center(
+                    child: Text(
+                      'S/. XXXXXX',
+                      style: TextStyle(fontSize: 32, color: Colors.white),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    child: const Text(
+                      '+ Agregar Ingreso',
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.grey),
+                    ),
+                    onTap: () {},
+                  ),
+                ]),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    child: const Text(
+                      '+ Agregar Gasto',
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.grey),
+                    ),
+                    onTap: () {},
+                  ),
+                ]),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    child: const Text(
+                      '+ Modificar Movimiento',
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.grey),
+                    ),
+                    onTap: () {},
+                  ),
+                ]),
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: Container(),
+                ),
+              ]),
         ),
         if (loading)
           const Center(

@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                CardScreen(userToken: widget.userToken)));
+                                MovementScreen(userToken: widget.userToken)));
                   },
                   style: FilledButton.styleFrom(
                       fixedSize: const Size(300, 50),
@@ -166,13 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 20,
                 ),
                 FilledButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                MovementScreen(userToken: widget.userToken)));
-                  },
+                  onPressed: () {},
                   style: FilledButton.styleFrom(
                       fixedSize: const Size(300, 50),
                       foregroundColor: Colors.white,

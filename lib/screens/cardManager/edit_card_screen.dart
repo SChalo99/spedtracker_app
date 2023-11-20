@@ -8,11 +8,10 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:spedtracker_app/models/credit_card_model.dart';
 import 'package:spedtracker_app/models/debit_card_model.dart';
 import 'package:spedtracker_app/models/user_singleton.dart';
-//import 'package:spedtracker_app/screens/cardManager/add_card_screen.dart'; NO BORRAR ESTE COMENTARIO
+import 'package:spedtracker_app/screens/cardManager/add_card_screen.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:spedtracker_app/services/card_service.dart';
 import 'package:spedtracker_app/services/notification_service.dart';
-
 
 class EditCardScreen extends StatefulWidget {
   final String userToken;
@@ -24,9 +23,7 @@ class EditCardScreen extends StatefulWidget {
   State<EditCardScreen> createState() => _EditCardScreenState();
 }
 
-
 class _EditCardScreenState extends State<EditCardScreen> {
-  
   CardModel? card;
   OutlineInputBorder border = const OutlineInputBorder();
   final _formKey = GlobalKey<FormState>();
@@ -66,8 +63,7 @@ class _EditCardScreenState extends State<EditCardScreen> {
       ).value;
     }
   }
-  
-  
+
   Future<void> editCard(CardModel card) async {
     List<String> date = expiryDate.split("/");
     DateTime expDate = DateTime.parse("20${date[1]}-${date[0]}-01");
@@ -117,7 +113,7 @@ class _EditCardScreenState extends State<EditCardScreen> {
     }
     debugPrint("Notifications created");
   }
-/*------NO BORRAR-------------------------------------------------------------->
+
   void addExtensionCard() {
     Navigator.push(
       context,
@@ -129,7 +125,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
       ),
     );
   }
-  ------NO BORRAR-------------------------------------------------------------->*/
 
   void loadData(CardModel card) {
     setState(() {
@@ -163,7 +158,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
     card = widget.card;
     loadData(card!);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -617,32 +611,30 @@ class _EditCardScreenState extends State<EditCardScreen> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          /* --------Para extensión NO BORRAR------------------>
-                        if (card.type == "CREDITO")
-                          FilledButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                addExtensionCard();
-                                print("Valido");
-                              }
-                            },
-                            style: FilledButton.styleFrom(
-                                foregroundColor:
-                                    const Color.fromRGBO(28, 33, 22, 1),
-                                backgroundColor: Colors.white,
-                                side: const BorderSide()),
-                            child: const Text(
-                              "Agregar Extensión",
-                              style: TextStyle(
-                                fontSize: 18,
+                          if (cardType == "CREDITO")
+                            FilledButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  addExtensionCard();
+                                  print("Valido");
+                                }
+                              },
+                              style: FilledButton.styleFrom(
+                                  fixedSize: const Size(150, 50),
+                                  foregroundColor:
+                                      const Color.fromRGBO(28, 33, 22, 1),
+                                  backgroundColor: Colors.white,
+                                  side: const BorderSide()),
+                              child: const Text(
+                                "Agregar Extensión",
+                                overflow: TextOverflow.clip,
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                          ),
-                        if (card.type == "CREDITO")
-                          const SizedBox(
-                            width: 10,
-                          ),
-                        <------------Para extensión NO BORRAR---------------- */
+                          if (cardType == "CREDITO")
+                            const SizedBox(
+                              width: 10,
+                            ),
                           FilledButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
@@ -663,7 +655,7 @@ class _EditCardScreenState extends State<EditCardScreen> {
                               }
                             },
                             style: FilledButton.styleFrom(
-                              fixedSize: const Size(250, 50),
+                              fixedSize: const Size(200, 50),
                               foregroundColor: Colors.white,
                               backgroundColor:
                                   const Color.fromRGBO(28, 33, 22, 1),
@@ -690,6 +682,4 @@ class _EditCardScreenState extends State<EditCardScreen> {
       ]),
     );
   }
-
 }
-
