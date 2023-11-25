@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
 import 'package:spedtracker_app/components/cards/molecules/card_list.dart';
 import 'package:spedtracker_app/models/card_model.dart';
+import 'package:spedtracker_app/screens/movementManager/gastos/expenses_form.dart';
 import 'package:spedtracker_app/services/card_service.dart';
 
 class ExpensesCardSelectorScreen extends StatefulWidget {
@@ -45,8 +46,12 @@ class _ExpensesCardSelectorScreenState
     });
   }
 
-  void goTo(String id) {
-    print("Go to card: $id");
+  void goTo(String cardId) {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                ExpensesFormScreen(userToken: widget.userToken, card: cardId)));
   }
 
   @override

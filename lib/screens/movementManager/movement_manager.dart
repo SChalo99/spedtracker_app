@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
+import 'package:spedtracker_app/screens/movementManager/gastos/expenses_card_selector.dart';
+import 'package:spedtracker_app/screens/movementManager/ingresos/income_card_selector.dart';
 
 class MovementScreen extends StatefulWidget {
   final String userToken;
@@ -94,7 +96,13 @@ class _MovementScreenState extends State<MovementScreen> {
                           decoration: TextDecoration.underline,
                           color: Colors.grey),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => IncomeCardSelectorScreen(
+                                  userToken: widget.userToken)));
+                    },
                   ),
                 ]),
                 const SizedBox(
@@ -111,7 +119,13 @@ class _MovementScreenState extends State<MovementScreen> {
                           decoration: TextDecoration.underline,
                           color: Colors.grey),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ExpensesCardSelectorScreen(
+                                  userToken: widget.userToken)));
+                    },
                   ),
                 ]),
                 const SizedBox(

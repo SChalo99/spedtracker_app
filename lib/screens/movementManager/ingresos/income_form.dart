@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
-import 'package:spedtracker_app/components/cards/atoms/user_card.dart';
-import 'package:spedtracker_app/models/card_model.dart';
 
 class IncomeFormScreen extends StatefulWidget {
   final String userToken;
-  final Card card;
+  final String card;
   const IncomeFormScreen(
       {super.key, required this.userToken, required this.card});
 
@@ -17,7 +15,6 @@ class IncomeFormScreen extends StatefulWidget {
 class _IncomeFormScreenState extends State<IncomeFormScreen> {
   final TextEditingController _montoController = TextEditingController();
   final TextEditingController _razonController = TextEditingController();
-  late CardModel _card;
   final _formKey = GlobalKey<FormState>();
   FocusNode focusNode = FocusNode();
 
@@ -60,7 +57,8 @@ class _IncomeFormScreenState extends State<IncomeFormScreen> {
         Container(
           clipBehavior: Clip.antiAlias,
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 3 / 4,
+          height: MediaQuery.of(context).size.height,
+          margin: EdgeInsets.only(top: 100),
           decoration: BoxDecoration(
               borderRadius:
                   const BorderRadius.only(topRight: Radius.circular(100)),
@@ -76,21 +74,6 @@ class _IncomeFormScreenState extends State<IncomeFormScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: 200,
-                    width: 200,
-                    child: UserCard(
-                        cardId: _card.idTarjeta,
-                        cardNum: _card.numeroTarjeta,
-                        cardHolder: _card.cardHolder,
-                        expDate:
-                            "${_card.expDate!.toString().split("-")[1]}/${_card.expDate!.year.toString().split("0")[1]}",
-                        service: _card.operadoraFinanciera,
-                        goTo: () {}),
-                  ),
                   const SizedBox(
                     height: 20,
                   ),

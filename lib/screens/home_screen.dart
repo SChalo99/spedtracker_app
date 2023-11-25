@@ -6,6 +6,8 @@ import 'package:spedtracker_app/models/user_singleton.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:spedtracker_app/screens/login/login_screen.dart';
 import 'package:spedtracker_app/screens/movementManager/movement_manager.dart';
+import 'package:spedtracker_app/screens/notificationManager/notification_screen.dart';
+import 'package:spedtracker_app/screens/overall/overal_month.dart';
 
 class HomeScreen extends StatefulWidget {
   final String userToken;
@@ -166,7 +168,35 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 20,
                 ),
                 FilledButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OverallMonthScreen(
+                                userToken: widget.userToken)));
+                  },
+                  style: FilledButton.styleFrom(
+                      fixedSize: const Size(300, 50),
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
+                  child: const Text(
+                    "Resumen",
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NotificationScreen(
+                                userToken: widget.userToken)));
+                  },
                   style: FilledButton.styleFrom(
                       fixedSize: const Size(300, 50),
                       foregroundColor: Colors.white,
