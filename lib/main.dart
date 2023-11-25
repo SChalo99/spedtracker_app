@@ -23,7 +23,7 @@ Future<void> main() async {
   await FCMService().init();
   _systemAlerts();
   runApp(const MyApp());
-  NotificationService().createNotification('Spendtracker',
+  NotificationService().createNotification('SpendTracker',
       'Gestiona todos tus movimientos bancarios en una sola aplicación');
 
 }
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         SchedulerBinding.instance.platformDispatcher.platformBrightness;
     if (isDarkMode == Brightness.dark) {}
     return MaterialApp(
-      title: 'Speandtracker',
+      title: 'SpendTracker',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,
