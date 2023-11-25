@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
-
 class UserCard extends StatelessWidget {
   final String cardId;
   final String cardNum;
@@ -20,7 +19,6 @@ class UserCard extends StatelessWidget {
       required this.goTo});
   @override
   Widget build(BuildContext context) {
-    
     return ListTile(
       onTap: () {
         goTo(cardId);
@@ -38,7 +36,5 @@ class UserCard extends StatelessWidget {
             (CreditCardBrand) {}, //true when you want to show cvv(back) view
       ),
     );
-    
   }
 }
-

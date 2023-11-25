@@ -16,9 +16,7 @@ class SignUpScreen extends StatefulWidget {
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-
 class _SignUpScreenState extends State<SignUpScreen> {
-  
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _dniController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -53,9 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       obscure2 = !obscure2;
     });
   }
-  
 
-  
   void signup(String email, String password) async {
     try {
       UserCredential user = await auth.createUserWithEmailAndPassword(
@@ -98,8 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     }
   }
-  
-  
+
   @override
   void initState() {
     super.initState();
@@ -109,7 +104,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(alignment: Alignment.bottomCenter, children: [
-      
         Background(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -129,12 +123,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ],
           ),
         ),
-        
         Container(
           clipBehavior: Clip.antiAlias,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 3 / 4,
-          
           decoration: BoxDecoration(
               borderRadius:
                   const BorderRadius.only(topRight: Radius.circular(100)),
@@ -143,14 +135,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Brightness.light
                   ? const ColorScheme.light().background
                   : const Color.fromRGBO(116, 107, 85, 1)),
-                  
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
-                
                 children: [
                   const SizedBox(
                     height: 20,
@@ -438,7 +428,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(
                     height: 40,
                   ),
-                  
                 ],
               ),
             ),
@@ -448,4 +437,3 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
-

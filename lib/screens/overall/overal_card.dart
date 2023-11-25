@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
-import 'package:spedtracker_app/components/notifications/atoms.dart';
+import 'package:spedtracker_app/components/selector_chip/atom.dart';
+import 'package:pie_chart/pie_chart.dart';
 
-class NotificationScreen extends StatefulWidget {
+class OverallCardScreen extends StatefulWidget {
   final String userToken;
-  const NotificationScreen({super.key, required this.userToken});
+  const OverallCardScreen({super.key, required this.userToken});
 
   @override
-  State<NotificationScreen> createState() => _NotificationScreenState();
+  State<OverallCardScreen> createState() => _OverallCardScreenState();
 }
 
-class _NotificationScreenState extends State<NotificationScreen> {
-  bool loading = true;
+class _OverallCardScreenState extends State<OverallCardScreen> {
+  Map<String, double> dataMap = {
+    "Flutter": 5,
+    "React": 3,
+    "Xamarin": 2,
+    "Ionic": 2,
+    "KC": 2,
+    "Softonic": 2,
+  };
 
-  Future<void> getData() async {
-    setState(() {
-      loading = true;
-    });
-  }
+  void getData() async {}
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
-      await getData();
-    });
   }
 
   @override
@@ -62,25 +63,31 @@ class _NotificationScreenState extends State<NotificationScreen> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(top: 100),
-          child: const Column(mainAxisSize: MainAxisSize.max, children: [
-            SizedBox(
-              height: 20,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                MonthFilterSelector(
+                  toggleFilterCallback: (a, b) {},
+                ),
+                PieChart(
+                  dataMap: dataMap,
+                  chartValuesOptions: const ChartValuesOptions(
+                      showChartValuesInPercentage: true),
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
             ),
-            Text(
-              'Notificaciones',
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-            ),
-            Expanded(
-              child: NotificationAtom(
-                notifications: [],
-              ),
-            ),
-          ]),
-        ),
-        if (loading)
-          const Center(
-            child: CircularProgressIndicator(),
           ),
+        ),
       ]),
     );
   }
