@@ -450,7 +450,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                     MaterialStatePropertyAll(Colors.black),
                               ),
                               label: const Text(
-                                "Tipo de Trajeta",
+                                "Tipo de Tarjeta",
                               ),
                               enabled: !widget.isExtension,
                               onSelected: (value) {
@@ -494,7 +494,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                           color: Colors.black,
                                         )),
                                         label: Text(
-                                          "Fecha Facturacion",
+                                          "Fecha Facturación",
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
@@ -568,7 +568,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                         color: Colors.black,
                                       )),
                                       label: Text(
-                                        "Tasa Interes",
+                                        "Tasa Interés",
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
@@ -587,7 +587,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                           borderSide: BorderSide(
                                         color: Colors.black,
                                       )),
-                                      labelText: "Linea Credito",
+                                      labelText: "Línea Crédito",
                                     ),
                                   ),
                                 ),
@@ -610,7 +610,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                         borderSide: BorderSide(
                                       color: Colors.black,
                                     )),
-                                    label: Text("Numero Cuenta"),
+                                    label: Text("Número Cuenta"),
                                   )),
                             ),
                             const SizedBox(

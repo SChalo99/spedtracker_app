@@ -3,7 +3,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
 import 'package:spedtracker_app/models/user_model.dart';
 import 'package:spedtracker_app/models/user_singleton.dart';
-import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
+//import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
+import 'package:spedtracker_app/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:spedtracker_app/services/fcm_service.dart';
@@ -77,7 +78,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => CardScreen(userToken: token!),
+            builder: (context) => HomeScreen(userToken: token!),
           ),
           (Route<dynamic> route) => false,
         );
