@@ -36,10 +36,10 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
     MovementModel nuevoMovimiento;
     nuevoMovimiento = GastoModel(
       idCategoria,
-      double.parse(_montoController.text),
-      _descripcionController.text,
       int.parse(_nroCuotasController.text),
       idMovimiento,
+      double.parse(_montoController.text),
+      _descripcionController.text,
       horaMovimiento,
       fechaMovimiento);
 

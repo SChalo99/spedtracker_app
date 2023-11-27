@@ -4,13 +4,13 @@ import 'package:spedtracker_app/services/movement_service.dart';
 
 class GastoModel extends MovementModel {
   int idCategoria;
-  double monto = 0.0;
-  String descripcion = '';
   int nroCuotas = 0;
 
   GastoModel(
-      this.idCategoria, this.monto, this.descripcion, this.nroCuotas, String idMovimiento, DateTime hora, DateTime fecha) {
+      this.idCategoria, this.nroCuotas, String idMovimiento, double monto, String descripcion, DateTime hora, DateTime fecha) {
     super.idMovimiento = idMovimiento;
+    super.monto = monto;
+    super.descripcion = descripcion;
     super.hora = hora;
     super.fecha = fecha;
   }

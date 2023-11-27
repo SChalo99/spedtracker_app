@@ -33,9 +33,9 @@ class _IncomeFormScreenState extends State<IncomeFormScreen> {
 
     MovementModel nuevoMovimiento;
     nuevoMovimiento = IngresoModel(
+      idMovimiento,
       double.parse(_montoController.text),
       _descripcionController.text,
-      idMovimiento,
       horaMovimiento,
       fechaMovimiento);
 
