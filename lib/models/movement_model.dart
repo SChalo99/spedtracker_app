@@ -1,6 +1,7 @@
 import 'package:spedtracker_app/services/movement_service.dart';
 
 abstract class MovementModel {
+
   String idMovimiento = '';
   double monto = 0.0;
   String descripcion = '';

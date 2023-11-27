@@ -1,7 +1,6 @@
 import 'package:spedtracker_app/models/movement_model.dart';
 import 'package:spedtracker_app/services/movement_service.dart';
 
-
 class GastoModel extends MovementModel {
   int idCategoria;
   int nroCuotas = 0;
@@ -19,5 +18,4 @@ class GastoModel extends MovementModel {
   Future<List<MovementModel>> fetchMovements(String token) async {
     return await MovementService().fetchAllExpenses(token);
   }
-
 }

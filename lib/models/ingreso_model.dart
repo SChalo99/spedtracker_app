@@ -15,5 +15,4 @@ class IngresoModel extends MovementModel {
   Future<List<MovementModel>> fetchMovements(String token) async {
     return await MovementService().fetchAllIncomes(token);
   }
-  
 }
