@@ -2,6 +2,8 @@ import 'package:spedtracker_app/services/movement_service.dart';
 
 abstract class MovementModel {
   String idMovimiento = '';
+  String descripcion = '';
+  double monto = 0.0;
   DateTime hora = DateTime.now();
   DateTime fecha = DateTime.now();
 
