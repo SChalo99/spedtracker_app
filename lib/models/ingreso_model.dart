@@ -3,8 +3,9 @@ import 'package:spedtracker_app/services/movement_service.dart';
 
 class IngresoModel extends MovementModel {
   double monto = 0.0;
+  String descripcion = '';
 
-  IngresoModel(this.monto, String idMovimiento, DateTime hora, DateTime fecha) {
+  IngresoModel(this.monto, this.descripcion, String idMovimiento, DateTime hora, DateTime fecha) {
     super.idMovimiento = idMovimiento;
     super.hora = hora;
     super.fecha = fecha;

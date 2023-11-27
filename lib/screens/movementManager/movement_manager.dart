@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
+//import 'package:spedtracker_app/components/cards/molecules/movement_list.dart';
 import 'package:spedtracker_app/screens/movementManager/gastos/expenses_card_selector.dart';
 import 'package:spedtracker_app/screens/movementManager/ingresos/income_card_selector.dart';
+import 'package:spedtracker_app/models/movement_model.dart';
+import 'package:spedtracker_app/services/movement_service.dart';
 
 class MovementScreen extends StatefulWidget {
   final String userToken;
@@ -15,11 +18,63 @@ class MovementScreen extends StatefulWidget {
 class _MovementScreenState extends State<MovementScreen> {
   bool loading = true;
 
+  List<MovementModel> movementList = [];
+  List<MovementModel> incomesList = [];
+  List<MovementModel> expensesList = [];
+
+  MovementService service = MovementService();
+  
+  Future<List<MovementModel>> fetchIncomes() async {
+    return await service.fetchAllIncomes(widget.userToken);
+  }
+
+  Future<List<MovementModel>> fetchExpenses() async {
+    return await service.fetchAllExpenses(widget.userToken);
+  }
+
   Future<void> getData() async {
     setState(() {
+      loading = true;
+    });
+    List<MovementModel> ingresos = await fetchIncomes();
+    List<MovementModel> gastos = await fetchExpenses();
+    setState(() {
+      incomesList.addAll(ingresos);
+      expensesList.addAll(gastos);
+      movementList.addAll(incomesList);
+      movementList.addAll(expensesList);
       loading = false;
     });
   }
+
+  void edit(MovementModel movement) {
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => EditCardScreen(
+    //       userToken: widget.userToken,
+    //       card: card,
+    //     ),
+    //   ),
+    // );
+    print("Edit card: ${movement.idMovimiento}");
+  }
+
+  void delete(MovementModel movement) async {
+    await service.removeMovement(widget.userToken, movement);
+    setState(() {
+      movementList.clear();
+      incomesList.clear();
+      expensesList.clear();
+    });
+    await getData();
+    print("Delete movement: ${movement.idMovimiento}");
+  }
+
+  void goTo(String id) {
+    print("Go to movement: $id");
+  }
+
 
   @override
   void initState() {
@@ -149,7 +204,13 @@ class _MovementScreenState extends State<MovementScreen> {
                   height: 10,
                 ),
                 Expanded(
-                  child: Container(),
+                  child: Container()
+                  // child: MovementList(
+                  //   movements: movementList,
+                  //   edit: edit,
+                  //   delete: delete,
+                  //   goToCallback: goTo
+                  // ),
                 ),
               ]),
         ),

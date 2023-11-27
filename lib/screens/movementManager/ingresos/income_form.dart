@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
+import 'package:spedtracker_app/models/movement_model.dart';
+import 'package:spedtracker_app/models/ingreso_model.dart';
+import 'package:spedtracker_app/services/movement_service.dart';
+import 'package:spedtracker_app/screens/movementManager/movement_manager.dart';
+import 'package:uuid/uuid.dart';
 
 class IncomeFormScreen extends StatefulWidget {
   final String userToken;
@@ -13,10 +18,42 @@ class IncomeFormScreen extends StatefulWidget {
 }
 
 class _IncomeFormScreenState extends State<IncomeFormScreen> {
+
   final TextEditingController _montoController = TextEditingController();
-  final TextEditingController _razonController = TextEditingController();
+  final TextEditingController _descripcionController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  var uuid = const Uuid();
   FocusNode focusNode = FocusNode();
+
+  void createIncome() async {
+    //DateTime now = DateTime.now();
+    DateTime fechaMovimiento = DateTime.now();
+    DateTime horaMovimiento = DateTime.now();
+    String idMovimiento = uuid.v4();
+
+    MovementModel nuevoMovimiento;
+    nuevoMovimiento = IngresoModel(
+      double.parse(_montoController.text),
+      _descripcionController.text,
+      idMovimiento,
+      horaMovimiento,
+      fechaMovimiento);
+
+    
+    debugPrint(nuevoMovimiento.fecha.toString());
+    debugPrint(nuevoMovimiento.hora.toString());
+
+    
+
+    await MovementService().createMovement(widget.userToken, nuevoMovimiento);
+
+    if (context.mounted) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MovementScreen(userToken: widget.userToken)));
+    }
+  }
 
   void getData(String email, String password) async {
     try {} catch (e) {
@@ -109,10 +146,10 @@ class _IncomeFormScreenState extends State<IncomeFormScreen> {
                     width: 300,
                     height: 60,
                     child: TextFormField(
-                      controller: _razonController,
+                      controller: _descripcionController,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        label: Text("Ingresar Razón"),
+                        label: Text("Ingresar descripción"),
                       ),
                       validator: (value) {
                         return null;
@@ -124,7 +161,10 @@ class _IncomeFormScreenState extends State<IncomeFormScreen> {
                   ),
                   FilledButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
+                      if (_formKey.currentState!.validate()) {
+                        createIncome();
+                        print("Ingreso registrado");
+                      }
                     },
                     style: FilledButton.styleFrom(
                         fixedSize: const Size(250, 50),

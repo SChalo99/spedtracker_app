@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
+import 'package:spedtracker_app/models/movement_model.dart';
+import 'package:spedtracker_app/models/gasto_model.dart';
+import 'package:spedtracker_app/services/movement_service.dart';
+import 'package:spedtracker_app/screens/movementManager/movement_manager.dart';
+import 'package:uuid/uuid.dart';
 
 class ExpensesFormScreen extends StatefulWidget {
   final String userToken;
@@ -14,10 +19,42 @@ class ExpensesFormScreen extends StatefulWidget {
 
 class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
   final TextEditingController _montoController = TextEditingController();
-  final List razonOption = [];
+  final TextEditingController _descripcionController = TextEditingController();
+  final TextEditingController _nroCuotasController = TextEditingController();
+  final List razonOption = ["1", "2", "3"];
   final _formKey = GlobalKey<FormState>();
-  String negocio = "";
+  var uuid = const Uuid();
+  int idCategoria = 0;
   FocusNode focusNode = FocusNode();
+
+  void createExpense() async {
+    //DateTime now = DateTime.now();
+    DateTime fechaMovimiento = DateTime.now();
+    DateTime horaMovimiento = DateTime.now();
+    String idMovimiento = uuid.v4();
+
+    MovementModel nuevoMovimiento;
+    nuevoMovimiento = GastoModel(
+      idCategoria,
+      double.parse(_montoController.text),
+      _descripcionController.text,
+      int.parse(_nroCuotasController.text),
+      idMovimiento,
+      horaMovimiento,
+      fechaMovimiento);
+
+    debugPrint(nuevoMovimiento.fecha.toString());
+    debugPrint(nuevoMovimiento.hora.toString());
+
+    await MovementService().createMovement(widget.userToken, nuevoMovimiento);
+
+    if (context.mounted) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MovementScreen(userToken: widget.userToken)));
+    }
+  }
 
   void getData(String email, String password) async {
     try {} catch (e) {
@@ -110,10 +147,10 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
                     width: 300,
                     height: 60,
                     child: TextFormField(
-                      controller: _montoController,
+                      controller: _descripcionController,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        label: Text("Ingresar Rubro"),
+                        label: Text("Ingresar Descripción"),
                       ),
                       validator: (value) {
                         return null;
@@ -134,7 +171,7 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
                       enableSearch: false,
                       onSelected: (value) {
                         setState(() {
-                          negocio = value!;
+                          idCategoria = int.parse(value!);
                         });
                       },
                       dropdownMenuEntries: razonOption.map((e) {
@@ -152,6 +189,27 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
                     ),
                   ),
                   const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 300,
+                    height: 60,
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      controller: _nroCuotasController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        label: Text("Ingresar Número de Cuotas"),
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Por favor, ingrese un número de cuotas.';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(
                     width: 10,
                   ),
                   const SizedBox(
@@ -159,7 +217,10 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
                   ),
                   FilledButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
+                      if (_formKey.currentState!.validate()) {
+                        createExpense();
+                        print("Gasto registrado");
+                      }
                     },
                     style: FilledButton.styleFrom(
                         fixedSize: const Size(250, 50),

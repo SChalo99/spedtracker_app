@@ -23,6 +23,7 @@ class MovementService {
         movements.add(
           IngresoModel(
               item['monto'].toDouble(),
+              item['descripcion'],
               item['idMovimiento'],
               DateTime.parse(item['hora']),
               DateTime.parse(item['fecha']),
@@ -79,6 +80,8 @@ class MovementService {
           "https://proyectosoftii-backend-production.up.railway.app/ingresos");
       body = {
         'monto': movement.monto,
+        'descripcion': movement.descripcion,
+        'idIngreso': movement.idMovimiento,
         'hora': movement.hora.toString(),
         'fecha': movement.fecha.toString()
       };
@@ -86,13 +89,13 @@ class MovementService {
       endpoint = Uri.parse(
           "https://proyectosoftii-backend-production.up.railway.app/gastos");
       body = {
+        'idGasto': movement.idMovimiento,
+        'hora': movement.hora.toString(),
+        'fecha': movement.fecha.toString(),
         'idCategoria': movement.idCategoria,
         'monto': movement.monto,
         'descripcion': movement.descripcion,
-        'nroCuotas': movement.nroCuotas,
-        'idMovimiento': movement.idMovimiento,
-        'hora': movement.hora.toString(),
-        'fecha': movement.fecha.toString(),
+        'nroCuotas': movement.nroCuotas
       };
     } else {
       endpoint = Uri.parse(
@@ -123,6 +126,8 @@ class MovementService {
           "https://proyectosoftii-backend-production.up.railway.app/ingresos");
       body = {
         'monto': movement.monto,
+        'descripcion': movement.descripcion,
+        'idIngreso': movement.idMovimiento,
         'hora': movement.hora.toString(),
         'fecha': movement.fecha.toString()
       };
@@ -130,13 +135,13 @@ class MovementService {
       endpoint = Uri.parse(
           "https://proyectosoftii-backend-production.up.railway.app/gastos");
       body = {
+        'idGasto': movement.idMovimiento,
+        'hora': movement.hora.toString(),
+        'fecha': movement.fecha.toString(),
         'idCategoria': movement.idCategoria,
         'monto': movement.monto,
         'descripcion': movement.descripcion,
-        'nroCuotas': movement.nroCuotas,
-        'idMovimiento': movement.idMovimiento,
-        'hora': movement.hora.toString(),
-        'fecha': movement.fecha.toString(),
+        'nroCuotas': movement.nroCuotas
       };
     } else {
       endpoint = Uri.parse(
@@ -167,13 +172,13 @@ class MovementService {
       endpoint = Uri.parse(
           "https://proyectosoftii-backend-production.up.railway.app/ingresos/${movement.idMovimiento}");
       body = {
-        'idMovimiento': movement.idMovimiento,
+        'idIngreso': movement.idMovimiento,
       };
     } else if (movement is GastoModel) {
       endpoint = Uri.parse(
           "https://proyectosoftii-backend-production.up.railway.app/tarjetas_credito/${movement.idMovimiento}");
       body = {
-        'idMovimiento': movement.idMovimiento,
+        'idGasto': movement.idMovimiento,
       };
     } else {
       endpoint = Uri.parse(
