@@ -31,21 +31,21 @@ class _MovementScreenState extends State<MovementScreen> {
   MovementService service = MovementService();
   bool loading = true;
 
-  Future<List<MovementModel>> fetchIncomes() async {
-    return await service.fetchAllIncomes(widget.userToken);
-  }
-
-  Future<List<MovementModel>> fetchExpenses() async {
-    return await service.fetchAllExpenses(widget.userToken);
-  }
-  
   // Future<List<MovementModel>> fetchIncomes() async {
-  //   return await service.fetchAllIncomesByCard(widget.userToken, card);
+  //   return await service.fetchAllIncomes(widget.userToken);
   // }
 
   // Future<List<MovementModel>> fetchExpenses() async {
-  //   return await service.fetchAllExpensesByCard(widget.userToken, card);
+  //   return await service.fetchAllExpenses(widget.userToken);
   // }
+  
+  Future<List<MovementModel>> fetchIncomes() async {
+    return await service.fetchAllIncomesByCard(widget.userToken, card);
+  }
+
+  Future<List<MovementModel>> fetchExpenses() async {
+    return await service.fetchAllExpensesByCard(widget.userToken, card);
+  }
 
   void obtenerParametros(CardModel? card){
     if (card is DebitCard) {
