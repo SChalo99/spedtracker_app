@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
 import 'package:spedtracker_app/components/movements/movement_dragable.dart';
+import 'package:spedtracker_app/models/credit_card_model.dart';
 import 'package:spedtracker_app/models/debit_card_model.dart';
 import 'package:spedtracker_app/models/movement_model.dart';
 import 'package:spedtracker_app/screens/movementManager/ingresos/income_form.dart';
@@ -22,6 +23,8 @@ class MovementScreen extends StatefulWidget {
 class _MovementScreenState extends State<MovementScreen> {
 
   CardModel? card;
+  var ingresos = 0.0;
+  var credito = 0.0;
   List<MovementModel> movementList = [];
   List<MovementModel> incomesList = [];
   List<MovementModel> expensesList = [];
@@ -44,12 +47,26 @@ class _MovementScreenState extends State<MovementScreen> {
   //   return await service.fetchAllExpensesByCard(widget.userToken, card);
   // }
 
+  void obtenerParametros(CardModel? card){
+    if (card is DebitCard) {
+      setState(() {
+        ingresos = card.ingresoMinimo;
+      });
+    }else if(card is CreditCard){
+      setState(() {
+        credito = card.lineaCredito;
+      });
+    }
+  }
+
   Future<void> getData() async {
     setState(() {
       loading = true;
     });
     List<MovementModel> ingresos = await fetchIncomes();
     List<MovementModel> gastos = await fetchExpenses();
+
+    
 
     setState(() {
       incomesList.addAll(ingresos);
@@ -95,6 +112,7 @@ class _MovementScreenState extends State<MovementScreen> {
     super.initState();
     card = widget.tarjeta;
     print(card?.numeroTarjeta);
+    obtenerParametros(card);
     Future.delayed(Duration.zero, () async {
       await getData();
     });
@@ -148,7 +166,7 @@ class _MovementScreenState extends State<MovementScreen> {
                   color: Color.fromARGB(45, 38, 46, 132),
                   child: Center(
                     child: Text(
-                      '${card?.numeroTarjeta}',
+                      '${card is DebitCard? ingresos : card is CreditCard? credito : ''}',
                       style: TextStyle(fontSize: 32, color: Colors.white),
                     ),
                   ),

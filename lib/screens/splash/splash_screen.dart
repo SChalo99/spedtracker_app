@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
@@ -15,7 +16,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () async{
+      if(FirebaseAuth.instance.currentUser !=null){
+        FirebaseAuth.instance.signOut();
+        print('pucha');
+      }
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
