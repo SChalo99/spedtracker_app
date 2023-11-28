@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
-//import 'package:spedtracker_app/components/cards/molecules/movement_list.dart';
-import 'package:spedtracker_app/screens/movementManager/gastos/expenses_card_selector.dart';
-import 'package:spedtracker_app/screens/movementManager/ingresos/income_card_selector.dart';
+import 'package:spedtracker_app/components/movements/movement_dragable.dart';
+import 'package:spedtracker_app/models/debit_card_model.dart';
 import 'package:spedtracker_app/models/movement_model.dart';
+import 'package:spedtracker_app/screens/movementManager/ingresos/income_form.dart';
+import 'package:spedtracker_app/screens/movementManager/gastos/expenses_form.dart';
+import 'package:spedtracker_app/screens/movementManager/edit_movement.dart';
 import 'package:spedtracker_app/services/movement_service.dart';
+import 'package:spedtracker_app/models/card_model.dart';
 
 class MovementScreen extends StatefulWidget {
   final String userToken;
-  const MovementScreen({super.key, required this.userToken});
+  final CardModel? tarjeta;
+  const MovementScreen({super.key, required this.userToken, required this.tarjeta});
 
   @override
   State<MovementScreen> createState() => _MovementScreenState();
 }
 
 class _MovementScreenState extends State<MovementScreen> {
-  bool loading = true;
 
+  CardModel? card;
   List<MovementModel> movementList = [];
   List<MovementModel> incomesList = [];
   List<MovementModel> expensesList = [];
-
   MovementService service = MovementService();
-  
+  bool loading = true;
+
   Future<List<MovementModel>> fetchIncomes() async {
     return await service.fetchAllIncomes(widget.userToken);
   }
@@ -31,6 +35,14 @@ class _MovementScreenState extends State<MovementScreen> {
   Future<List<MovementModel>> fetchExpenses() async {
     return await service.fetchAllExpenses(widget.userToken);
   }
+  
+  // Future<List<MovementModel>> fetchIncomes() async {
+  //   return await service.fetchAllIncomesByCard(widget.userToken, card);
+  // }
+
+  // Future<List<MovementModel>> fetchExpenses() async {
+  //   return await service.fetchAllExpensesByCard(widget.userToken, card);
+  // }
 
   Future<void> getData() async {
     setState(() {
@@ -38,6 +50,7 @@ class _MovementScreenState extends State<MovementScreen> {
     });
     List<MovementModel> ingresos = await fetchIncomes();
     List<MovementModel> gastos = await fetchExpenses();
+
     setState(() {
       incomesList.addAll(ingresos);
       expensesList.addAll(gastos);
@@ -48,15 +61,16 @@ class _MovementScreenState extends State<MovementScreen> {
   }
 
   void edit(MovementModel movement) {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => EditCardScreen(
-    //       userToken: widget.userToken,
-    //       card: card,
-    //     ),
-    //   ),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditMovementScreen(
+          userToken: widget.userToken,
+          movement: movement,
+          card: card,
+        ),
+      ),
+    );
     print("Edit card: ${movement.idMovimiento}");
   }
 
@@ -79,6 +93,8 @@ class _MovementScreenState extends State<MovementScreen> {
   @override
   void initState() {
     super.initState();
+    card = widget.tarjeta;
+    print(card?.numeroTarjeta);
     Future.delayed(Duration.zero, () async {
       await getData();
     });
@@ -129,10 +145,10 @@ class _MovementScreenState extends State<MovementScreen> {
                   width: MediaQuery.of(context).size.width,
                   height: 150,
                   margin: const EdgeInsets.only(right: 20, left: 20),
-                  color: Colors.grey.shade400,
-                  child: const Center(
+                  color: Color.fromARGB(45, 38, 46, 132),
+                  child: Center(
                     child: Text(
-                      'S/. XXXXXX',
+                      '${card?.numeroTarjeta}',
                       style: TextStyle(fontSize: 32, color: Colors.white),
                     ),
                   ),
@@ -140,77 +156,67 @@ class _MovementScreenState extends State<MovementScreen> {
                 const SizedBox(
                   height: 15,
                 ),
-                Row(children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  GestureDetector(
-                    child: const Text(
-                      '+ Agregar Ingreso',
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.grey),
+                if(card is DebitCard)
+                  Row(children: [
+                    
+                    const SizedBox(
+                      width: 20,
                     ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => IncomeCardSelectorScreen(
-                                  userToken: widget.userToken)));
-                    },
-                  ),
-                ]),
+                    GestureDetector(
+                      
+                      child: const Text(
+                        '+ Agregar Ingreso',
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold)
+                            
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => IncomeFormScreen(
+                                    userToken: widget.userToken, card: card)));
+                      },
+                    ),
+                  ]),
                 const SizedBox(
                   height: 10,
                 ),
                 Row(children: [
                   const SizedBox(
-                    width: 10,
+                    width: 20,
                   ),
                   GestureDetector(
                     child: const Text(
                       '+ Agregar Gasto',
                       style: TextStyle(
                           decoration: TextDecoration.underline,
-                          color: Colors.grey),
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold)
                     ),
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ExpensesCardSelectorScreen(
-                                  userToken: widget.userToken)));
+                              builder: (context) => ExpensesFormScreen(
+                                  userToken: widget.userToken, card: card,)));
                     },
                   ),
                 ]),
                 const SizedBox(
-                  height: 10,
-                ),
-                Row(children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  GestureDetector(
-                    child: const Text(
-                      '+ Modificar Movimiento',
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.grey),
-                    ),
-                    onTap: () {},
-                  ),
-                ]),
-                const SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Expanded(
-                  child: Container()
-                  // child: MovementList(
-                  //   movements: movementList,
-                  //   edit: edit,
-                  //   delete: delete,
-                  //   goToCallback: goTo
-                  // ),
+                  child: DragableMovement(
+                    movements: movementList,
+                    edit: edit,
+                    delete: delete,
+                    goToCallback: goTo
+                    )
                 ),
               ]),
         ),

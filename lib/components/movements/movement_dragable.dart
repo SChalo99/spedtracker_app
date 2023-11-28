@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:spedtracker_app/components/alerts/alert_config.dart';
+import 'package:spedtracker_app/components/movements/atom.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:spedtracker_app/models/movement_model.dart';
-import 'package:spedtracker_app/models/ingreso_model.dart';
-//import 'package:spedtracker_app/models/gasto_model.dart';
 
-class MovementList extends StatelessWidget {
+class DragableMovement extends StatelessWidget {
   
   final List<MovementModel> movements;
   final Function edit;
@@ -13,7 +12,7 @@ class MovementList extends StatelessWidget {
   final Function goToCallback;
   final AlertConfig config = AlertConfig.instance;
 
-  MovementList({
+  DragableMovement({
     super.key,
     required this.movements,
     required this.edit,
@@ -28,11 +27,6 @@ class MovementList extends StatelessWidget {
         shrinkWrap: true,
         itemCount: movements.length,
         itemBuilder: (context, index) {
-          if(movements[index] is IngresoModel){
-            
-          }else{
-
-          }
           MovementModel movement = movements[index];
           return Slidable(
             startActionPane: ActionPane(
@@ -68,11 +62,9 @@ class MovementList extends StatelessWidget {
                     label: 'Eliminar',
                   ),
                 ]),
-            child: ListTile(
-            title: Text('Monto: ${movement.idMovimiento}'),
-            subtitle: Text(
-              'Fecha: ${movement.fecha}',
-            ),
+            child: MovementAtom(
+              movements: movements,
+              id: index
             ),
           );
         });

@@ -70,6 +70,7 @@ class DragableCard extends StatelessWidget {
                   "${card.expDate!.toString().split("-")[1]}/${card.expDate!.year.toString().split("0")[1]}",
               service: card.operadoraFinanciera,
               goTo: goToCallback,
+              card: card
             ),
           );
         });

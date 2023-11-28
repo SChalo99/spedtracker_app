@@ -3,20 +3,20 @@ import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
 import 'package:spedtracker_app/components/cards/molecules/card_list.dart';
 import 'package:spedtracker_app/models/card_model.dart';
-import 'package:spedtracker_app/screens/movementManager/gastos/expenses_form.dart';
+import 'package:spedtracker_app/screens/movementManager/movement_manager.dart';
 import 'package:spedtracker_app/services/card_service.dart';
 
-class ExpensesCardSelectorScreen extends StatefulWidget {
+class MovementCardSelectorScreen extends StatefulWidget {
   final String userToken;
-  const ExpensesCardSelectorScreen({super.key, required this.userToken});
+  const MovementCardSelectorScreen({super.key, required this.userToken});
 
   @override
-  State<ExpensesCardSelectorScreen> createState() =>
-      _ExpensesCardSelectorScreenState();
+  State<MovementCardSelectorScreen> createState() =>
+      _MovementCardSelectorScreenState();
 }
 
-class _ExpensesCardSelectorScreenState
-    extends State<ExpensesCardSelectorScreen> {
+class _MovementCardSelectorScreenState
+    extends State<MovementCardSelectorScreen> {
   List<CardModel> cardList = [];
   List<CardModel> debitCardList = [];
   List<CardModel> creditCardList = [];
@@ -46,12 +46,12 @@ class _ExpensesCardSelectorScreenState
     });
   }
 
-  void goTo(String cardId) {
+  void goTo(CardModel card) {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                ExpensesFormScreen(userToken: widget.userToken, card: cardId)));
+                MovementScreen(userToken: widget.userToken, tarjeta: card)));
   }
 
   @override
@@ -97,10 +97,20 @@ class _ExpensesCardSelectorScreenState
           margin: const EdgeInsets.only(top: 100),
           child: Column(mainAxisSize: MainAxisSize.max, children: [
             const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    "Selecciona una tarjeta",
+                    style: TextStyle(fontSize: 32),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+            const SizedBox(
               height: 20,
             ),
             Expanded(
-              child: ListCard(cards: cardList, goToCallback: goTo),
+              child: ListCard(cards: cardList, goToCallback: goTo)
             ),
           ]),
         ),

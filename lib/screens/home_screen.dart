@@ -5,7 +5,7 @@ import 'package:spedtracker_app/components/background/background.dart';
 import 'package:spedtracker_app/models/user_singleton.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:spedtracker_app/screens/login/login_screen.dart';
-import 'package:spedtracker_app/screens/movementManager/movement_manager.dart';
+import 'package:spedtracker_app/screens/movementManager/card_selector.dart';
 import 'package:spedtracker_app/screens/notificationManager/notification_screen.dart';
 import 'package:spedtracker_app/screens/overall/overal_month.dart';
 
@@ -151,14 +151,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                MovementScreen(userToken: widget.userToken)));
+                                MovementCardSelectorScreen(userToken: widget.userToken)));
                   },
                   style: FilledButton.styleFrom(
                       fixedSize: const Size(300, 50),
                       foregroundColor: Colors.white,
                       backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
                   child: const Text(
-                    "Registrar Movimiento",
+                    "Gestionar Movimientos",
                     style: TextStyle(
                       fontSize: 18,
                     ),

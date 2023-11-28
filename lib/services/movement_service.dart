@@ -4,6 +4,9 @@ import 'package:spedtracker_app/models/movement_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:spedtracker_app/models/ingreso_model.dart';
 import 'package:spedtracker_app/models/gasto_model.dart';
+import 'package:spedtracker_app/models/card_model.dart';
+//import 'package:spedtracker_app/models/credit_card_model.dart';
+//import 'package:spedtracker_app/models/debit_card_model.dart';
 
 class MovementService {
   
@@ -22,9 +25,9 @@ class MovementService {
       for (var item in responseBody) {
         movements.add(
           IngresoModel(
+              item['idIngreso'],
               item['monto'].toDouble(),
               item['descripcion'],
-              item['idMovimiento'],
               DateTime.parse(item['hora']),
               DateTime.parse(item['fecha']),
               ),
@@ -56,10 +59,69 @@ class MovementService {
         movements.add(
           GastoModel(
             item['idCategoria'].toInt(),
+            item['nroCuotas'].toInt(),
+            item['idGasto'],
             item['monto'].toDouble(),
             item['descripcion'],
+            DateTime.parse(item['hora']),
+            DateTime.parse(item['fecha'])),
+        );
+      }
+      return movements;
+    } else {
+      throw Exception('Failed to fecth movement');
+    }
+  }
+
+  Future<List<MovementModel>> fetchAllIncomesByCard(String token, CardModel? card) async {
+    Uri endpoint = Uri.parse(
+        "https://proyectosoftii-backend-production.up.railway.app/ingresos//ingresosPorTarjeta/${card?.idTarjeta}");
+
+    var response = await http.get(endpoint, headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      "Authorization": "Bearer $token",
+    });
+    List<MovementModel> movements = [];
+
+    if (response.statusCode == 200) {
+      var responseBody = json.decode(response.body);
+      for (var item in responseBody) {
+        movements.add(
+          IngresoModel(
+              item['idIngreso'],
+              item['monto'].toDouble(),
+              item['descripcion'],
+              DateTime.parse(item['hora']),
+              DateTime.parse(item['fecha']),
+              ),
+        );
+      }
+      return movements;
+    } else {
+      throw Exception('Failed to fecth movement');
+    }
+  }
+
+  Future<List<MovementModel>> fetchAllExpensesByCard(String token, CardModel? card) async {
+    Uri endpoint = Uri.parse(
+        "https://proyectosoftii-backend-production.up.railway.app/gastos/gastosPorTarjeta/${card?.idTarjeta}");
+
+    var response = await http.get(endpoint, headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      "Authorization": "Bearer $token",
+    });
+    List<MovementModel> movements = [];
+
+    if (response.statusCode == 200) {
+      var responseBody = json.decode(response.body);
+      for (var item in responseBody) {
+        movements.add(
+          GastoModel(
+            item['idCategoria'].toInt(),
             item['nroCuotas'].toInt(),
-            item['idMovimiento'],
+            item['idGasto'],
+            item['monto'].toDouble(),
+            item['descripcion'],
             DateTime.parse(item['hora']),
             DateTime.parse(item['fecha'])),
         );
@@ -71,7 +133,7 @@ class MovementService {
   }
 
 
-  Future<void> createMovement(String token, MovementModel movement) async {
+  Future<void> createMovement(String token, MovementModel movement, CardModel? card) async {
     JsonEncoder encoder = json.encoder;
     Uri endpoint;
     Map body;
@@ -83,7 +145,8 @@ class MovementService {
         'descripcion': movement.descripcion,
         'idIngreso': movement.idMovimiento,
         'hora': movement.hora.toString(),
-        'fecha': movement.fecha.toString()
+        'fecha': movement.fecha.toString(),
+        'idTarjetaCredito': card?.idTarjeta
       };
     } else if (movement is GastoModel) {
       endpoint = Uri.parse(
@@ -95,7 +158,8 @@ class MovementService {
         'idCategoria': movement.idCategoria,
         'monto': movement.monto,
         'descripcion': movement.descripcion,
-        'nroCuotas': movement.nroCuotas
+        'nroCuotas': movement.nroCuotas,
+        'idTarjetaCredito': card?.idTarjeta
       };
     } else {
       endpoint = Uri.parse(
@@ -117,7 +181,7 @@ class MovementService {
   }
 
 
-  Future<void> editMovement(String token, MovementModel movement) async {
+  Future<void> editMovement(String token, MovementModel? movement) async {
     JsonEncoder encoder = json.encoder;
     Map body;
     Uri endpoint;
@@ -176,7 +240,7 @@ class MovementService {
       };
     } else if (movement is GastoModel) {
       endpoint = Uri.parse(
-          "https://proyectosoftii-backend-production.up.railway.app/tarjetas_credito/${movement.idMovimiento}");
+          "https://proyectosoftii-backend-production.up.railway.app/gastos/${movement.idMovimiento}");
       body = {
         'idGasto': movement.idMovimiento,
       };

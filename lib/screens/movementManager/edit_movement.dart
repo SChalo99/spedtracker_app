@@ -8,18 +8,20 @@ import 'package:spedtracker_app/models/card_model.dart';
 import 'package:spedtracker_app/screens/movementManager/movement_manager.dart';
 import 'package:uuid/uuid.dart';
 
-class ExpensesFormScreen extends StatefulWidget {
+class EditMovementScreen extends StatefulWidget {
   final String userToken;
+  final MovementModel? movement;
   final CardModel? card;
-  const ExpensesFormScreen(
-      {super.key, required this.userToken, required this.card});
+  const EditMovementScreen(
+      {super.key, required this.userToken, required this.movement, required this.card});
 
   @override
-  State<ExpensesFormScreen> createState() => _ExpensesFormScreenState();
+  State<EditMovementScreen> createState() => _EditMovementScreenState();
 }
 
-class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
+class _EditMovementScreenState extends State<EditMovementScreen> {
 
+  MovementModel? movement;
   CardModel? card;
   final TextEditingController _montoController = TextEditingController();
   final TextEditingController _descripcionController = TextEditingController();
@@ -30,26 +32,21 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
   int idCategoria = 0;
   FocusNode focusNode = FocusNode();
 
-  void createExpense() async {
-    //DateTime now = DateTime.now();
-    DateTime fechaMovimiento = DateTime.now();
-    DateTime horaMovimiento = DateTime.now();
-    String idMovimiento = uuid.v4();
+  void editMovement(MovementModel? movement) async {
+    
+    setState(() {
+      movement?.monto = double.parse(_montoController.text);
+      movement?.descripcion = _descripcionController.text;
+    });
 
-    MovementModel nuevoMovimiento;
-    nuevoMovimiento = GastoModel(
-      idCategoria,
-      int.parse(_nroCuotasController.text),
-      idMovimiento,
-      double.parse(_montoController.text),
-      _descripcionController.text,
-      horaMovimiento,
-      fechaMovimiento);
+    if (movement is GastoModel) {
+      setState(() {
+        movement.nroCuotas =  int.parse(_nroCuotasController.text);
+        movement.idCategoria = idCategoria;
+      });
+    }
 
-    debugPrint(nuevoMovimiento.fecha.toString());
-    debugPrint(nuevoMovimiento.hora.toString());
-
-    await MovementService().createMovement(widget.userToken, nuevoMovimiento, card);
+    await MovementService().editMovement(widget.userToken, movement);
 
     if (context.mounted) {
       Navigator.pushReplacement(
@@ -59,18 +56,29 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
     }
   }
 
-  void getData(String email, String password) async {
-    try {} catch (e) {
-      if (context.mounted) {
-        debugPrint(e.toString());
-      }
+  void loadData(MovementModel movement) {
+
+    setState(() {
+      _montoController.text = movement.monto.toString();
+      _descripcionController.text = movement.descripcion;
+    });
+
+    if (movement is GastoModel) {
+      setState(() {
+        _nroCuotasController.text =  movement.nroCuotas.toString();
+        idCategoria =movement.idCategoria;
+      });
     }
   }
 
   @override
   void initState() {
     super.initState();
+    movement = widget.movement;
     card = widget.card;
+    print(movement?.monto);
+    print(card?.numeroTarjeta);
+    loadData(movement!);
   }
 
   @override
@@ -120,7 +128,7 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
                     height: 20,
                   ),
                   const Text(
-                    "Registrar Gasto",
+                    "Editar Movimiento",
                     style: TextStyle(fontSize: 32),
                   ),
                   const SizedBox(
@@ -164,7 +172,8 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  if(movement is GastoModel)
+                    Container(
                     width: 300,
                     child: DropdownMenu<String>(
                       width: 300,
@@ -192,37 +201,39 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
                       }).toList(),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: 300,
-                    height: 60,
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      controller: _nroCuotasController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        label: Text("Ingresar Número de Cuotas"),
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Por favor, ingrese un número de cuotas.';
-                        }
-                        return null;
-                      },
+                  if(movement is GastoModel)
+                      const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                    if(movement is GastoModel)
+                    SizedBox(
+                      width: 300,
+                      height: 60,
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        controller: _nroCuotasController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          label: Text("Ingresar Número de Cuotas"),
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Por favor, ingrese un número de cuotas.';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
                   const SizedBox(
                     height: 10,
                   ),
                   FilledButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        createExpense();
+                        editMovement(movement);
                         print("Gasto registrado");
                       }
                     },

@@ -1,4 +1,5 @@
 import 'package:spedtracker_app/services/movement_service.dart';
+import 'package:spedtracker_app/models/card_model.dart';
 
 abstract class MovementModel {
 
@@ -10,8 +11,8 @@ abstract class MovementModel {
 
   MovementModel();
 
-  Future<void> addMovement(String token, MovementModel movementModel) async {
-    await MovementService().createMovement(token, movementModel);
+  Future<void> addMovement(String token, MovementModel movementModel, CardModel? card) async {
+    await MovementService().createMovement(token, movementModel, card);
   }
 
   Future<void> editMovement(String token, MovementModel movementModel) async {

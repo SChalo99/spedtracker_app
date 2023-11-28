@@ -3,13 +3,14 @@ import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
 import 'package:spedtracker_app/models/movement_model.dart';
 import 'package:spedtracker_app/models/ingreso_model.dart';
+import 'package:spedtracker_app/models/card_model.dart';
 import 'package:spedtracker_app/services/movement_service.dart';
 import 'package:spedtracker_app/screens/movementManager/movement_manager.dart';
 import 'package:uuid/uuid.dart';
 
 class IncomeFormScreen extends StatefulWidget {
   final String userToken;
-  final String card;
+  final CardModel? card;
   const IncomeFormScreen(
       {super.key, required this.userToken, required this.card});
 
@@ -19,6 +20,7 @@ class IncomeFormScreen extends StatefulWidget {
 
 class _IncomeFormScreenState extends State<IncomeFormScreen> {
 
+  CardModel? card;
   final TextEditingController _montoController = TextEditingController();
   final TextEditingController _descripcionController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -45,13 +47,13 @@ class _IncomeFormScreenState extends State<IncomeFormScreen> {
 
     
 
-    await MovementService().createMovement(widget.userToken, nuevoMovimiento);
+    await MovementService().createMovement(widget.userToken, nuevoMovimiento, card);
 
     if (context.mounted) {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => MovementScreen(userToken: widget.userToken)));
+              builder: (context) => MovementScreen(userToken: widget.userToken, tarjeta: card)));
     }
   }
 
@@ -66,6 +68,7 @@ class _IncomeFormScreenState extends State<IncomeFormScreen> {
   @override
   void initState() {
     super.initState();
+    card = widget.card;
   }
 
   @override
@@ -115,7 +118,7 @@ class _IncomeFormScreenState extends State<IncomeFormScreen> {
                     height: 20,
                   ),
                   const Text(
-                    "Registro",
+                    "Registrar Ingreso",
                     style: TextStyle(fontSize: 32),
                   ),
                   const SizedBox(
