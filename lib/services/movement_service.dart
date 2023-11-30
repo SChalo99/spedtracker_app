@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:spedtracker_app/models/debit_card_model.dart';
 import 'package:spedtracker_app/models/movement_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:spedtracker_app/models/ingreso_model.dart';
@@ -175,21 +176,33 @@ class MovementService {
         'idIngreso': movement.idMovimiento,
         'hora': movement.hora.toString(),
         'fecha': movement.fecha.toString(),
-        'idTarjetaCredito': card?.idTarjeta
+        'idTarjetaDebito': card?.idTarjeta
       };
     } else if (movement is GastoModel) {
       endpoint = Uri.parse(
           "https://proyectosoftii-backend-production.up.railway.app/gastos");
-      body = {
-        'idGasto': movement.idMovimiento,
-        'hora': movement.hora.toString(),
-        'fecha': movement.fecha.toString(),
-        'idCategoria': movement.idCategoria,
-        'monto': movement.monto,
-        'descripcion': movement.descripcion,
-        'nroCuotas': movement.nroCuotas,
-        'idTarjetaCredito': card?.idTarjeta
-      };
+      if (card! is DebitCard) {
+        body = {
+          'idGasto': movement.idMovimiento,
+          'hora': movement.hora.toString(),
+          'fecha': movement.fecha.toString(),
+          'idCategoria': movement.idCategoria,
+          'monto': movement.monto,
+          'descripcion': movement.descripcion,
+          'idTarjetaDebito': card.idTarjeta
+        };
+      } else {
+        body = {
+          'idGasto': movement.idMovimiento,
+          'hora': movement.hora.toString(),
+          'fecha': movement.fecha.toString(),
+          'idCategoria': movement.idCategoria,
+          'monto': movement.monto,
+          'descripcion': movement.descripcion,
+          'nroCuotas': movement.nroCuotas,
+          'idTarjetaCredito': card.idTarjeta
+        };
+      }
     } else {
       endpoint = Uri.parse(
           "https://proyectosoftii-backend-production.up.railway.app/gastos");

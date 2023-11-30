@@ -5,7 +5,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:spedtracker_app/models/movement_model.dart';
 
 class DragableMovement extends StatelessWidget {
-  
   final List<MovementModel> movements;
   final Function edit;
   final Function delete;
@@ -19,10 +18,9 @@ class DragableMovement extends StatelessWidget {
     required this.delete,
     required this.goToCallback,
   });
-  
+
   @override
   Widget build(BuildContext context) {
-    
     return ListView.builder(
         shrinkWrap: true,
         itemCount: movements.length,
@@ -30,7 +28,7 @@ class DragableMovement extends StatelessWidget {
           MovementModel movement = movements[index];
           return Slidable(
             startActionPane: ActionPane(
-                extentRatio: 0.6,
+                extentRatio: 0.2,
                 motion: const DrawerMotion(),
                 children: [
                   SlidableAction(
@@ -45,30 +43,9 @@ class DragableMovement extends StatelessWidget {
                     icon: Icons.edit,
                     label: 'Editar',
                   ),
-                  SlidableAction(
-                    borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(10),
-                        bottomRight: Radius.circular(10)),
-                    onPressed: (context) {
-                      config.systemAlert!.showAlertDialog(
-                          context,
-                          "Eliminar movimiento",
-                          "¿Desea eliminar este movimiento?",
-                          () => delete(movement));
-                    },
-                    backgroundColor: const Color(0xFFFE4A49),
-                    foregroundColor: Colors.white,
-                    icon: Icons.delete,
-                    label: 'Eliminar',
-                  ),
                 ]),
-            child: MovementAtom(
-              movements: movements,
-              id: index
-            ),
+            child: MovementAtom(movement: movement, id: index),
           );
         });
-        
   }
-  
 }

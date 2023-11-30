@@ -17,14 +17,14 @@ import 'package:spedtracker_app/models/card_model.dart';
 class MovementScreen extends StatefulWidget {
   final String userToken;
   final CardModel? tarjeta;
-  const MovementScreen({super.key, required this.userToken, required this.tarjeta});
+  const MovementScreen(
+      {super.key, required this.userToken, required this.tarjeta});
 
   @override
   State<MovementScreen> createState() => _MovementScreenState();
 }
 
 class _MovementScreenState extends State<MovementScreen> {
-
   CardModel? card;
   var ingresos = 0.0;
   var credito = 0.0;
@@ -42,7 +42,7 @@ class _MovementScreenState extends State<MovementScreen> {
   // Future<List<MovementModel>> fetchExpenses() async {
   //   return await service.fetchAllExpenses(widget.userToken);
   // }
-  
+
   Future<List<MovementModel>> fetchIncomes() async {
     return await service.fetchAllIncomesByCard(widget.userToken, card);
   }
@@ -51,20 +51,20 @@ class _MovementScreenState extends State<MovementScreen> {
     return await service.fetchAllExpensesByCard(widget.userToken, card);
   }
 
-  void obtenerParametros(CardModel? card){
+  void obtenerParametros(CardModel? card) {
     if (card is DebitCard) {
       setState(() {
         ingresos = card.ingresoMinimo;
       });
-    }else if(card is CreditCard){
+    } else if (card is CreditCard) {
       setState(() {
         credito = card.lineaCredito;
       });
     }
 
-    if(card?.moneda == 'SOLES'){
+    if (card?.moneda == 'SOLES') {
       simbolo = 'S/.';
-    }else if(card?.moneda == 'DOLARES'){
+    } else if (card?.moneda == 'DOLARES') {
       simbolo = r'$';
     }
   }
@@ -75,8 +75,6 @@ class _MovementScreenState extends State<MovementScreen> {
     });
     List<MovementModel> ingresos = await fetchIncomes();
     List<MovementModel> gastos = await fetchExpenses();
-
-    
 
     setState(() {
       incomesList.addAll(ingresos);
@@ -127,7 +125,6 @@ class _MovementScreenState extends State<MovementScreen> {
     print("Go to movement: $id");
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -169,7 +166,7 @@ class _MovementScreenState extends State<MovementScreen> {
                           .instance.platformDispatcher.platformBrightness ==
                       Brightness.light
                   ? const ColorScheme.light().background
-                  : const Color.fromRGBO(255, 0, 0, 255)),
+                  : const Color.fromRGBO(116, 107, 85, 1)),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(top: 100),
@@ -184,81 +181,75 @@ class _MovementScreenState extends State<MovementScreen> {
                   width: MediaQuery.of(context).size.width,
                   height: 150,
                   margin: const EdgeInsets.only(right: 20, left: 20),
-                  color: Color.fromARGB(255, 196, 198, 231),
+                  color: const Color.fromARGB(255, 196, 198, 231),
                   child: Center(
                     child: Text(
-                      simbolo+'${card is DebitCard? ingresos : card is CreditCard? credito : ''}',
-                      style: TextStyle(fontSize: 50, color: Color.fromARGB(255, 100, 76, 196)),
+                      '$simbolo${card is DebitCard ? ingresos : card is CreditCard ? credito : ''}',
+                      style: const TextStyle(
+                          fontSize: 50,
+                          color: Color.fromARGB(255, 100, 76, 196)),
                     ),
                   ),
                 ),
                 const SizedBox(
                   height: 15,
                 ),
-                if(!card!.numeroTarjeta.endsWith("*"))
-                  if(card is DebitCard)
+                if (!card!.numeroTarjeta.endsWith("*"))
+                  if (card is DebitCard)
                     Row(children: [
-                      
                       const SizedBox(
                         width: 20,
                       ),
                       GestureDetector(
-                        
-                        child: const Text(
-                          '+ Agregar Ingreso',
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold)
-                              
-                        ),
+                        child: const Text('+ Agregar Ingreso',
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold)),
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => IncomeFormScreen(
-                                      userToken: widget.userToken, card: card)));
-                        },
-                      ),
-                    ]),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  if(!card!.numeroTarjeta.endsWith("*"))
-                    Row(children: [
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      GestureDetector(
-                        child: const Text(
-                          '+ Agregar Gasto',
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold)
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ExpensesFormScreen(
-                                      userToken: widget.userToken, card: card)));
+                                      userToken: widget.userToken,
+                                      card: card)));
                         },
                       ),
                     ]),
                 const SizedBox(
+                  height: 10,
+                ),
+                if (!card!.numeroTarjeta.endsWith("*"))
+                  Row(children: [
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    GestureDetector(
+                      child: const Text('+ Agregar Gasto',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold)),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ExpensesFormScreen(
+                                    userToken: widget.userToken, card: card)));
+                      },
+                    ),
+                  ]),
+                const SizedBox(
                   height: 5,
                 ),
                 Expanded(
-                  child: DragableMovement(
-                    movements: movementList,
-                    edit: edit,
-                    delete: delete,
-                    goToCallback: goTo
-                    )
-                ),
+                    child: DragableMovement(
+                        movements: movementList,
+                        edit: edit,
+                        delete: delete,
+                        goToCallback: goTo)),
               ]),
         ),
         if (loading)

@@ -186,28 +186,28 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                FilledButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NotificationScreen(
-                                userToken: widget.userToken)));
-                  },
-                  style: FilledButton.styleFrom(
-                      fixedSize: const Size(300, 50),
-                      foregroundColor: Colors.white,
-                      backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
-                  child: const Text(
-                    "Notificaciones",
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // FilledButton(
+                //   onPressed: () {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => NotificationScreen(
+                //                 userToken: widget.userToken)));
+                //   },
+                //   style: FilledButton.styleFrom(
+                //       fixedSize: const Size(300, 50),
+                //       foregroundColor: Colors.white,
+                //       backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
+                //   child: const Text(
+                //     "Notificaciones",
+                //     style: TextStyle(
+                //       fontSize: 18,
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(
                   height: 20,
                 ),
