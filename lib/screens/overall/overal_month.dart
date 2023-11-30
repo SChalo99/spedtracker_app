@@ -21,10 +21,10 @@ class OverallMonthScreen extends StatefulWidget {
 
 class _OverallMonthScreenState extends State<OverallMonthScreen> {
   DateTime selectedDate = DateTime.now();
-  late Set<String> filters = {};
+  Set<String> filters = {};
   CardModel? card;
   String simbolo = '';
-    
+
   late Future<Map<String, double>> dataMap;
   Map dates = {
     'ENE': DateTime.parse('${DateTime.now().year}-01-01'),
@@ -49,7 +49,7 @@ class _OverallMonthScreenState extends State<OverallMonthScreen> {
       } else {
         filters.remove(month);
       }
-      selectedDate = dates[month];
+      selectedDate = dates[filters.first.toUpperCase()];
       dataMap = Future<Map<String, double>>.delayed(
           Duration.zero, () async => await getData(selectedDate));
     });
@@ -82,9 +82,9 @@ class _OverallMonthScreenState extends State<OverallMonthScreen> {
   Future<Map<String, double>> getData(DateTime date) async {
     List<GastoModel> movimientos = await MovementService()
         .fetchAllExpensesByDate(widget.userToken, widget.card, date);
-        if(card?.moneda == 'SOLES'){
+    if (card?.moneda == 'SOLES') {
       simbolo = 'S/. ';
-    }else{
+    } else {
       simbolo = r'$';
     }
     return await getCategories(movimientos);
@@ -94,7 +94,7 @@ class _OverallMonthScreenState extends State<OverallMonthScreen> {
   void initState() {
     super.initState();
     card = widget.card;
-    
+
     dataMap = Future<Map<String, double>>.delayed(
         Duration.zero, () async => await getData(selectedDate));
   }
