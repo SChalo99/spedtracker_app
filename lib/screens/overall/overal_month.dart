@@ -139,22 +139,29 @@ class _OverallMonthScreenState extends State<OverallMonthScreen> {
                   future: dataMap,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      return PieChart(
-                        dataMap: snapshot.data as Map<String, double>,
-                        chartValuesOptions: const ChartValuesOptions(
-                            decimalPlaces: 2,
-                            showChartValuesInPercentage: true),
-                      );
+                      return Column(children: [
+                        PieChart(
+                          dataMap: snapshot.data as Map<String, double>,
+                          chartValuesOptions: const ChartValuesOptions(
+                              decimalPlaces: 2,
+                              showChartValuesInPercentage: true),
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        ...snapshot.data!.entries.map((e) => Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(e.key),
+                                Text('S/. ${e.value.toStringAsFixed(2)}')
+                              ],
+                            )),
+                      ]);
                     } else {
                       return Container();
                     }
                   },
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                const SizedBox(
-                  height: 20,
                 ),
               ],
             ),
