@@ -6,7 +6,7 @@ import 'package:spedtracker_app/models/user_singleton.dart';
 import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:spedtracker_app/screens/login/login_screen.dart';
 import 'package:spedtracker_app/screens/movementManager/card_selector.dart';
-import 'package:spedtracker_app/screens/notificationManager/notification_screen.dart';
+//import 'package:spedtracker_app/screens/notificationManager/notification_screen.dart';
 import 'package:spedtracker_app/screens/overall/overal_card.dart';
 
 class HomeScreen extends StatefulWidget {

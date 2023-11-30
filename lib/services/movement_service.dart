@@ -116,8 +116,8 @@ class MovementService {
       for (var item in responseBody) {
         movements.add(
           GastoModel(
-              item['idCategoria'].toInt(),
-              item['nroCuotas'].toInt(),
+              item['idCategoria'],
+              item['nroCuotas'],
               item['idGasto'],
               item['monto'].toDouble(),
               item['descripcion'],
