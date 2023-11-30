@@ -117,7 +117,7 @@ class MovementService {
         movements.add(
           GastoModel(
               item['idCategoria'].toInt(),
-              item['nroCuotas'].toInt(),
+              item['nroCuotas'],
               item['idGasto'],
               item['monto'].toDouble(),
               item['descripcion'],
@@ -189,6 +189,7 @@ class MovementService {
           'idCategoria': movement.idCategoria,
           'monto': movement.monto,
           'descripcion': movement.descripcion,
+          'nroCuotas': 0,
           'idTarjetaDebito': card.idTarjeta
         };
       } else {
