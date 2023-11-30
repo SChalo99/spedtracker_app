@@ -7,7 +7,7 @@ import 'package:spedtracker_app/screens/cardManager/card_screen.dart';
 import 'package:spedtracker_app/screens/login/login_screen.dart';
 import 'package:spedtracker_app/screens/movementManager/card_selector.dart';
 import 'package:spedtracker_app/screens/notificationManager/notification_screen.dart';
-import 'package:spedtracker_app/screens/overall/overal_month.dart';
+import 'package:spedtracker_app/screens/overall/overal_card.dart';
 
 class HomeScreen extends StatefulWidget {
   final String userToken;
@@ -150,8 +150,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                MovementCardSelectorScreen(userToken: widget.userToken)));
+                            builder: (context) => MovementCardSelectorScreen(
+                                userToken: widget.userToken)));
                   },
                   style: FilledButton.styleFrom(
                       fixedSize: const Size(300, 50),
@@ -172,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => OverallMonthScreen(
+                            builder: (context) => OverallCardScreen(
                                 userToken: widget.userToken)));
                   },
                   style: FilledButton.styleFrom(

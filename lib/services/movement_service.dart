@@ -9,7 +9,6 @@ import 'package:spedtracker_app/models/card_model.dart';
 //import 'package:spedtracker_app/models/debit_card_model.dart';
 
 class MovementService {
-  
   Future<List<MovementModel>> fetchAllIncomes(String token) async {
     Uri endpoint = Uri.parse(
         "https://proyectosoftii-backend-production.up.railway.app/ingresos");
@@ -25,12 +24,12 @@ class MovementService {
       for (var item in responseBody) {
         movements.add(
           IngresoModel(
-              item['idIngreso'],
-              item['monto'].toDouble(),
-              item['descripcion'],
-              DateTime.parse(item['hora']),
-              DateTime.parse(item['fecha']),
-              ),
+            item['idIngreso'],
+            item['monto'].toDouble(),
+            item['descripcion'],
+            DateTime.parse(item['hora']),
+            DateTime.parse(item['fecha']),
+          ),
         );
       }
       return movements;
@@ -38,7 +37,6 @@ class MovementService {
       throw Exception('Failed to fecth movement');
     }
   }
-  
 
   Future<List<MovementModel>> fetchAllExpenses(String token) async {
     Uri endpoint = Uri.parse(
@@ -51,20 +49,18 @@ class MovementService {
 
     List<MovementModel> movements = [];
 
-    
-
     if (response.statusCode == 200) {
       var responseBody = json.decode(response.body);
       for (var item in responseBody) {
         movements.add(
           GastoModel(
-            item['idCategoria'].toInt(),
-            item['nroCuotas'].toInt(),
-            item['idGasto'],
-            item['monto'].toDouble(),
-            item['descripcion'],
-            DateTime.parse(item['hora']),
-            DateTime.parse(item['fecha'])),
+              item['idCategoria'].toInt(),
+              item['nroCuotas'].toInt(),
+              item['idGasto'],
+              item['monto'].toDouble(),
+              item['descripcion'],
+              DateTime.parse(item['hora']),
+              DateTime.parse(item['fecha'])),
         );
       }
       return movements;
@@ -73,7 +69,8 @@ class MovementService {
     }
   }
 
-  Future<List<MovementModel>> fetchAllIncomesByCard(String token, CardModel? card) async {
+  Future<List<MovementModel>> fetchAllIncomesByCard(
+      String token, CardModel? card) async {
     Uri endpoint = Uri.parse(
         "https://proyectosoftii-backend-production.up.railway.app/ingresos//ingresosPorTarjeta/${card?.idTarjeta}");
 
@@ -88,12 +85,12 @@ class MovementService {
       for (var item in responseBody) {
         movements.add(
           IngresoModel(
-              item['idIngreso'],
-              item['monto'].toDouble(),
-              item['descripcion'],
-              DateTime.parse(item['hora']),
-              DateTime.parse(item['fecha']),
-              ),
+            item['idIngreso'],
+            item['monto'].toDouble(),
+            item['descripcion'],
+            DateTime.parse(item['hora']),
+            DateTime.parse(item['fecha']),
+          ),
         );
       }
       return movements;
@@ -102,7 +99,8 @@ class MovementService {
     }
   }
 
-  Future<List<MovementModel>> fetchAllExpensesByCard(String token, CardModel? card) async {
+  Future<List<MovementModel>> fetchAllExpensesByCard(
+      String token, CardModel? card) async {
     Uri endpoint = Uri.parse(
         "https://proyectosoftii-backend-production.up.railway.app/gastos/gastosPorTarjeta/${card?.idTarjeta}");
 
@@ -117,13 +115,13 @@ class MovementService {
       for (var item in responseBody) {
         movements.add(
           GastoModel(
-            item['idCategoria'].toInt(),
-            item['nroCuotas'].toInt(),
-            item['idGasto'],
-            item['monto'].toDouble(),
-            item['descripcion'],
-            DateTime.parse(item['hora']),
-            DateTime.parse(item['fecha'])),
+              item['idCategoria'].toInt(),
+              item['nroCuotas'].toInt(),
+              item['idGasto'],
+              item['monto'].toDouble(),
+              item['descripcion'],
+              DateTime.parse(item['hora']),
+              DateTime.parse(item['fecha'])),
         );
       }
       return movements;
@@ -132,8 +130,39 @@ class MovementService {
     }
   }
 
+  Future<List<GastoModel>> fetchAllExpensesByDate(
+      String token, CardModel? card, DateTime date) async {
+    Uri endpoint = Uri.parse(
+        "https://proyectosoftii-backend-production.up.railway.app/gastos/gastos/fecha/${card?.idTarjeta}/${date.toString()}");
 
-  Future<void> createMovement(String token, MovementModel movement, CardModel? card) async {
+    var response = await http.get(endpoint, headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      "Authorization": "Bearer $token",
+    });
+    List<GastoModel> movements = [];
+
+    if (response.statusCode == 200) {
+      var responseBody = json.decode(response.body);
+      for (var item in responseBody) {
+        movements.add(
+          GastoModel(
+              item['idCategoria'].toInt(),
+              item['nroCuotas'].toInt(),
+              item['idGasto'],
+              item['monto'].toDouble(),
+              item['descripcion'],
+              DateTime.parse(item['hora']),
+              DateTime.parse(item['fecha'])),
+        );
+      }
+      return movements;
+    } else {
+      throw Exception('Failed to fecth movement');
+    }
+  }
+
+  Future<void> createMovement(
+      String token, MovementModel movement, CardModel? card) async {
     JsonEncoder encoder = json.encoder;
     Uri endpoint;
     Map body;
@@ -179,7 +208,6 @@ class MovementService {
       throw Exception('Failed to create movement');
     }
   }
-
 
   Future<void> editMovement(String token, MovementModel? movement) async {
     JsonEncoder encoder = json.encoder;
@@ -227,7 +255,6 @@ class MovementService {
     }
   }
 
-
   Future<void> removeMovement(String token, MovementModel movement) async {
     JsonEncoder encoder = json.encoder;
     Uri endpoint;
@@ -262,5 +289,4 @@ class MovementService {
       throw Exception('Failed to remove movement');
     }
   }
-  
 }
