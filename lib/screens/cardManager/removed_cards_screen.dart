@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
-import 'package:spedtracker_app/components/cards/molecules/card_list.dart';
+import 'package:spedtracker_app/components/cards/molecules/card_dragable.dart';
 import 'package:spedtracker_app/models/card_model.dart';
-import 'package:spedtracker_app/screens/movementManager/movement_manager.dart';
-import 'package:spedtracker_app/screens/movementManager/removed_cards_selector.dart';
+import 'package:spedtracker_app/screens/cardManager/edit_card_screen.dart';
 import 'package:spedtracker_app/services/card_service.dart';
 
-class MovementCardSelectorScreen extends StatefulWidget {
+
+class RemovedCardScreen extends StatefulWidget {
   final String userToken;
-  const MovementCardSelectorScreen({super.key, required this.userToken});
+  const RemovedCardScreen({super.key, required this.userToken});
 
   @override
-  State<MovementCardSelectorScreen> createState() =>
-      _MovementCardSelectorScreenState();
+  State<RemovedCardScreen> createState() => _RemovedCardScreenState();
 }
 
-class _MovementCardSelectorScreenState
-    extends State<MovementCardSelectorScreen> {
+
+class _RemovedCardScreenState extends State<RemovedCardScreen> {
+  
   List<CardModel> cardList = [];
   List<CardModel> debitCardList = [];
   List<CardModel> creditCardList = [];
   CardService service = CardService();
   bool loading = true;
+  
+  Future<List<CardModel>> fetchCreditCard() async {
+    return await service.fetchAllCredit(widget.userToken);
+  }
 
   Future<List<CardModel>> fetchDebitCard() async {
     return await service.fetchAllDebit(widget.userToken);
-  }
-
-  Future<List<CardModel>> fetchCreditCard() async {
-    return await service.fetchAllCredit(widget.userToken);
   }
 
   Future<void> getData() async {
@@ -44,29 +44,44 @@ class _MovementCardSelectorScreenState
       cardList.addAll(debitCardList);
       cardList.addAll(creditCardList);
       for (int i = cardList.length - 1; i >= 0; i--) {
-        if (cardList[i].numeroTarjeta.endsWith("*")) {
+        if (!cardList[i].numeroTarjeta.endsWith("*")) {
           cardList.removeAt(i);
         }
       }
       loading = false;
     });
   }
-
-  void goToRemoved() {
+  
+  
+  void edit(CardModel card) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => RemovedCardMScreen(userToken: widget.userToken)));
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditCardScreen(
+          userToken: widget.userToken,
+          card: card,
+        ),
+      ),
+    );
+    print("Edit card: ${card.idTarjeta}");
   }
 
-  void goTo(CardModel card) {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                MovementScreen(userToken: widget.userToken, tarjeta: card)));
+  void delete(CardModel card) async {
+    await service.removeCard(widget.userToken, card);
+    setState(() {
+      cardList.clear();
+      creditCardList.clear();
+      debitCardList.clear();
+    });
+    await getData();
+    print("Delete card: ${card.idTarjeta}");
   }
 
+  void goTo(String id) {
+    print("Go to card: $id");
+  }
+  
+  
   @override
   void initState() {
     super.initState();
@@ -74,11 +89,13 @@ class _MovementCardSelectorScreenState
       await getData();
     });
   }
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(alignment: Alignment.bottomCenter, children: [
+        
         Background(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -93,52 +110,45 @@ class _MovementCardSelectorScreenState
                   Icons.arrow_back_ios_new,
                   size: 30,
                 ),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () =>
+                    Navigator.of(context).popUntil((route) => route.isFirst),
               ),
             ],
           ),
         ),
+        
         Container(
+          
           decoration: BoxDecoration(
               color: SchedulerBinding
                           .instance.platformDispatcher.platformBrightness ==
                       Brightness.light
                   ? const ColorScheme.light().background
                   : const Color.fromRGBO(116, 107, 85, 1)),
+          
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(top: 100),
           child: Column(mainAxisSize: MainAxisSize.max, children: [
             const SizedBox(
-                    height: 20,
+              height: 20,
+            ),
+            if(cardList.length == 0)
+              Text(
+                    "No tienes tarjetas eliminadas",
+                    style: TextStyle(fontSize: 20, color: Colors.grey),
                   ),
-                  const Text(
-                    "Selecciona una tarjeta",
+            if(cardList.length != 0)
+              const Text(
+                    "Tarjetas eliminadas",
                     style: TextStyle(fontSize: 32),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  FilledButton(
-              onPressed: () {
-                goToRemoved();
-              },
-              style: FilledButton.styleFrom(
-                  fixedSize: const Size(250, 50),
-                  foregroundColor: Colors.white,
-                  backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
-              child: const Text(
-                "Ver Tarjetas Eliminadas",
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
             Expanded(
-              child: ListCard(cards: cardList, goToCallback: goTo)
+              child: DragableCard(
+                  cards: cardList,
+                  edit: edit,
+                  delete: delete,
+                  goToCallback: goTo),
             ),
           ]),
         ),

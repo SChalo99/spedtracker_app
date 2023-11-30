@@ -7,6 +7,7 @@ abstract class CardModel {
   String cardHolder = '';
   DateTime? expDate;
   String operadoraFinanciera = '';
+  bool removed = false;
 
   CardModel();
  

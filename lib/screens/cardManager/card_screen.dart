@@ -5,6 +5,7 @@ import 'package:spedtracker_app/components/cards/molecules/card_dragable.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:spedtracker_app/screens/cardManager/add_card_screen.dart';
 import 'package:spedtracker_app/screens/cardManager/edit_card_screen.dart';
+import 'package:spedtracker_app/screens/cardManager/removed_cards_screen.dart';
 import 'package:spedtracker_app/services/card_service.dart';
 
 
@@ -44,6 +45,11 @@ class _CardScreenState extends State<CardScreen> {
       creditCardList.addAll(credits);
       cardList.addAll(debitCardList);
       cardList.addAll(creditCardList);
+      for (int i = cardList.length - 1; i >= 0; i--) {
+        if (cardList[i].numeroTarjeta.endsWith("*")) {
+          cardList.removeAt(i);
+        }
+      }
       loading = false;
     });
   }
@@ -63,7 +69,9 @@ class _CardScreenState extends State<CardScreen> {
   }
 
   void delete(CardModel card) async {
-    await service.removeCard(widget.userToken, card);
+    card.numeroTarjeta += '*'; 
+    await service.editCard(widget.userToken, card);
+    //await service.removeCard(widget.userToken, card);
     setState(() {
       cardList.clear();
       creditCardList.clear();
@@ -82,6 +90,13 @@ class _CardScreenState extends State<CardScreen> {
         context,
         MaterialPageRoute(
             builder: (context) => AddCardScreen(userToken: widget.userToken)));
+  }
+
+  void goToRemoved() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => RemovedCardScreen(userToken: widget.userToken)));
   }
   
   
@@ -151,6 +166,24 @@ class _CardScreenState extends State<CardScreen> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 20,
+            ),
+            FilledButton(
+              onPressed: () {
+                goToRemoved();
+              },
+              style: FilledButton.styleFrom(
+                  fixedSize: const Size(250, 50),
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color.fromRGBO(28, 33, 22, 1)),
+              child: const Text(
+                "Ver Tarjetas Eliminadas",
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
             Expanded(
               child: DragableCard(
                   cards: cardList,
@@ -167,5 +200,7 @@ class _CardScreenState extends State<CardScreen> {
       ]),
     );
   }
+  
+  
 }
 

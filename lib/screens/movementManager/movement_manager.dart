@@ -194,57 +194,59 @@ class _MovementScreenState extends State<MovementScreen> {
                 const SizedBox(
                   height: 15,
                 ),
-                if(card is DebitCard)
-                  Row(children: [
-                    
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    GestureDetector(
+                if(!card!.numeroTarjeta.endsWith("*"))
+                  if(card is DebitCard)
+                    Row(children: [
                       
-                      child: const Text(
-                        '+ Agregar Ingreso',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold)
-                            
+                      const SizedBox(
+                        width: 20,
                       ),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => IncomeFormScreen(
-                                    userToken: widget.userToken, card: card)));
-                      },
-                    ),
-                  ]),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(children: [
+                      GestureDetector(
+                        
+                        child: const Text(
+                          '+ Agregar Ingreso',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold)
+                              
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => IncomeFormScreen(
+                                      userToken: widget.userToken, card: card)));
+                        },
+                      ),
+                    ]),
                   const SizedBox(
-                    width: 20,
+                    height: 10,
                   ),
-                  GestureDetector(
-                    child: const Text(
-                      '+ Agregar Gasto',
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold)
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ExpensesFormScreen(
-                                  userToken: widget.userToken, card: card)));
-                    },
-                  ),
-                ]),
+                  if(!card!.numeroTarjeta.endsWith("*"))
+                    Row(children: [
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      GestureDetector(
+                        child: const Text(
+                          '+ Agregar Gasto',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold)
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ExpensesFormScreen(
+                                      userToken: widget.userToken, card: card)));
+                        },
+                      ),
+                    ]),
                 const SizedBox(
                   height: 5,
                 ),
