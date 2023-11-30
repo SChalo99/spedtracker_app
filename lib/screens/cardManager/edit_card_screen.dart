@@ -121,6 +121,7 @@ class _EditCardScreenState extends State<EditCardScreen> {
         builder: ((context) => AddCardScreen(
               userToken: widget.userToken,
               isExtension: true,
+              card: card,
             )),
       ),
     );

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
+import 'package:spedtracker_app/models/categoria_model.dart';
 import 'package:spedtracker_app/models/credit_card_model.dart';
 import 'package:spedtracker_app/models/debit_card_model.dart';
 import 'package:spedtracker_app/models/movement_model.dart';
 import 'package:spedtracker_app/models/gasto_model.dart';
 import 'package:spedtracker_app/services/card_service.dart';
+import 'package:spedtracker_app/services/category_service.dart';
 import 'package:spedtracker_app/services/movement_service.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:spedtracker_app/screens/movementManager/movement_manager.dart';
@@ -22,12 +24,11 @@ class ExpensesFormScreen extends StatefulWidget {
 }
 
 class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
-
   CardModel? card;
   final TextEditingController _montoController = TextEditingController();
   final TextEditingController _descripcionController = TextEditingController();
   final TextEditingController _nroCuotasController = TextEditingController();
-  final List razonOption = ["1", "2", "3"];
+  final List<CategoriaModel> razonOption = [];
   final _formKey = GlobalKey<FormState>();
   var uuid = const Uuid();
   int idCategoria = 0;
@@ -41,13 +42,13 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
 
     MovementModel nuevoMovimiento;
     nuevoMovimiento = GastoModel(
-      idCategoria,
-      int.parse(_nroCuotasController.text),
-      idMovimiento,
-      double.parse(_montoController.text),
-      _descripcionController.text,
-      horaMovimiento,
-      fechaMovimiento);
+        idCategoria,
+        int.parse(_nroCuotasController.text),
+        idMovimiento,
+        double.parse(_montoController.text),
+        _descripcionController.text,
+        horaMovimiento,
+        fechaMovimiento);
 
     debugPrint(nuevoMovimiento.fecha.toString());
     debugPrint(nuevoMovimiento.hora.toString());
@@ -67,12 +68,19 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => MovementScreen(userToken: widget.userToken, tarjeta: card)));
+              builder: (context) =>
+                  MovementScreen(userToken: widget.userToken, tarjeta: card)));
     }
   }
 
-  void getData(String email, String password) async {
-    try {} catch (e) {
+  void getData() async {
+    try {
+      List<CategoriaModel> categories =
+          await CategoryService().fetchCategories();
+      setState(() {
+        razonOption.addAll(categories);
+      });
+    } catch (e) {
       if (context.mounted) {
         debugPrint(e.toString());
       }
@@ -83,6 +91,7 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
   void initState() {
     super.initState();
     card = widget.card;
+    getData();
   }
 
   @override
@@ -178,7 +187,7 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
                   ),
                   Container(
                     width: 300,
-                    child: DropdownMenu<String>(
+                    child: DropdownMenu<CategoriaModel>(
                       width: 300,
                       menuStyle: const MenuStyle(
                         backgroundColor: MaterialStatePropertyAll(Colors.black),
@@ -187,11 +196,11 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
                       enableSearch: false,
                       onSelected: (value) {
                         setState(() {
-                          idCategoria = int.parse(value!);
+                          idCategoria = value!.idCategoria;
                         });
                       },
-                      dropdownMenuEntries: razonOption.map((e) {
-                        return DropdownMenuEntry<String>(
+                      dropdownMenuEntries: razonOption.map((CategoriaModel e) {
+                        return DropdownMenuEntry<CategoriaModel>(
                           style: const ButtonStyle(
                             backgroundColor:
                                 MaterialStatePropertyAll(Colors.black),
@@ -199,7 +208,7 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
                                 MaterialStatePropertyAll(Colors.white),
                           ),
                           value: e,
-                          label: e,
+                          label: e.nombre,
                         );
                       }).toList(),
                     ),

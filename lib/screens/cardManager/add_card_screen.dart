@@ -15,16 +15,18 @@ import 'package:uuid/uuid.dart';
 class AddCardScreen extends StatefulWidget {
   final String userToken;
   final bool isExtension;
+  final CardModel? card;
   const AddCardScreen(
-      {super.key, required this.userToken, this.isExtension = false});
+      {super.key,
+      required this.userToken,
+      this.isExtension = false,
+      this.card});
 
   @override
   State<AddCardScreen> createState() => _AddCardScreenState();
 }
 
-
 class _AddCardScreenState extends State<AddCardScreen> {
-  
   List<CardModel> cards = [];
   OutlineInputBorder border = const OutlineInputBorder();
   final _formKey = GlobalKey<FormState>();
@@ -48,8 +50,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
   String currency = '';
   String cardType = '';
   late CardType brand;
-  
-  
+  late CreditCard card;
+
   void onCreditCardModel(CreditCardModel? creditCardModel) {
     setState(() {
       cardNumber = creditCardModel!.cardNumber;
@@ -66,9 +68,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
       ).value;
     }
   }
-  
 
-  
   void createCard() async {
     List<String> date = expiryDate.split("/");
     String idTarjeta = uuid.v4();
@@ -81,7 +81,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
     if (cardType == 'DEBITO') {
       newCard = DebitCard(idTarjeta, cardNumber, currency, expDate, cardService,
           _accountController.text, double.parse(_montoController.text));
-    } else {
+      await CardService().createCard(widget.userToken, newCard);
+      createNotifications(cardNumLenght, expDateNotification);
+    } else if (cardType == 'CREDITO') {
       newCard = CreditCard(
         idTarjeta,
         cardNumber,
@@ -94,15 +96,44 @@ class _AddCardScreenState extends State<AddCardScreen> {
         double.parse(_lineController.text),
       );
       debugPrint(newCard.idTarjeta);
-    }
-    await CardService().createCard(widget.userToken, newCard);
-    createNotifications(cardNumLenght, expDateNotification);
 
-    if (context.mounted) {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CardScreen(userToken: widget.userToken)));
+      await CardService().createCard(widget.userToken, newCard);
+      createNotifications(cardNumLenght, expDateNotification);
+    } else {
+      newCard = CreditCard(
+        idTarjeta,
+        cardNumber,
+        currency,
+        expDate,
+        cardService,
+        DateTime.parse(_dueDayController.text),
+        DateTime.parse(_payDayController.text),
+        double.parse(_interesController.text),
+        double.parse(_lineController.text),
+      );
+    }
+    if (widget.isExtension) {
+      if (double.parse(_lineController.text) < card.lineaCredito * 0.6) {
+        setState(() {
+          card.lineaCredito -= double.parse(_lineController.text);
+        });
+        await CardService().editCard(widget.userToken, card);
+        await CardService().createCard(widget.userToken, newCard);
+        createNotifications(cardNumLenght, expDateNotification);
+      }
+      if (context.mounted) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CardScreen(userToken: widget.userToken)));
+      }
+    } else {
+      if (context.mounted) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CardScreen(userToken: widget.userToken)));
+      }
     }
   }
 
@@ -112,7 +143,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
         'Su Tarjeta que termina en *${cardNumber[cardNumLenght - 4]}${cardNumber[cardNumLenght - 3]}${cardNumber[cardNumLenght - 2]}${cardNumber[cardNumLenght - 1]} está por vencer en 10 días.',
         expDateNotification);
 
-    if (cardType == 'CREDITO') {
+    if (cardType == 'CREDITO' || cardType == 'CREDITO EXTENSIÓN') {
       NotificationService().addScheduleNotification(
           'Pago Tarjeta',
           'El pago de su Tarjeta que termina en *${cardNumber[cardNumLenght - 4]}${cardNumber[cardNumLenght - 3]}${cardNumber[cardNumLenght - 2]}${cardNumber[cardNumLenght - 1]} está por vence en 10 días.',
@@ -126,9 +157,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
     debugPrint("Notifications created");
   }
-  
 
-  
   @override
   void initState() {
     super.initState();
@@ -136,19 +165,16 @@ class _AddCardScreenState extends State<AddCardScreen> {
     if (widget.isExtension) {
       types.add('CREDITO EXTENSIÓN');
       cardType = types.first;
+      card = widget.card! as CreditCard;
     } else {
       types.addAll(['CREDITO', 'DEBITO']);
     }
   }
-  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      
       body: Stack(alignment: Alignment.bottomCenter, children: [
-        
         Background(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -168,9 +194,6 @@ class _AddCardScreenState extends State<AddCardScreen> {
             ],
           ),
         ),
-        
-
-        
         Container(
           decoration: BoxDecoration(
               color: SchedulerBinding
@@ -474,7 +497,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
                           ),
                         ],
                       ),
-                      if (cardType == 'CREDITO')
+                      if (cardType == 'CREDITO' ||
+                          cardType == 'CREDITO EXTENSIÓN')
                         Column(
                           children: [
                             const SizedBox(
@@ -664,9 +688,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
             ],
           ),
         ),
-        
       ]),
     );
   }
 }
-

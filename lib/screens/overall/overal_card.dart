@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
-import 'package:spedtracker_app/components/selector_chip/atom.dart';
-import 'package:pie_chart/pie_chart.dart';
+import 'package:spedtracker_app/components/cards/molecules/card_list.dart';
+import 'package:spedtracker_app/models/card_model.dart';
+import 'package:spedtracker_app/screens/overall/overal_month.dart';
+import 'package:spedtracker_app/services/card_service.dart';
 
 class OverallCardScreen extends StatefulWidget {
   final String userToken;
@@ -13,20 +15,49 @@ class OverallCardScreen extends StatefulWidget {
 }
 
 class _OverallCardScreenState extends State<OverallCardScreen> {
-  Map<String, double> dataMap = {
-    "Flutter": 5,
-    "React": 3,
-    "Xamarin": 2,
-    "Ionic": 2,
-    "KC": 2,
-    "Softonic": 2,
-  };
+  List<CardModel> cardList = [];
+  List<CardModel> debitCardList = [];
+  List<CardModel> creditCardList = [];
+  CardService service = CardService();
+  bool loading = true;
 
-  void getData() async {}
+  Future<List<CardModel>> fetchDebitCard() async {
+    return await service.fetchAllDebit(widget.userToken);
+  }
+
+  Future<List<CardModel>> fetchCreditCard() async {
+    return await service.fetchAllCredit(widget.userToken);
+  }
+
+  Future<void> getData() async {
+    setState(() {
+      loading = true;
+    });
+    List<CardModel> debits = await fetchDebitCard();
+    List<CardModel> credits = await fetchCreditCard();
+    setState(() {
+      debitCardList.addAll(debits);
+      creditCardList.addAll(credits);
+      cardList.addAll(debitCardList);
+      cardList.addAll(creditCardList);
+      loading = false;
+    });
+  }
+
+  void goTo(CardModel card) {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                OverallMonthScreen(userToken: widget.userToken, card: card)));
+  }
 
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () async {
+      await getData();
+    });
   }
 
   @override
@@ -47,8 +78,7 @@ class _OverallCardScreenState extends State<OverallCardScreen> {
                   Icons.arrow_back_ios_new,
                   size: 30,
                 ),
-                onPressed: () =>
-                    Navigator.of(context).popUntil((route) => route.isFirst),
+                onPressed: () => Navigator.of(context).pop(),
               ),
             ],
           ),
@@ -63,31 +93,27 @@ class _OverallCardScreenState extends State<OverallCardScreen> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(top: 100),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                MonthFilterSelector(
-                  toggleFilterCallback: (a, b) {},
-                ),
-                PieChart(
-                  dataMap: dataMap,
-                  chartValuesOptions: const ChartValuesOptions(
-                      showChartValuesInPercentage: true),
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
+          child: Column(mainAxisSize: MainAxisSize.max, children: [
+            const SizedBox(
+              height: 20,
             ),
-          ),
+            const Text(
+              "Selecciona una tarjeta",
+              style: TextStyle(fontSize: 32),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Expanded(child: ListCard(cards: cardList, goToCallback: goTo)),
+          ]),
         ),
+        if (loading)
+          const Center(
+            child: CircularProgressIndicator(),
+          ),
       ]),
     );
   }
