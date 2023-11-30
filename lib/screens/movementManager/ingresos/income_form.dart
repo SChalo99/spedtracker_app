@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
+import 'package:spedtracker_app/models/debit_card_model.dart';
 import 'package:spedtracker_app/models/movement_model.dart';
 import 'package:spedtracker_app/models/ingreso_model.dart';
 import 'package:spedtracker_app/models/card_model.dart';
+import 'package:spedtracker_app/services/card_service.dart';
 import 'package:spedtracker_app/services/movement_service.dart';
 import 'package:spedtracker_app/screens/movementManager/movement_manager.dart';
 import 'package:uuid/uuid.dart';
@@ -27,7 +29,7 @@ class _IncomeFormScreenState extends State<IncomeFormScreen> {
   var uuid = const Uuid();
   FocusNode focusNode = FocusNode();
 
-  void createIncome() async {
+  void createIncome(CardModel? card) async {
     //DateTime now = DateTime.now();
     DateTime fechaMovimiento = DateTime.now();
     DateTime horaMovimiento = DateTime.now();
@@ -45,9 +47,12 @@ class _IncomeFormScreenState extends State<IncomeFormScreen> {
     debugPrint(nuevoMovimiento.fecha.toString());
     debugPrint(nuevoMovimiento.hora.toString());
 
-    
+    if(card is DebitCard){
+      card.ingresoMinimo = card.ingresoMinimo + double.parse(_montoController.text);
+    }
 
     await MovementService().createMovement(widget.userToken, nuevoMovimiento, card);
+    await CardService().editCard(widget.userToken, card);
 
     if (context.mounted) {
       Navigator.pushReplacement(
@@ -165,7 +170,7 @@ class _IncomeFormScreenState extends State<IncomeFormScreen> {
                   FilledButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        createIncome();
+                        createIncome(card);
                         print("Ingreso registrado");
                       }
                     },

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
+import 'package:spedtracker_app/models/credit_card_model.dart';
+import 'package:spedtracker_app/models/debit_card_model.dart';
 import 'package:spedtracker_app/models/movement_model.dart';
 import 'package:spedtracker_app/models/gasto_model.dart';
+import 'package:spedtracker_app/services/card_service.dart';
 import 'package:spedtracker_app/services/movement_service.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:spedtracker_app/screens/movementManager/movement_manager.dart';
@@ -30,7 +33,7 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
   int idCategoria = 0;
   FocusNode focusNode = FocusNode();
 
-  void createExpense() async {
+  void createExpense(CardModel? card) async {
     //DateTime now = DateTime.now();
     DateTime fechaMovimiento = DateTime.now();
     DateTime horaMovimiento = DateTime.now();
@@ -49,7 +52,16 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
     debugPrint(nuevoMovimiento.fecha.toString());
     debugPrint(nuevoMovimiento.hora.toString());
 
+    if(card is CreditCard){
+      card.lineaCredito = card.lineaCredito - double.parse(_montoController.text);
+    }else if(card is DebitCard){
+      card.ingresoMinimo = card.ingresoMinimo - double.parse(_montoController.text);
+    }
+
+
     await MovementService().createMovement(widget.userToken, nuevoMovimiento, card);
+    print("Gasto registrado");
+    await CardService().editCard(widget.userToken, card);
 
     if (context.mounted) {
       Navigator.pushReplacement(
@@ -222,8 +234,8 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
                   FilledButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        createExpense();
-                        print("Gasto registrado");
+                        createExpense(card);
+                        
                       }
                     },
                     style: FilledButton.styleFrom(

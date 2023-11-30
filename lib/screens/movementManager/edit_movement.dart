@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spedtracker_app/components/background/background.dart';
+import 'package:spedtracker_app/models/credit_card_model.dart';
+import 'package:spedtracker_app/models/debit_card_model.dart';
+import 'package:spedtracker_app/models/ingreso_model.dart';
 import 'package:spedtracker_app/models/movement_model.dart';
 import 'package:spedtracker_app/models/gasto_model.dart';
+import 'package:spedtracker_app/services/card_service.dart';
 import 'package:spedtracker_app/services/movement_service.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:spedtracker_app/screens/movementManager/movement_manager.dart';
@@ -23,6 +27,7 @@ class _EditMovementScreenState extends State<EditMovementScreen> {
 
   MovementModel? movement;
   CardModel? card;
+  double? montoInicial = 0.0;
   final TextEditingController _montoController = TextEditingController();
   final TextEditingController _descripcionController = TextEditingController();
   final TextEditingController _nroCuotasController = TextEditingController();
@@ -32,8 +37,16 @@ class _EditMovementScreenState extends State<EditMovementScreen> {
   int idCategoria = 0;
   FocusNode focusNode = FocusNode();
 
-  void editMovement(MovementModel? movement) async {
-    
+  void editMovement(MovementModel? movement, CardModel? card) async {
+    if(card is DebitCard){
+      if(movement is GastoModel){
+        card.ingresoMinimo = card.ingresoMinimo + (montoInicial!-double.parse(_montoController.text));
+      }else if(movement is IngresoModel){
+        card.ingresoMinimo = card.ingresoMinimo - (montoInicial!-double.parse(_montoController.text));
+      }
+    }else if(card is CreditCard){
+      card.lineaCredito = card.lineaCredito + (montoInicial!-double.parse(_montoController.text));
+    }
     setState(() {
       movement?.monto = double.parse(_montoController.text);
       movement?.descripcion = _descripcionController.text;
@@ -47,6 +60,7 @@ class _EditMovementScreenState extends State<EditMovementScreen> {
     }
 
     await MovementService().editMovement(widget.userToken, movement);
+    await CardService().editCard(widget.userToken, card);
 
     if (context.mounted) {
       Navigator.pushReplacement(
@@ -66,7 +80,7 @@ class _EditMovementScreenState extends State<EditMovementScreen> {
     if (movement is GastoModel) {
       setState(() {
         _nroCuotasController.text =  movement.nroCuotas.toString();
-        idCategoria =movement.idCategoria;
+        idCategoria = movement.idCategoria;
       });
     }
   }
@@ -76,6 +90,7 @@ class _EditMovementScreenState extends State<EditMovementScreen> {
     super.initState();
     movement = widget.movement;
     card = widget.card;
+    montoInicial = movement?.monto;
     print(movement?.monto);
     print(card?.numeroTarjeta);
     loadData(movement!);
@@ -233,7 +248,7 @@ class _EditMovementScreenState extends State<EditMovementScreen> {
                   FilledButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        editMovement(movement);
+                        editMovement(movement, card);
                         print("Gasto registrado");
                       }
                     },

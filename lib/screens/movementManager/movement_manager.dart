@@ -4,10 +4,13 @@ import 'package:spedtracker_app/components/background/background.dart';
 import 'package:spedtracker_app/components/movements/movement_dragable.dart';
 import 'package:spedtracker_app/models/credit_card_model.dart';
 import 'package:spedtracker_app/models/debit_card_model.dart';
+// import 'package:spedtracker_app/models/gasto_model.dart';
+// import 'package:spedtracker_app/models/ingreso_model.dart';
 import 'package:spedtracker_app/models/movement_model.dart';
 import 'package:spedtracker_app/screens/movementManager/ingresos/income_form.dart';
 import 'package:spedtracker_app/screens/movementManager/gastos/expenses_form.dart';
 import 'package:spedtracker_app/screens/movementManager/edit_movement.dart';
+// import 'package:spedtracker_app/services/card_service.dart';
 import 'package:spedtracker_app/services/movement_service.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 
@@ -25,6 +28,7 @@ class _MovementScreenState extends State<MovementScreen> {
   CardModel? card;
   var ingresos = 0.0;
   var credito = 0.0;
+  String simbolo = "";
   List<MovementModel> movementList = [];
   List<MovementModel> incomesList = [];
   List<MovementModel> expensesList = [];
@@ -56,6 +60,12 @@ class _MovementScreenState extends State<MovementScreen> {
       setState(() {
         credito = card.lineaCredito;
       });
+    }
+
+    if(card?.moneda == 'SOLES'){
+      simbolo = 'S/.';
+    }else if(card?.moneda == 'DOLARES'){
+      simbolo = r'$';
     }
   }
 
@@ -92,6 +102,16 @@ class _MovementScreenState extends State<MovementScreen> {
   }
 
   void delete(MovementModel movement) async {
+    // if(card is DebitCard){
+    //   if(movement is GastoModel){
+    //     card.ingresoMinimo = card.ingresoMinimo + movement.monto;
+    //   }else if(movement is IngresoModel){
+    //     card.ingresoMinimo = card.ingresoMinimo - movement.monto;
+    //   }
+    // }else if(card is CreditCard){
+    //   card.lineaCredito = card.lineaCredito + movement.monto;
+    // }
+    // await CardService().editCard(widget.userToken, card);
     await service.removeMovement(widget.userToken, movement);
     setState(() {
       movementList.clear();
@@ -148,7 +168,7 @@ class _MovementScreenState extends State<MovementScreen> {
                           .instance.platformDispatcher.platformBrightness ==
                       Brightness.light
                   ? const ColorScheme.light().background
-                  : const Color.fromRGBO(116, 107, 85, 1)),
+                  : const Color.fromRGBO(255, 0, 0, 255)),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(top: 100),
@@ -163,11 +183,11 @@ class _MovementScreenState extends State<MovementScreen> {
                   width: MediaQuery.of(context).size.width,
                   height: 150,
                   margin: const EdgeInsets.only(right: 20, left: 20),
-                  color: Color.fromARGB(45, 38, 46, 132),
+                  color: Color.fromARGB(255, 196, 198, 231),
                   child: Center(
                     child: Text(
-                      '${card is DebitCard? ingresos : card is CreditCard? credito : ''}',
-                      style: TextStyle(fontSize: 32, color: Colors.white),
+                      simbolo+'${card is DebitCard? ingresos : card is CreditCard? credito : ''}',
+                      style: TextStyle(fontSize: 50, color: Color.fromARGB(255, 100, 76, 196)),
                     ),
                   ),
                 ),
@@ -221,7 +241,7 @@ class _MovementScreenState extends State<MovementScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ExpensesFormScreen(
-                                  userToken: widget.userToken, card: card,)));
+                                  userToken: widget.userToken, card: card)));
                     },
                   ),
                 ]),

@@ -130,7 +130,7 @@ class CardService {
 
   Future<void> editCard(
     String token,
-    CardModel card,
+    CardModel? card,
   ) async {
     JsonEncoder encoder = json.encoder;
     Map body;
