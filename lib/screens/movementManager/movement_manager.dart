@@ -85,6 +85,7 @@ class _MovementScreenState extends State<MovementScreen> {
       movementList.addAll(expensesList);
       loading = false;
     });
+    
   }
 
   void edit(MovementModel movement) {
