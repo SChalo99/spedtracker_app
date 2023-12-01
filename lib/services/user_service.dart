@@ -23,7 +23,8 @@ class UserService {
           responseBody['edad'].toString(),
           responseBody['email'],
           responseBody['genero'],
-          responseBody['telefono']);
+          responseBody['telefono'],
+          responseBody['montoLimite'].toDouble());
       return userResponse;
     } else {
       throw Exception('Failed to get user');
@@ -67,6 +68,7 @@ class UserService {
       'telefono': user.telefono,
       'email': user.email,
       'edad': user.edad,
+      'montoLimite': user.montoLimite,
       'fcm': user.fcm
     };
     String bodyToJson = encoder.convert(body);
@@ -83,6 +85,41 @@ class UserService {
       debugPrint("Created!");
     } else {
       throw Exception('Failed to create user');
+    }
+  }
+
+  Future<void> editUser(String token, UserModel user) async {
+    JsonEncoder encoder = json.encoder;
+    Uri endpoint = Uri.parse(
+        "https://proyectosoftii-backend-production.up.railway.app/usuarios");
+
+    Map body = {
+      'idUsuario': user.idUsuario,
+      'nombre': user.nombre,
+      'apellido': user.apellido,
+      'DNI': user.dni,
+      'genero': user.genero,
+      'telefono': user.telefono,
+      'email': user.email,
+      'edad': user.edad,
+      'montoLimite': user.montoLimite,
+      'fcm': user.fcm
+    };
+    String bodyToJson = encoder.convert(body);
+
+    var response = await http.put(
+      endpoint,
+      body: bodyToJson,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      debugPrint("Edited!");
+    } else {
+      throw Exception('Failed to edit user');
     }
   }
 }

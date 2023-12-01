@@ -37,6 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   ];
   String gender = "";
   String phoneNumber = "";
+  double montoLimite = 0;
   FocusNode focusNode = FocusNode();
   bool obscure = true;
   bool obscure2 = true;
@@ -68,6 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         email,
         gender,
         phoneNumber,
+        montoLimite,
         idUsuario: user.user!.uid,
         fcm: fcmToken!,
       );

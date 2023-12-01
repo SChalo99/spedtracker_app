@@ -5,6 +5,7 @@ import 'package:spedtracker_app/components/selector_chip/atom.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:spedtracker_app/models/card_model.dart';
 import 'package:spedtracker_app/models/categoria_model.dart';
+import 'package:spedtracker_app/models/credit_card_model.dart';
 import 'package:spedtracker_app/models/gasto_model.dart';
 import 'package:spedtracker_app/services/category_service.dart';
 import 'package:spedtracker_app/services/movement_service.dart';
@@ -24,6 +25,7 @@ class _OverallMonthScreenState extends State<OverallMonthScreen> {
   Set<String> filters = {};
   CardModel? card;
   String simbolo = '';
+  double gastoTotal = 0.0;
 
   late Future<Map<String, double>> dataMap;
   Map dates = {
@@ -87,6 +89,10 @@ class _OverallMonthScreenState extends State<OverallMonthScreen> {
     } else {
       simbolo = r'$';
     }
+    for (int i = movimientos.length - 1; i >= 0; i--) {
+      gastoTotal += movimientos[i].monto;
+    }
+    gastoTotal = gastoTotal*0.0035;
     return await getCategories(movimientos);
   }
 
@@ -164,6 +170,7 @@ class _OverallMonthScreenState extends State<OverallMonthScreen> {
                               children: [
                                 Text(e.key),
                                 Text('$simbolo ${e.value.toStringAsFixed(2)}')
+
                               ],
                             )),
                       ]);
@@ -172,6 +179,16 @@ class _OverallMonthScreenState extends State<OverallMonthScreen> {
                     }
                   },
                 ),
+                if(card is CreditCard)
+                  Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Seguro de desgravamen'),
+                    Text('$simbolo $gastoTotal')
+                    ],
+                    )
+                
               ],
             ),
           ),

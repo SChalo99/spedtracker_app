@@ -4,15 +4,19 @@ import 'package:spedtracker_app/components/background/background.dart';
 import 'package:spedtracker_app/components/movements/movement_dragable.dart';
 import 'package:spedtracker_app/models/credit_card_model.dart';
 import 'package:spedtracker_app/models/debit_card_model.dart';
+import 'package:spedtracker_app/models/gasto_model.dart';
 // import 'package:spedtracker_app/models/gasto_model.dart';
 // import 'package:spedtracker_app/models/ingreso_model.dart';
 import 'package:spedtracker_app/models/movement_model.dart';
+import 'package:spedtracker_app/models/user_model.dart';
 import 'package:spedtracker_app/screens/movementManager/ingresos/income_form.dart';
 import 'package:spedtracker_app/screens/movementManager/gastos/expenses_form.dart';
 import 'package:spedtracker_app/screens/movementManager/edit_movement.dart';
 // import 'package:spedtracker_app/services/card_service.dart';
+
 import 'package:spedtracker_app/services/movement_service.dart';
 import 'package:spedtracker_app/models/card_model.dart';
+import 'package:spedtracker_app/services/user_service.dart';
 
 class MovementScreen extends StatefulWidget {
   final String userToken;
@@ -25,23 +29,22 @@ class MovementScreen extends StatefulWidget {
 }
 
 class _MovementScreenState extends State<MovementScreen> {
+
   CardModel? card;
+  UserModel? user;
+
+  DateTime selectedDate = DateTime.parse('${DateTime.now().year}-${DateTime.now().month}-01');
+
   var ingresos = 0.0;
   var credito = 0.0;
+  double gastoTotal = 0.0;
+
   String simbolo = "";
   List<MovementModel> movementList = [];
   List<MovementModel> incomesList = [];
   List<MovementModel> expensesList = [];
   MovementService service = MovementService();
   bool loading = true;
-
-  // Future<List<MovementModel>> fetchIncomes() async {
-  //   return await service.fetchAllIncomes(widget.userToken);
-  // }
-
-  // Future<List<MovementModel>> fetchExpenses() async {
-  //   return await service.fetchAllExpenses(widget.userToken);
-  // }
 
   Future<List<MovementModel>> fetchIncomes() async {
     return await service.fetchAllIncomesByCard(widget.userToken, card);
@@ -73,8 +76,13 @@ class _MovementScreenState extends State<MovementScreen> {
     setState(() {
       loading = true;
     });
+    
+    List<GastoModel> gastosFiltrados = await MovementService()
+        .fetchAllExpensesByDate(widget.userToken, card, selectedDate);
+
     List<MovementModel> ingresos = await fetchIncomes();
     List<MovementModel> gastos = await fetchExpenses();
+    user = await UserService().getUser(widget.userToken);
 
     setState(() {
       incomesList.addAll(ingresos);
@@ -83,7 +91,10 @@ class _MovementScreenState extends State<MovementScreen> {
       movementList.addAll(expensesList);
       loading = false;
     });
-    
+
+    for (int i = gastos.length - 1; i >= 0; i--) {
+      gastoTotal += gastosFiltrados[i].monto;
+    }
   }
 
   void edit(MovementModel movement) {
@@ -99,6 +110,47 @@ class _MovementScreenState extends State<MovementScreen> {
     );
     print("Edit card: ${movement.idMovimiento}");
   }
+
+  void goExpenses(){
+    if(gastoTotal > user!.montoLimite){
+      showPopup();
+    }else{
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ExpensesFormScreen(
+              userToken: widget.userToken, card: card)));
+    }
+  }
+
+  void showPopup() {
+
+  // Widget del popup
+  AlertDialog alertDialog = AlertDialog(
+    content: Text("¡Has alcanzo el monto límite de gastos en esta tarjeta! Proceda con cuidado", style: TextStyle(
+        fontSize: 20,
+        color: Colors.black,
+      ),),
+    actions: [
+      // Botón de aceptar
+      TextButton(
+        onPressed: () {
+          // Continuar a la siguiente pantalla
+          Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ExpensesFormScreen(
+              userToken: widget.userToken, card: card)));
+        },
+        child: Text("Aceptar"),
+      ),
+      // Botón de cancelar
+    ],
+  );
+
+  // Mostrar el popup
+  showDialog(context: context, builder: (context) => alertDialog);
+}
 
   void delete(MovementModel movement) async {
     // if(card is DebitCard){
@@ -129,7 +181,6 @@ class _MovementScreenState extends State<MovementScreen> {
   void initState() {
     super.initState();
     card = widget.tarjeta;
-    print(card?.numeroTarjeta);
     obtenerParametros(card);
     Future.delayed(Duration.zero, () async {
       await getData();
@@ -233,11 +284,7 @@ class _MovementScreenState extends State<MovementScreen> {
                               fontSize: 20,
                               fontWeight: FontWeight.bold)),
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ExpensesFormScreen(
-                                    userToken: widget.userToken, card: card)));
+                        goExpenses();
                       },
                     ),
                   ]),

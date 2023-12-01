@@ -40,6 +40,11 @@ class _OverallCardScreenState extends State<OverallCardScreen> {
       creditCardList.addAll(credits);
       cardList.addAll(debitCardList);
       cardList.addAll(creditCardList);
+      for (int i = cardList.length - 1; i >= 0; i--) {
+        if (cardList[i].numeroTarjeta.endsWith("*")) {
+          cardList.removeAt(i);
+        }
+      }
       loading = false;
     });
   }

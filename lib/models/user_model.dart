@@ -9,7 +9,7 @@ class UserModel {
   late String genero;
   late String email;
   late String telefono;
-  double? montoLimite;
+  late double montoLimite = 0.0;
   String? fcm;
 
   UserModel.empty();
@@ -21,9 +21,9 @@ class UserModel {
     this.edad,
     this.email,
     this.genero,
-    this.telefono, {
+    this.telefono,
+    this.montoLimite, {
     this.idUsuario,
-    this.montoLimite,
     this.fcm,
   });
 

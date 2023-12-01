@@ -112,7 +112,11 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
                   Icons.arrow_back_ios_new,
                   size: 30,
                 ),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  MovementScreen(userToken: widget.userToken, tarjeta: card))),
               ),
             ],
           ),
