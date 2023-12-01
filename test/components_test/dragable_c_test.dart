@@ -8,7 +8,7 @@ import 'package:spedtracker_app/models/debit_card_model.dart';
 
 void main() {
   group('Pruebas CardDragable', () {
-    testWidgets('DragableMovement debe cargar correctamente',
+    testWidgets('CardDragable debe cargar correctamente',
         (WidgetTester tester) async {
       //Se crean los atributos
       List<CardModel> mockCards = [
@@ -37,7 +37,7 @@ void main() {
       expect(find.byType(DragableCard), findsOneWidget);
     });
 
-    testWidgets('DragableMovement debe cargar Slidable correctamente',
+    testWidgets('CardDragable debe cargar Slidable correctamente',
         (WidgetTester tester) async {
       //Se crean los atributos
       List<CardModel> mockCards = [
@@ -66,7 +66,7 @@ void main() {
       expect(find.byType(Slidable), findsOneWidget);
     });
 
-    testWidgets('DragableMovement debe cargar UserCard correctamente',
+    testWidgets('CardDragable debe cargar UserCard correctamente',
         (WidgetTester tester) async {
       List<CardModel> mockCards = [
         DebitCard('1', '9988777', 'soles', DateTime.now(), 'VISA', '89128918',
@@ -94,7 +94,7 @@ void main() {
 
       expect(find.byType(UserCard), findsOneWidget);
     });
-    testWidgets('DragableMovement debe cargar ListView correctamente',
+    testWidgets('CardDragable debe cargar ListView correctamente',
         (WidgetTester tester) async {
       List<CardModel> mockCards = [
         DebitCard('1', '9988777', 'soles', DateTime.now(), 'VISA', '89128918',

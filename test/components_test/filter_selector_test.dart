@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:spedtracker_app/components/selector_chip/atom.dart';
 
 void main() {
-  group('Pruebas MovementDragable', () {
+  group('Pruebas FilterSelector', () {
     testWidgets('MonthFilterSelector widget test', (WidgetTester tester) async {
       Set<String> initialFilters = {'Ene', 'Feb'};
 
