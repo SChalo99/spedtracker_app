@@ -92,9 +92,21 @@ class _MovementScreenState extends State<MovementScreen> {
       loading = false;
     });
 
-    for (int i = gastos.length - 1; i >= 0; i--) {
-      gastoTotal += gastosFiltrados[i].monto;
+    List<GastoModel> gastosFiltrados2 =[];
+
+    for (int i = gastosFiltrados.length - 1; i >= 0; i--) {
+      if(gastosFiltrados[i].fecha.month == DateTime.now().month){
+        gastosFiltrados2.add(gastosFiltrados[i]);
+      }
     }
+
+    for (int i = gastosFiltrados2.length - 1; i >= 0; i--) {
+      gastoTotal += gastosFiltrados2[i].monto;
+      print(gastosFiltrados2[i].monto);
+    }
+
+    print('Total: $gastoTotal');
+    //print(gastosFiltrados2);
   }
 
   void edit(MovementModel movement) {
@@ -112,6 +124,7 @@ class _MovementScreenState extends State<MovementScreen> {
   }
 
   void goExpenses(){
+    print(gastoTotal);
     if(gastoTotal > user!.montoLimite){
       showPopup();
     }else{
