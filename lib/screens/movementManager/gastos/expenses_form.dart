@@ -40,8 +40,7 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
     DateTime horaMovimiento = DateTime.now();
     String idMovimiento = uuid.v4();
 
-    MovementModel nuevoMovimiento;
-    nuevoMovimiento = GastoModel(
+    MovementModel nuevoMovimiento = GastoModel(
         idCategoria,
         int.parse(_nroCuotasController.text),
         idMovimiento,
@@ -53,14 +52,36 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
     debugPrint(nuevoMovimiento.fecha.toString());
     debugPrint(nuevoMovimiento.hora.toString());
 
-    if(card is CreditCard){
-      card.lineaCredito = card.lineaCredito - double.parse(_montoController.text);
-    }else if(card is DebitCard){
-      card.ingresoMinimo = card.ingresoMinimo - double.parse(_montoController.text);
+    if (card is CreditCard) {
+      double montoInsert = double.parse(_montoController.text);
+      int coutas = int.parse(_nroCuotasController.text);
+      if (int.parse(_nroCuotasController.text) > 0) {
+        setState(() {
+          montoInsert = (montoInsert / coutas) * card.tasaInteres;
+        });
+        for (int i = 0; i < coutas; i++) {
+          setState(() {
+            idMovimiento = uuid.v4();
+            nuevoMovimiento.idMovimiento = idMovimiento;
+            nuevoMovimiento.fecha = DateTime(DateTime.now().year,
+                DateTime.now().month + i + 1, DateTime.now().day);
+            nuevoMovimiento.monto = montoInsert;
+          });
+          await MovementService()
+              .createMovement(widget.userToken, nuevoMovimiento, card);
+        }
+      } else {
+        await MovementService()
+            .createMovement(widget.userToken, nuevoMovimiento, card);
+      }
+      card.lineaCredito = card.lineaCredito - montoInsert;
+    } else if (card is DebitCard) {
+      card.ingresoMinimo =
+          card.ingresoMinimo - double.parse(_montoController.text);
+      await MovementService()
+          .createMovement(widget.userToken, nuevoMovimiento, card);
     }
 
-
-    await MovementService().createMovement(widget.userToken, nuevoMovimiento, card);
     print("Gasto registrado");
     await CardService().editCard(widget.userToken, card);
 
@@ -113,10 +134,10 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
                   size: 30,
                 ),
                 onPressed: () => Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  MovementScreen(userToken: widget.userToken, tarjeta: card))),
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MovementScreen(
+                            userToken: widget.userToken, tarjeta: card))),
               ),
             ],
           ),
@@ -248,7 +269,6 @@ class _ExpensesFormScreenState extends State<ExpensesFormScreen> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         createExpense(card);
-                        
                       }
                     },
                     style: FilledButton.styleFrom(

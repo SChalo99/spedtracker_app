@@ -20,8 +20,8 @@ class MovementAtom extends StatelessWidget {
               Text(movement.fecha.toString()),
               Text(
                   movement is IngresoModel
-                      ? movement.monto.toString()
-                      : '-${movement.monto}',
+                      ? movement.monto.toStringAsFixed(2)
+                      : '-${movement.monto.toStringAsFixed(2)}',
                   style: TextStyle(
                       color:
                           movement is IngresoModel ? Colors.green : Colors.red))

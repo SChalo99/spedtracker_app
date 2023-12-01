@@ -92,7 +92,7 @@ class _OverallMonthScreenState extends State<OverallMonthScreen> {
     for (int i = movimientos.length - 1; i >= 0; i--) {
       gastoTotal += movimientos[i].monto;
     }
-    gastoTotal = gastoTotal*0.0035;
+    gastoTotal = gastoTotal * 0.0035;
     return await getCategories(movimientos);
   }
 
@@ -170,7 +170,6 @@ class _OverallMonthScreenState extends State<OverallMonthScreen> {
                               children: [
                                 Text(e.key),
                                 Text('$simbolo ${e.value.toStringAsFixed(2)}')
-
                               ],
                             )),
                       ]);
@@ -179,16 +178,15 @@ class _OverallMonthScreenState extends State<OverallMonthScreen> {
                     }
                   },
                 ),
-                if(card is CreditCard)
+                if (card is CreditCard)
                   Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Seguro de desgravamen'),
-                    Text('$simbolo $gastoTotal')
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Seguro de desgravamen'),
+                      Text('$simbolo ${gastoTotal.toStringAsFixed(2)}')
                     ],
-                    )
-                
+                  )
               ],
             ),
           ),
