@@ -15,10 +15,10 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.userToken});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreen> createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   UserSingleton user = UserSingleton.instance;
 
   void logout() {

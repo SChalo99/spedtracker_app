@@ -31,6 +31,4 @@ class UserModel {
     UserModel user = await UserService().getUser(token);
     return user;
   }
-  
 }
-
