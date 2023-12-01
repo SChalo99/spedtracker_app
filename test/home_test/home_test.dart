@@ -67,9 +67,6 @@ void main() {
 
     testWidgets('Logout and Navigate to LoginScreen',
         (WidgetTester tester) async {
-      // final MockFirebaseAuth mockFirebaseAuth = MockFirebaseAuth();
-      // when(mockFirebaseAuth.signOut()).thenAnswer((_) => Future.value());
-
       await tester.pumpWidget(
         const MaterialApp(
           home: HomeScreen(userToken: 'mockToken'),
@@ -80,7 +77,7 @@ void main() {
       await tester.tap(find.text("Cerrar Sesión"));
       //await tester.pumpAndSettle();
       await tester.pumpAndSettle(const Duration(seconds: 3));
-      // Error debido a que Firebase no esta inicializado
+      // Error debido a que Firebase no esta inicializado (No sesión activa)
       expect(find.byType(LoginScreen), findsOneWidget);
     });
   });

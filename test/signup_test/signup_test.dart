@@ -34,7 +34,7 @@ void main() {
       );
 
       await tester.pumpWidget(widget);
-      // Verificar LoginScreen widget está cargado: Sale error debido a Firebase Widget no está inicializado
+      // Verificar SingupScreen widget está cargado: Sale error debido a Firebase Widget no está inicializado
       expect(find.byType(SignUpScreen), findsOneWidget);
     });
     testWidgets('Signup', (WidgetTester tester) async {

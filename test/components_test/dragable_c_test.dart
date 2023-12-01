@@ -10,17 +10,15 @@ void main() {
   group('Pruebas CardDragable', () {
     testWidgets('CardDragable debe cargar correctamente',
         (WidgetTester tester) async {
-      //Se crean los atributos
       List<CardModel> mockCards = [
         DebitCard('1', '9988777', 'soles', DateTime.now(), 'VISA', '89128918',
             120.00),
       ];
-      // Mock functions for edit, delete, and goToCallback
+      // edit, delete, and goToCallback
       Function mockEdit = (CardModel card) {};
       Function mockDelete = (CardModel card) {};
       Function mockGoToCallback = (CardModel card) {};
 
-      // Build our app and trigger a frame.
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -33,23 +31,21 @@ void main() {
           ),
         ),
       );
-      // Verify that the DragableCard widget is rendered
+      // Verificar  DragableCard widget está renderizado
       expect(find.byType(DragableCard), findsOneWidget);
     });
 
     testWidgets('CardDragable debe cargar Slidable correctamente',
         (WidgetTester tester) async {
-      //Se crean los atributos
       List<CardModel> mockCards = [
         DebitCard('1', '9988777', 'soles', DateTime.now(), 'VISA', '89128918',
             120.00),
       ];
-      // Mock functions for edit, delete, and goToCallback
+      // edit, delete, and goToCallback
       Function mockEdit = (CardModel card) {};
       Function mockDelete = (CardModel card) {};
       Function mockGoToCallback = (CardModel card) {};
 
-      // Build our app and trigger a frame.
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -73,12 +69,11 @@ void main() {
             120.00),
       ];
 
-      // Mock functions for edit, delete, and goToCallback
+      //  edit, delete, and goToCallback
       Function mockEdit = (CardModel card) {};
       Function mockDelete = (CardModel card) {};
       Function mockGoToCallback = (CardModel card) {};
 
-      // Build our app and trigger a frame.
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -101,12 +96,11 @@ void main() {
             120.00),
       ];
 
-      // Mock functions for edit, delete, and goToCallback
+      //  edit, delete, and goToCallback
       Function mockEdit = (CardModel card) {};
       Function mockDelete = (CardModel card) {};
       Function mockGoToCallback = (CardModel card) {};
 
-      // Build our app and trigger a frame.
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
